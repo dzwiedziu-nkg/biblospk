@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">BiblosPK</string>
+    <string name="title_activity_login">Login</string>
+
+    <string name="title_cut_library">CUT Library</string>
+    <string name="hint_login">Card number</string>
+    <string name="hint_password">Password</string>
+
+    <string name="error_empty_login">Please enter your library card number</string>
+    <string name="error_empty_password">Please enter password to your library account</string>
+    <string name="error_invalid_credentials">Invalid library card number or password</string>
+    <string name="error_connection">Connection error</string>
+    <string name="error_server">Server have breakdown, please try again later</string>
+    <string name="error_parse">Parse error, please contact with author</string>
+    <string name="error_undefined">This error is strange, please contact with author</string>
+
+    <string name="button_login">Login</string>
+
+    <string name="action_refresh">Refresh</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_settings">Settings</string>
+</resources>
