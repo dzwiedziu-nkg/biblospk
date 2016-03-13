@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">BiblosPK</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_main">BiblosPK</string>
+    <string name="title_activity_main_with_cash">Długi: %.02fzł</string>
+
+    <string name="title_cut_library">Biblioteka PK</string>
+    <string name="hint_login">Numer karty</string>
+    <string name="hint_password">Hasło</string>
+
+    <string name="error_empty_login">Podaj numer swojej karty bibliotecznej</string>
+    <string name="error_empty_password">Podaj hasło do swojego konta w Bibliotece PK</string>
+    <string name="error_invalid_credentials">Zły numer karty lub złe hasło</string>
+    <string name="error_connection">Błąd połączenia</string>
+    <string name="error_server">Serwer Biblioteki nie odpowiada, spróbuj później</string>
+    <string name="error_parse">Błąd ściągania listy książek, powiadom o tym problemie autora tej aplikacji</string>
+    <string name="error_undefined">To jest bardzo dziwny błąd, powiadom o tym problemie autora tej aplikacji</string>
+
+    <string name="info_available_prolongs">możliwe prolongaty: %d</string>
+    <string name="info_no_available_prolongs">nie można prolongować</string>
+
+    <string name="button_login">Login</string>
+
+    <string name="action_refresh">Odśwież</string>
+    <string name="action_logout">Wyloguj</string>
+    <string name="action_settings">Ustawienia</string>
+</resources>
