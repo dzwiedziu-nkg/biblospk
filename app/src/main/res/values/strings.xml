@@ -14,6 +14,9 @@
     <string name="error_parse">Parse error, please contact with author</string>
     <string name="error_undefined">This error is strange, please contact with author</string>
 
+    <string name="info_available_prolongs">prolongs: %d</string>
+    <string name="info_no_available_prolongs">prolong is not available</string>
+
     <string name="button_login">Login</string>
 
     <string name="action_refresh">Refresh</string>

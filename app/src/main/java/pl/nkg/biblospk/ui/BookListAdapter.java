@@ -37,10 +37,20 @@ public class BookListAdapter extends ArrayAdapter<Book> {
             rowView.setTag(viewHolder);
         }
 
+        StringBuilder dueDate = new StringBuilder(values[position].getDueDate());
+        dueDate.append(", ");
+
+        Integer prolongs = values[position].getAvailableProlongs();
+        if (prolongs > 0) {
+            dueDate.append(context.getResources().getString(R.string.info_available_prolongs, prolongs));
+        } else {
+            dueDate.append(context.getText(R.string.info_no_available_prolongs));
+        }
+
         ViewHolder holder = (ViewHolder) rowView.getTag();
         holder.mTitleTextView.setText(values[position].getTitle());
         holder.mAuthorsTextView.setText(values[position].getAuthors());
-        holder.mDueDateTextView.setText(values[position].getDueDate());
+        holder.mDueDateTextView.setText(dueDate.toString());
 
         return rowView;
     }
