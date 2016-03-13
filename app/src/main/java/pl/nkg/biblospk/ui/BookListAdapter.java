@@ -2,6 +2,7 @@ package pl.nkg.biblospk.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,19 +61,19 @@ public class BookListAdapter extends ArrayAdapter<Book> {
         int color;
         switch (priority) {
             case 0:
-                color = context.getResources().getColor(R.color.colorGood);
+                color = ContextCompat.getColor(context, R.color.colorGood);
                 break;
 
             case 1:
-                color = context.getResources().getColor(R.color.colorInfo);
+                color = ContextCompat.getColor(context, R.color.colorInfo);
                 break;
 
             case 2:
-                color = context.getResources().getColor(R.color.colorWarning);
+                color = ContextCompat.getColor(context, R.color.colorWarning);
                 break;
 
             default:
-                color = context.getResources().getColor(R.color.colorError);
+                color = ContextCompat.getColor(context, R.color.colorError);
 
         }
         holder.mDueDateTextView.setTextColor(color);
