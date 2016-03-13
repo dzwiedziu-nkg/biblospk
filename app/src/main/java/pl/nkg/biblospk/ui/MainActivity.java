@@ -4,20 +4,17 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.Date;
-import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.MyApplication;
 import pl.nkg.biblospk.PreferencesProvider;
 import pl.nkg.biblospk.R;
 import pl.nkg.biblospk.data.Account;
-import pl.nkg.biblospk.data.Book;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
 import pl.nkg.biblospk.services.BiblosService;
 
@@ -98,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
             mNeedToRefreshOnResume = true;
         } else {
             mBookListFragment.refreshList(account.getSortedBookArray(new Date()));
-            double due = mApplication.getAccount().getDue();
+            double due = mApplication.getAccount().getDebts();
             String title = getResources().getString(R.string.title_activity_main_with_cash, due);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {

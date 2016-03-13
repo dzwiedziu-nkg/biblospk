@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Account {
     private String mCardNumber;
     private String mName;
     private int mBorrowerNumber;
-    private double mDue;
+    private double mDebts;
     private List<Book> mBookList = new ArrayList<>();
 
     public String getCardNumber() {
@@ -38,12 +37,12 @@ public class Account {
         mBorrowerNumber = borrowerNumber;
     }
 
-    public double getDue() {
-        return mDue;
+    public double getDebts() {
+        return mDebts;
     }
 
-    public void setDue(double due) {
-        mDue = due;
+    public void setDebts(double debts) {
+        mDebts = debts;
     }
 
     public List<Book> getBookList() {
