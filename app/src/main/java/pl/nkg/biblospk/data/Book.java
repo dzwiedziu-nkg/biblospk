@@ -6,6 +6,9 @@ import java.util.Locale;
 
 public class Book {
 
+    private static final int DAY_ONE = 24 * 60 * 60 * 1000;
+    private static final int DAY_EARLY = DAY_ONE * 5;
+
     public static final SimpleDateFormat DUE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
 
     private int mBiblioNumber;
@@ -89,5 +92,24 @@ public class Book {
 
     public void setAvailableProlongs(int availableProlongs) {
         mAvailableProlongs = availableProlongs;
+    }
+
+    public int checkBookPriority(Date date) {
+        long today = date.getTime();
+        long due = mDueDate.getTime();
+
+        if (today + DAY_EARLY < due) {
+            return 0;
+        }
+
+        if (today < due) {
+            return mAvailableProlongs > 0 ? 1 : 2;
+        }
+
+        if (today < due + DAY_EARLY) {
+            return mAvailableProlongs > 0 ? 2 : 3;
+        }
+
+        return 5;
     }
 }

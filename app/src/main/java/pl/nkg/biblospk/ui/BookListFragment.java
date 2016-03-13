@@ -15,6 +15,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import pl.nkg.biblospk.MyApplication;
@@ -68,9 +69,8 @@ public class BookListFragment extends ListFragment {
         mListener = null;
     }
 
-    public void refreshList(List<Book> bookList) {
-        Book[] books = new Book[bookList.size()];
-        setListAdapter(new BookListAdapter(getActivity(), bookList.toArray(books)));
+    public void refreshList(Book[] books) {
+        setListAdapter(new BookListAdapter(getActivity(), books));
     }
 
     public void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {

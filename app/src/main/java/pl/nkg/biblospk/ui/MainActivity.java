@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.Date;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         if (account == null) {
             mNeedToRefreshOnResume = true;
         } else {
-            mBookListFragment.refreshList(account.getBookList());
+            mBookListFragment.refreshList(account.getSortedBookArray(new Date()));
         }
     }
 
