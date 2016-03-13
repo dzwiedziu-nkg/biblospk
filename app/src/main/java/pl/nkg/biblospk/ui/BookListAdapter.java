@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.util.Comparator;
+import java.util.Date;
+
 import pl.nkg.biblospk.R;
 import pl.nkg.biblospk.data.Book;
 
@@ -51,6 +55,27 @@ public class BookListAdapter extends ArrayAdapter<Book> {
         holder.mTitleTextView.setText(values[position].getTitle());
         holder.mAuthorsTextView.setText(values[position].getAuthors());
         holder.mDueDateTextView.setText(dueDate.toString());
+
+        int priority = values[position].checkBookPriority(new Date());
+        int color;
+        switch (priority) {
+            case 0:
+                color = context.getResources().getColor(R.color.colorGood);
+                break;
+
+            case 1:
+                color = context.getResources().getColor(R.color.colorInfo);
+                break;
+
+            case 2:
+                color = context.getResources().getColor(R.color.colorWarning);
+                break;
+
+            default:
+                color = context.getResources().getColor(R.color.colorError);
+
+        }
+        holder.mDueDateTextView.setTextColor(color);
 
         return rowView;
     }

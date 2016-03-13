@@ -8,4 +8,9 @@
     <color name="colorPrimaryDark">#1a3973</color>
     <color name="colorAccent">#303F9F</color>
     <color name="colorError">#dd0000</color>
+
+    <color name="colorGood">#008000</color>
+    <color name="colorInfo">#0000ff</color>
+    <color name="colorWarning">#f9a01e</color>
+    <color name="colorStop">#ee2035</color>
 </resources>
