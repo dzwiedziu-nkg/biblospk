@@ -1,6 +1,13 @@
 package pl.nkg.biblospk.data;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Book {
+
+    public static final SimpleDateFormat DUE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+
     private int mBiblioNumber;
     private int mItem;
 
@@ -8,7 +15,7 @@ public class Book {
     private String mTitle;
     private long mBarCode;
     private String mSignature;
-    private String mDueDate;
+    private Date mDueDate;
     private int mAllProlongs;
     private int mAvailableProlongs;
 
@@ -60,11 +67,11 @@ public class Book {
         mSignature = signature;
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return mDueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         mDueDate = dueDate;
     }
 

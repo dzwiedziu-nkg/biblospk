@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.Date;
 
 import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.data.Book;
@@ -140,9 +141,9 @@ public class BiblosClient {
             }
 
             try {
-                book.setDueDate(StringUtils.substringBetween(row, OPEN_BOOK_DUE_DATE, CLOSE_BOOK_DUE_DATE).trim());
+                book.setDueDate(Book.DUE_DATE_FORMAT.parse(StringUtils.substringBetween(row, OPEN_BOOK_DUE_DATE, CLOSE_BOOK_DUE_DATE).trim()));
             } catch (Exception e) {
-                book.setDueDate("*&^%$#@!");
+                book.setDueDate(new Date(0));
                 Log.e(TAG, "Invalid book due date");
             }
 

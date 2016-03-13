@@ -37,7 +37,7 @@ public class BookListAdapter extends ArrayAdapter<Book> {
             rowView.setTag(viewHolder);
         }
 
-        StringBuilder dueDate = new StringBuilder(values[position].getDueDate());
+        StringBuilder dueDate = new StringBuilder(Book.DUE_DATE_FORMAT.format(values[position].getDueDate()));
         dueDate.append(", ");
 
         Integer prolongs = values[position].getAvailableProlongs();
