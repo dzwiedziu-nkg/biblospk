@@ -1,8 +1,10 @@
 package pl.nkg.biblospk.ui;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -96,6 +98,12 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
             mNeedToRefreshOnResume = true;
         } else {
             mBookListFragment.refreshList(account.getSortedBookArray(new Date()));
+            double due = mApplication.getAccount().getDue();
+            String title = getResources().getString(R.string.title_activity_main_with_cash, due);
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setTitle(title);
+            }
         }
     }
 
