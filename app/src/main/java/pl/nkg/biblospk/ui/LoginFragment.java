@@ -1,13 +1,18 @@
 package pl.nkg.biblospk.ui;
 
+import org.apache.commons.lang3.StringUtils;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,6 +20,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import pl.nkg.biblospk.R;
 
 public class LoginFragment extends Fragment {
@@ -56,9 +62,20 @@ public class LoginFragment extends Fragment {
     public void onLoginClick() {
         setError(null);
         if (mListener != null && validate()) {
-            mListener.onLoginClick(mLoginEditText.getText().toString(), mPasswordEditText.getText().toString());
+            mListener.onLoginClick(getLogin(), getPassword());
         }
     }
+
+    @OnEditorAction(R.id.input_password)
+    boolean onPasswordEditorAction(int actionId) {
+        if (actionId == EditorInfo.IME_ACTION_SEND) {
+            onLoginClick();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -80,8 +97,8 @@ public class LoginFragment extends Fragment {
     public boolean validate() {
         boolean valid = true;
 
-        String login = mLoginEditText.getText().toString();
-        String password = mPasswordEditText.getText().toString();
+        String login = getLogin();
+        String password = getPassword();
 
         if (login.isEmpty()) {
             mLoginEditText.setError(getText(R.string.error_empty_login));
@@ -113,7 +130,7 @@ public class LoginFragment extends Fragment {
     }
 
     public String getLogin() {
-        return mLoginEditText.getText().toString();
+        return StringUtils.trim(mLoginEditText.getText().toString());
     }
 
     public String getPassword() {
