@@ -86,6 +86,20 @@ public class Account {
         new Delete().from(Book.class).execute();
     }
 
+    public int countOfExpired(Date toDate) {
+        int count = 0;
+        for (Book book : mBookList) {
+            if (book.checkBookPriority(toDate) > 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int countOfReady() {
+        return 0; // TODO: to implement when ready are implemented
+    }
+
     static class BookComparator implements Comparator<Book> {
 
         private final Date mToDay;

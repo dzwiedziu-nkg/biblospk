@@ -2,7 +2,7 @@
     <string name="app_name">BiblosPK</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_main">BiblosPK</string>
-    <string name="title_activity_main_with_cash">Długi: %.02fzł</string>
+    <string name="title_activity_main_with_cash">Długi: %1$.02fzł</string>
 
     <string name="title_cut_library">Biblioteka PK</string>
     <string name="hint_login">Numer karty</string>
@@ -16,7 +16,7 @@
     <string name="error_parse">Błąd ściągania listy książek, powiadom o tym problemie autora tej aplikacji</string>
     <string name="error_undefined">To jest bardzo dziwny błąd, powiadom o tym problemie autora tej aplikacji</string>
 
-    <string name="info_available_prolongs">możliwe prolongaty: %d</string>
+    <string name="info_available_prolongs">możliwe prolongaty: %1$d</string>
     <string name="info_no_available_prolongs">nie można prolongować</string>
 
     <string name="button_login">Login</string>
@@ -24,4 +24,35 @@
     <string name="action_refresh">Odśwież</string>
     <string name="action_logout">Wyloguj</string>
     <string name="action_settings">Ustawienia</string>
+
+    <string name="notify_title_expired">Masz przetrzymane ksiażki</string>
+    <string name="notify_title_ready">Książki gotowe do odbioru</string>
+    <string name="notify_title_expired_and_ready">Przetrzymane i gotowe do odbioru książki</string>
+
+    <string name="notify_section_expired">Przetrzymane książki:</string>
+    <string name="notify_section_ready">Książki gotowe do odbioru:</string>
+
+    <plurals name="notify_content_expired">
+        <item quantity="one">Masz %1$d przetrzymaną książkę!</item>
+        <item quantity="few">Masz %1$d przetrzymane książki!</item>
+        <item quantity="many">Masz %1$d przetrzymanych książkek!</item>
+    </plurals>
+
+    <plurals name="notify_content_ready">
+        <item quantity="one">Masz %1$d książkę gotową do odbioru!</item>
+        <item quantity="few">Masz %1$d książki gotowe do odbioru!</item>
+        <item quantity="many">Masz %1$d książek gotowych do odbioru!</item>
+    </plurals>
+
+    <plurals name="notify_content_expired_and_ready_p1">
+        <item quantity="one">%1$d przetrzymana i</item>
+        <item quantity="few">%1$d przetrzymane i</item>
+        <item quantity="many">%1$d przetrzymanych i</item>
+    </plurals>
+
+    <plurals name="notify_content_expired_and_ready_p2">
+        <item quantity="one">%1$d gotowa do odbioru!</item>
+        <item quantity="few">%1$d gotowe do odbioru!</item>
+        <item quantity="many">%1$d gotowych do odbioru!</item>
+    </plurals>
 </resources>

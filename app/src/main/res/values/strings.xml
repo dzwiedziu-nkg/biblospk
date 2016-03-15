@@ -2,7 +2,7 @@
     <string name="app_name">BiblosPK</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_main">BiblosPK</string>
-    <string name="title_activity_main_with_cash">Debts: %.02f PLN</string>
+    <string name="title_activity_main_with_cash">Debts: %1$.02f PLN</string>
 
     <string name="title_cut_library">CUT Library</string>
     <string name="hint_login">Card number</string>
@@ -16,7 +16,7 @@
     <string name="error_parse">Parse error, please contact with author</string>
     <string name="error_undefined">This error is strange, please contact with author</string>
 
-    <string name="info_available_prolongs">prolongs: %d</string>
+    <string name="info_available_prolongs">prolongs: %1$d</string>
     <string name="info_no_available_prolongs">prolong is not available</string>
 
     <string name="button_login">Login</string>
@@ -24,4 +24,31 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_logout">Logout</string>
     <string name="action_settings">Settings</string>
+
+    <string name="notify_title_expired">Books expired</string>
+    <string name="notify_title_ready">Books ready to lend</string>
+    <string name="notify_title_expired_and_ready">Expired and ready to lend</string>
+
+    <string name="notify_section_expired">Expired:</string>
+    <string name="notify_section_ready">Ready to lend:</string>
+
+    <plurals name="notify_content_expired">
+        <item quantity="one">You have %1$d book expired!</item>
+        <item quantity="other">You have %1$d books expired!</item>
+    </plurals>
+
+    <plurals name="notify_content_ready">
+        <item quantity="one">You have %1$d book ready to lend!</item>
+        <item quantity="other">You have %1$d books ready to lend!</item>
+    </plurals>
+
+    <plurals name="notify_content_expired_and_ready_p1">
+        <item quantity="one">%1$d book expired and</item>
+        <item quantity="other">%1$d books expired and</item>
+    </plurals>
+
+    <plurals name="notify_content_expired_and_ready_p2">
+        <item quantity="one">%1$d book ready to lend!</item>
+        <item quantity="other">%1$d books ready to lend!</item>
+    </plurals>
 </resources>

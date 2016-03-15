@@ -6,9 +6,8 @@ import java.util.Date;
 
 import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.data.Account;
-import pl.nkg.biblospk.events.AccountRefreshedEvent;
+import pl.nkg.biblospk.events.AccountDownloadedEvent;
 import pl.nkg.biblospk.events.ErrorEvent;
-import pl.nkg.biblospk.services.BiblosService;
 import pl.nkg.biblospk.services.ServiceStatus;
 
 public class GlobalState {
@@ -42,7 +41,7 @@ public class GlobalState {
         return mPreferencesProvider;
     }
 
-    public void onEventMainThread(AccountRefreshedEvent event) {
+    public void onEventMainThread(AccountDownloadedEvent event) {
         mAccount = event.getAccount();
         mServiceStatus.setError(null);
         mServiceStatus.turnOff();

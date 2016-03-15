@@ -2,13 +2,13 @@ package pl.nkg.biblospk.events;
 
 import pl.nkg.biblospk.data.Account;
 
-public class AccountRefreshedEvent {
+public class AccountDownloadedEvent {
     private Account mAccount;
 
-    public AccountRefreshedEvent() {
+    public AccountDownloadedEvent() {
     }
 
-    public AccountRefreshedEvent(Account account) {
+    public AccountDownloadedEvent(Account account) {
         mAccount = account;
     }
 

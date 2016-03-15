@@ -1,19 +1,14 @@
 package pl.nkg.biblospk.services;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.util.Log;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.GlobalState;
@@ -24,7 +19,7 @@ import pl.nkg.biblospk.client.BiblosClient;
 import pl.nkg.biblospk.client.InvalidCredentialsException;
 import pl.nkg.biblospk.client.ServerErrorException;
 import pl.nkg.biblospk.data.Account;
-import pl.nkg.biblospk.events.AccountRefreshedEvent;
+import pl.nkg.biblospk.events.AccountDownloadedEvent;
 import pl.nkg.biblospk.events.ErrorEvent;
 
 public class BiblosService extends IntentService {
@@ -81,7 +76,7 @@ public class BiblosService extends IntentService {
 
         try {
             Account account = BiblosClient.loginAndFetchAccount(login, password);
-            emitAccountUpdated(account);
+            emitAccountDownloaded(account);
         } catch (IOException e) {
             emitError(getText(R.string.error_connection));
         } catch (ParseException e) {
@@ -96,9 +91,9 @@ public class BiblosService extends IntentService {
         }
     }
 
-    private void emitAccountUpdated(Account account) {
+    private void emitAccountDownloaded(Account account) {
         Log.d(TAG, "Book list download finish");
-        EventBus.getDefault().post(new AccountRefreshedEvent(account));
+        EventBus.getDefault().post(new AccountDownloadedEvent(account));
     }
 
     private void emitError(CharSequence errorMessage) {
