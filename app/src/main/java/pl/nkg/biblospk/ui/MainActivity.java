@@ -22,21 +22,17 @@ import pl.nkg.biblospk.services.BiblosService;
 public class MainActivity extends AbstractActivity implements BookListFragment.OnFragmentInteractionListener {
 
     private BookListFragment mBookListFragment;
-    private boolean mNeedToRefreshOnResume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+
         if (savedInstanceState == null) {
-            mNeedToRefreshOnResume = mGlobalState.getAccount() == null;
-            PreferencesProvider preferencesProvider = mGlobalState.getPreferencesProvider();
             mBookListFragment =  new BookListFragment();
             getSupportFragmentManager().beginTransaction()
                     .replace(android.R.id.content, mBookListFragment)
                     .commit();
         } else {
-            mNeedToRefreshOnResume = false;
             mBookListFragment = (BookListFragment) getSupportFragmentManager().findFragmentById(android.R.id.content);
         }
     }
@@ -68,15 +64,6 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if (mNeedToRefreshOnResume) {
-            mNeedToRefreshOnResume = false;
-            onRefreshBookList(false);
-        }
-    }
-
-    @Override
     public void onRefreshBookList(boolean force) {
         BiblosService.startService(this, force, true);
     }
@@ -88,10 +75,8 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     }
 
     private void refreshList() {
-        Account account = mGlobalState.getAccount();
-        if (account == null) {
-            mNeedToRefreshOnResume = true;
-        } else {
+        if (mGlobalState.isBookListDownloaded()) {
+            Account account = mGlobalState.getAccount();
             mBookListFragment.refreshList(account.getSortedBookArray(new Date()));
             double due = mGlobalState.getAccount().getDebts();
             String title = getResources().getString(R.string.title_activity_main_with_cash, due);
@@ -100,6 +85,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
                 actionBar.setTitle(title);
             }
         }
+        onRefreshBookList(false);
     }
 
     public void onEventMainThread(StatusUpdatedEvent event) {
