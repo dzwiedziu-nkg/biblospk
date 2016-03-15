@@ -48,14 +48,13 @@ public class BiblosService extends IntentService {
     public static void startService(Context context, boolean force, boolean quiet, String login, String password) {
 
         GlobalState globalState = ((MyApplication) context.getApplicationContext()).getGlobalState();
-        PreferencesProvider preferencesProvider = globalState.getPreferencesProvider();
 
         if (globalState.getServiceStatus().isRunning()) {
             Log.w(TAG, "Service already running");
             return;
         }
 
-        if (!force && DateUtils.isSameDay(new Date(), new Date(preferencesProvider.getLastChecked()))) {
+        if (!force && globalState.isNeedToUpdate()) {
             return;
         }
 

@@ -103,4 +103,8 @@ public class PreferencesProvider {
             editor.commit();
         }
     }
+
+    public boolean containsLoginAndPassword() {
+        return sharedPreferences.contains(PREF_LOGIN) && sharedPreferences.contains(PREF_PASSWORD);
+    }
 }
