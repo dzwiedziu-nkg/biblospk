@@ -12,10 +12,7 @@ import pl.nkg.biblospk.services.BiblosService;
 
 public class LoginActivity extends AbstractActivity implements LoginFragment.OnFragmentInteractionListener {
 
-    private final static String STATE_CLOSE_IF_LOGGED = "close";
-
     private LoginFragment mLoginFragment;
-    private boolean mCloseIfLogged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +31,6 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
 
     @Override
     public void onLoginClick(String login, String password) {
-        mCloseIfLogged = true;
         BiblosService.startService(this, true, true, login, password);
     }
 
@@ -48,23 +44,10 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (mCloseIfLogged && !mGlobalState.getServiceStatus().isRunning() && mGlobalState.getServiceStatus().getError() == null) {
+        if (mGlobalState.isValidCredentials()) {
             finish();
         }
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(STATE_CLOSE_IF_LOGGED, mCloseIfLogged);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mCloseIfLogged = savedInstanceState.getBoolean(STATE_CLOSE_IF_LOGGED, false);
-    }
-
 
     public void onEventMainThread(StatusUpdatedEvent event) {
         boolean running = event.getServiceStatus().isRunning();

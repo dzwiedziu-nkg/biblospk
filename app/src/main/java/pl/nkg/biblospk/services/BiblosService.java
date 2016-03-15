@@ -62,7 +62,7 @@ public class BiblosService extends IntentService {
             return;
         }
 
-        Log.d(TAG, "Run service...");
+        Log.d(TAG, "Run service for download list of books");
 
         globalState.getServiceStatus().turnOn();
 
@@ -78,24 +78,6 @@ public class BiblosService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         String login = intent.getStringExtra(TAG_LOGIN);
         String password = intent.getStringExtra(TAG_PASSWORD);
-        //boolean quiet = intent.getBooleanExtra(TAG_QUIET, false);
-
-        //PreferencesProvider preferencesProvider = ((MyApplication)getApplication()).getPreferencesProvider();
-
-        /*if (StringUtils.isEmpty(login) || StringUtils.isEmpty(password)) {
-            login = preferencesProvider.getPrefLogin();
-            password = preferencesProvider.getPrefPassword();
-        }*/
-
-        if (StringUtils.isEmpty(login)) {
-            emitError(getText(R.string.error_empty_login));
-            return;
-        }
-
-        if (StringUtils.isEmpty(password)) {
-            emitError(getText(R.string.error_empty_password));
-            return;
-        }
 
         try {
             Account account = BiblosClient.loginAndFetchAccount(login, password);
@@ -115,10 +97,12 @@ public class BiblosService extends IntentService {
     }
 
     private void emitAccountUpdated(Account account) {
+        Log.d(TAG, "Book list download finish");
         EventBus.getDefault().post(new AccountRefreshedEvent(account));
     }
 
     private void emitError(CharSequence errorMessage) {
+        Log.d(TAG, "Book list download error: " + errorMessage);
         EventBus.getDefault().post(new ErrorEvent(errorMessage));
     }
 }
