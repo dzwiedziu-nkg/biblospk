@@ -1,40 +1,28 @@
 package pl.nkg.biblospk.ui;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-import java.io.IOException;
-import java.text.ParseException;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
+import pl.nkg.biblospk.GlobalState;
 import pl.nkg.biblospk.MyApplication;
 import pl.nkg.biblospk.PreferencesProvider;
-import pl.nkg.biblospk.client.BiblosClient;
-import pl.nkg.biblospk.client.InvalidCredentialsException;
-import pl.nkg.biblospk.events.AccountRefreshedEvent;
-import pl.nkg.biblospk.events.ErrorEvent;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
 import pl.nkg.biblospk.services.BiblosService;
 
 
-public class LoginActivity extends AppCompatActivity implements LoginFragment.OnFragmentInteractionListener {
+public class LoginActivity extends AbstractActivity implements LoginFragment.OnFragmentInteractionListener {
 
     private final static String STATE_CLOSE_IF_LOGGED = "close";
 
     private LoginFragment mLoginFragment;
-    private MyApplication mApplication;
     private boolean mCloseIfLogged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mApplication = (MyApplication) getApplication();
 
         if (savedInstanceState == null) {
-            PreferencesProvider preferencesProvider = ((MyApplication)getApplication()).getPreferencesProvider();
+            PreferencesProvider preferencesProvider = mGlobalState.getPreferencesProvider();
             mLoginFragment =  LoginFragment.newInstance(preferencesProvider.getPrefLogin(), preferencesProvider.getPrefPassword());
             getSupportFragmentManager().beginTransaction()
                     .replace(android.R.id.content, mLoginFragment)
@@ -53,15 +41,14 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     @Override
     protected void onResume() {
         super.onResume();
-        mLoginFragment.setError(mApplication.getServiceStatus().getError());
-        mLoginFragment.setRunning(mApplication.getServiceStatus().isRunning());
-        EventBus.getDefault().register(this);
+        mLoginFragment.setError(mGlobalState.getServiceStatus().getError());
+        mLoginFragment.setRunning(mGlobalState.getServiceStatus().isRunning());
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (mCloseIfLogged && !mApplication.getServiceStatus().isRunning() && mApplication.getServiceStatus().getError() == null) {
+        if (mCloseIfLogged && !mGlobalState.getServiceStatus().isRunning() && mGlobalState.getServiceStatus().getError() == null) {
             finish();
         }
     }
@@ -78,19 +65,14 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
         mCloseIfLogged = savedInstanceState.getBoolean(STATE_CLOSE_IF_LOGGED, false);
     }
 
-    @Override
-    protected void onPause() {
-        EventBus.getDefault().unregister(this);
-        super.onPause();
-    }
 
     public void onEventMainThread(StatusUpdatedEvent event) {
         boolean running = event.getServiceStatus().isRunning();
         mLoginFragment.setRunning(running);
         if (!running) {
             if (event.getServiceStatus().getError() == null) {
-                mApplication.getPreferencesProvider().setPrefLogin(mLoginFragment.getLogin());
-                mApplication.getPreferencesProvider().setPrefPassword(mLoginFragment.getPassword());
+                mGlobalState.getPreferencesProvider().setPrefLogin(mLoginFragment.getLogin());
+                mGlobalState.getPreferencesProvider().setPrefPassword(mLoginFragment.getPassword());
                 finish();
             } else {
                 mLoginFragment.setError(event.getServiceStatus().getError());

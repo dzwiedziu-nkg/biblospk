@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import de.greenrobot.event.EventBus;
+import pl.nkg.biblospk.GlobalState;
 import pl.nkg.biblospk.MyApplication;
 import pl.nkg.biblospk.PreferencesProvider;
 import pl.nkg.biblospk.R;
@@ -40,16 +41,16 @@ public class BiblosService extends IntentService {
 
     public static void startService(Context context, boolean force, boolean quiet) {
         MyApplication application = (MyApplication) context.getApplicationContext();
-        PreferencesProvider preferencesProvider = application.getPreferencesProvider();
+        PreferencesProvider preferencesProvider = application.getGlobalState().getPreferencesProvider();
         startService(context, force, quiet, preferencesProvider.getPrefLogin(), preferencesProvider.getPrefPassword());
     }
 
     public static void startService(Context context, boolean force, boolean quiet, String login, String password) {
 
-        MyApplication application = (MyApplication) context.getApplicationContext();
-        PreferencesProvider preferencesProvider = application.getPreferencesProvider();
+        GlobalState globalState = ((MyApplication) context.getApplicationContext()).getGlobalState();
+        PreferencesProvider preferencesProvider = globalState.getPreferencesProvider();
 
-        if (application.getServiceStatus().isRunning()) {
+        if (globalState.getServiceStatus().isRunning()) {
             Log.w(TAG, "Service already running");
             return;
         }
@@ -64,7 +65,7 @@ public class BiblosService extends IntentService {
 
         Log.d(TAG, "Run service...");
 
-        application.getServiceStatus().turnOn();
+        globalState.getServiceStatus().turnOn();
 
         Intent intent = new Intent(context, BiblosService.class);
         intent.putExtra(TAG_LOGIN, login);
@@ -78,9 +79,9 @@ public class BiblosService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         String login = intent.getStringExtra(TAG_LOGIN);
         String password = intent.getStringExtra(TAG_PASSWORD);
-        boolean quiet = intent.getBooleanExtra(TAG_QUIET, false);
+        //boolean quiet = intent.getBooleanExtra(TAG_QUIET, false);
 
-        PreferencesProvider preferencesProvider = ((MyApplication)getApplication()).getPreferencesProvider();
+        //PreferencesProvider preferencesProvider = ((MyApplication)getApplication()).getPreferencesProvider();
 
         /*if (StringUtils.isEmpty(login) || StringUtils.isEmpty(password)) {
             login = preferencesProvider.getPrefLogin();

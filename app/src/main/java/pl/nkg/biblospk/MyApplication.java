@@ -14,56 +14,18 @@ import pl.nkg.biblospk.services.ServiceStatus;
 
 public class MyApplication extends Application {
 
-    private PreferencesProvider mPreferencesProvider;
-    private Account mAccount;
-    private ServiceStatus mServiceStatus;
+    private GlobalState mGlobalState;
 
     @Override
     public void onCreate() {
         super.onCreate();
         WebClient.initCookieHandler();
-        mPreferencesProvider = new PreferencesProvider(this);
-        mServiceStatus = new ServiceStatus();
-        EventBus.getDefault().register(this);
-
-        Account account = new Account();
-        if (mPreferencesProvider.loadAccountProperties(account)) {
-            account.loadBooksList();
-            mAccount = account;
-        }
-    }
-
-    public PreferencesProvider getPreferencesProvider() {
-        return mPreferencesProvider;
-    }
-
-    public Account getAccount() {
-        return mAccount;
-    }
-
-    public ServiceStatus getServiceStatus() {
-        return mServiceStatus;
-    }
-
-    public void onEventMainThread(AccountRefreshedEvent event) {
-        mAccount = event.getAccount();
-        mServiceStatus.setError(null);
-        mServiceStatus.turnOff();
-        if (mAccount != null) {
-            mPreferencesProvider.storeAccountProperties(mAccount);
-            mAccount.storeBooksList();
-        }
-        mPreferencesProvider.setLastChecking(System.currentTimeMillis());
-        mPreferencesProvider.setLastChecked(System.currentTimeMillis());
+        mGlobalState = new GlobalState(new PreferencesProvider(this));
 
         BiblosService.startService(this, false, false);
     }
 
-    public void onEventMainThread(ErrorEvent event) {
-        if (event.getErrorMessage() != null) {
-            mServiceStatus.setError(event.getErrorMessage());
-            mPreferencesProvider.setLastChecking(System.currentTimeMillis());
-        }
-        mServiceStatus.turnOff();
+    public GlobalState getGlobalState() {
+        return mGlobalState;
     }
 }

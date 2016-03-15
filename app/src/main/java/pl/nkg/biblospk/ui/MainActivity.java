@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.util.Date;
 
 import de.greenrobot.event.EventBus;
+import pl.nkg.biblospk.GlobalState;
 import pl.nkg.biblospk.MyApplication;
 import pl.nkg.biblospk.PreferencesProvider;
 import pl.nkg.biblospk.R;
@@ -18,20 +19,18 @@ import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
 import pl.nkg.biblospk.services.BiblosService;
 
-public class MainActivity extends AppCompatActivity implements BookListFragment.OnFragmentInteractionListener {
+public class MainActivity extends AbstractActivity implements BookListFragment.OnFragmentInteractionListener {
 
-    private MyApplication mApplication;
     private BookListFragment mBookListFragment;
     private boolean mNeedToRefreshOnResume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mApplication = (MyApplication) getApplication();
         //setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            mNeedToRefreshOnResume = mApplication.getAccount() == null;
-            PreferencesProvider preferencesProvider = ((MyApplication)getApplication()).getPreferencesProvider();
+            mNeedToRefreshOnResume = mGlobalState.getAccount() == null;
+            PreferencesProvider preferencesProvider = mGlobalState.getPreferencesProvider();
             mBookListFragment =  new BookListFragment();
             getSupportFragmentManager().beginTransaction()
                     .replace(android.R.id.content, mBookListFragment)
@@ -85,29 +84,22 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
         refreshList();
     }
 
     private void refreshList() {
-        Account account = mApplication.getAccount();
+        Account account = mGlobalState.getAccount();
         if (account == null) {
             mNeedToRefreshOnResume = true;
         } else {
             mBookListFragment.refreshList(account.getSortedBookArray(new Date()));
-            double due = mApplication.getAccount().getDebts();
+            double due = mGlobalState.getAccount().getDebts();
             String title = getResources().getString(R.string.title_activity_main_with_cash, due);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setTitle(title);
             }
         }
-    }
-
-    @Override
-    protected void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
     }
 
     public void onEventMainThread(StatusUpdatedEvent event) {
