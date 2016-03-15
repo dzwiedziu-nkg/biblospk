@@ -32,9 +32,6 @@
         <activity
             android:name=".ui.LoginActivity"
             android:label="@string/title_activity_login">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
         </activity>
 
         <service

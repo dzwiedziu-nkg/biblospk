@@ -93,4 +93,12 @@ public class GlobalState {
     public boolean isValidCredentials() {
         return mPreferencesProvider.containsLoginAndPassword();
     }
+
+    public void logout() {
+        mPreferencesProvider.cleanAccountPropertiesAndCredentials();
+        if (mAccount != null) {
+            mAccount.wipeBookList();
+        }
+        mAccount = null;
+    }
 }

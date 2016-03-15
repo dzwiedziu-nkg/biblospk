@@ -21,6 +21,8 @@ import pl.nkg.biblospk.services.BiblosService;
 
 public class MainActivity extends AbstractActivity implements BookListFragment.OnFragmentInteractionListener {
 
+    private static final int RESULT_LOGIN = 1;
+
     private BookListFragment mBookListFragment;
 
     @Override
@@ -46,12 +48,11 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Intent intent;
 
         switch (id) {
-            case R.id.action_settings:
-                intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
+            case R.id.action_logout:
+                mGlobalState.logout();
+                showLoginActivity();
                 return true;
 
             case R.id.action_refresh:
@@ -72,6 +73,29 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     protected void onStart() {
         super.onStart();
         refreshList();
+    }
+
+    private void showLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivityForResult(intent, RESULT_LOGIN);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_LOGIN) {
+            if (!mGlobalState.isValidCredentials()) {
+                finish();
+            }
+        }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (!mGlobalState.isValidCredentials() && !mIsReloaded) {
+            showLoginActivity();
+        }
     }
 
     private void refreshList() {

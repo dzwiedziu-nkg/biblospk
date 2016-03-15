@@ -53,10 +53,10 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
 
-        if (!recreated && getArguments() != null) {
+        /*if (!recreated && getArguments() != null) {
             mLoginEditText.setText(getArguments().getString(ARG_LOGIN));
             mPasswordEditText.setText(getArguments().getString(ARG_PASSWORD));
-        }
+        }*/
 
         return view;
     }

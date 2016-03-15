@@ -71,7 +71,7 @@ public class Account {
     public void storeBooksList() {
         ActiveAndroid.beginTransaction();
         try {
-            new Delete().from(Book.class).execute();
+            wipeBookList();
             for (Book book : mBookList) {
                 book.save();
             }
@@ -80,6 +80,10 @@ public class Account {
         finally {
             ActiveAndroid.endTransaction();
         }
+    }
+
+    public void wipeBookList() {
+        new Delete().from(Book.class).execute();
     }
 
     static class BookComparator implements Comparator<Book> {
