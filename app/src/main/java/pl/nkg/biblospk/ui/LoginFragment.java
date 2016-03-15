@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -21,16 +22,12 @@ public class LoginFragment extends Fragment {
     private static final String ARG_LOGIN = "login";
     private static final String ARG_PASSWORD = "password";
 
-    private static final String STATE_RUNNING = "running";
-    private static final String STATE_ERROR = "error";
-
     private OnFragmentInteractionListener mListener;
     @Bind(R.id.input_login) EditText mLoginEditText;
     @Bind(R.id.input_password) EditText mPasswordEditText;
     @Bind(R.id.msg_error) TextView mErrorTextView;
     @Bind(R.id.btn_login) AppCompatButton mLoginButton;
-    private boolean recreated;
-    private boolean mRunning;
+    @Bind(R.id.progressBar) ProgressBar mProgressBar;
 
     public static LoginFragment newInstance(String login, String password) {
         LoginFragment fragment = new LoginFragment();
@@ -44,7 +41,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        recreated = savedInstanceState != null;
     }
 
     @Override
@@ -52,11 +48,6 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
-
-        /*if (!recreated && getArguments() != null) {
-            mLoginEditText.setText(getArguments().getString(ARG_LOGIN));
-            mPasswordEditText.setText(getArguments().getString(ARG_PASSWORD));
-        }*/
 
         return view;
     }
@@ -114,10 +105,11 @@ public class LoginFragment extends Fragment {
     }
 
     public void setRunning(boolean running) {
-        mRunning = running;
-        mLoginButton.setEnabled(!running);
+        mLoginButton.setVisibility(running ? View.GONE : View.VISIBLE);
+        mProgressBar.setVisibility(running ? View.VISIBLE : View.GONE);
         mLoginEditText.setEnabled(!running);
         mPasswordEditText.setEnabled(!running);
+
     }
 
     public String getLogin() {

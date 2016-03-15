@@ -68,7 +68,6 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
 
     public void onEventMainThread(StatusUpdatedEvent event) {
         boolean running = event.getServiceStatus().isRunning();
-        mLoginFragment.setRunning(running);
         if (!running) {
             if (event.getServiceStatus().getError() == null) {
                 mGlobalState.getPreferencesProvider().setPrefLogin(mLoginFragment.getLogin());
@@ -78,5 +77,6 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
                 mLoginFragment.setError(event.getServiceStatus().getError());
             }
         }
+        mLoginFragment.setRunning(running);
     }
 }
