@@ -1,6 +1,7 @@
 package pl.nkg.biblospk.services;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -10,6 +11,9 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.MyApplication;
@@ -27,46 +31,61 @@ public class BiblosService extends IntentService {
     private final static String TAG = BiblosService.class.getSimpleName();
     private final static String TAG_LOGIN = "login";
     private final static String TAG_PASSWORD = "password";
+    private final static String TAG_FORCE = "force";
+    private final static String TAG_QUIET = "quiet";
 
     public BiblosService() {
         super("BiblosService");
     }
 
-    public static void startService(Context context) {
+    public static void startService(Context context, boolean force, boolean quiet) {
         MyApplication application = (MyApplication) context.getApplicationContext();
         PreferencesProvider preferencesProvider = application.getPreferencesProvider();
-        startService(context, preferencesProvider.getPrefLogin(), preferencesProvider.getPrefPassword());
+        startService(context, force, quiet, preferencesProvider.getPrefLogin(), preferencesProvider.getPrefPassword());
     }
 
-    public static void startService(Context context, String login, String password) {
+    public static void startService(Context context, boolean force, boolean quiet, String login, String password) {
 
         MyApplication application = (MyApplication) context.getApplicationContext();
+        PreferencesProvider preferencesProvider = application.getPreferencesProvider();
+
         if (application.getServiceStatus().isRunning()) {
             Log.w(TAG, "Service already running");
             return;
         }
+
+        if (!force && DateUtils.isSameDay(new Date(), new Date(preferencesProvider.getLastChecked()))) {
+            return;
+        }
+
+        if (!force && (StringUtils.isEmpty(login) || StringUtils.isEmpty(password))) {
+            return;
+        }
+
+        Log.d(TAG, "Run service...");
 
         application.getServiceStatus().turnOn();
 
         Intent intent = new Intent(context, BiblosService.class);
         intent.putExtra(TAG_LOGIN, login);
         intent.putExtra(TAG_PASSWORD, password);
+        intent.putExtra(TAG_FORCE, force);
+        intent.putExtra(TAG_QUIET, quiet);
         context.startService(intent);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        //Log.d("serci", "stareted");
-        //SystemClock.sleep(30000);
-
         String login = intent.getStringExtra(TAG_LOGIN);
         String password = intent.getStringExtra(TAG_PASSWORD);
+        boolean quiet = intent.getBooleanExtra(TAG_QUIET, false);
 
-        if (StringUtils.isEmpty(login) || StringUtils.isEmpty(password)) {
-            PreferencesProvider preferencesProvider = ((MyApplication)getApplication()).getPreferencesProvider();
+        PreferencesProvider preferencesProvider = ((MyApplication)getApplication()).getPreferencesProvider();
+
+        /*if (StringUtils.isEmpty(login) || StringUtils.isEmpty(password)) {
             login = preferencesProvider.getPrefLogin();
             password = preferencesProvider.getPrefPassword();
-        }
+        }*/
 
         if (StringUtils.isEmpty(login)) {
             emitError(getText(R.string.error_empty_login));
@@ -90,6 +109,7 @@ public class BiblosService extends IntentService {
         } catch (ServerErrorException e) {
             emitError(getText(R.string.error_server));
         } catch (Exception e) {
+            Log.e(TAG, "Undefined error", e);
             emitError(getText(R.string.error_undefined));
         }
     }

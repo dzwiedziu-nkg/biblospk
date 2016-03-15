@@ -1,5 +1,9 @@
 package pl.nkg.biblospk.data;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -10,7 +14,7 @@ public class Account {
     private String mCardNumber;
     private String mName;
     private int mBorrowerNumber;
-    private double mDebts;
+    private float mDebts;
     private List<Book> mBookList = new ArrayList<>();
 
     public String getCardNumber() {
@@ -37,11 +41,11 @@ public class Account {
         mBorrowerNumber = borrowerNumber;
     }
 
-    public double getDebts() {
+    public float getDebts() {
         return mDebts;
     }
 
-    public void setDebts(double debts) {
+    public void setDebts(float debts) {
         mDebts = debts;
     }
 
@@ -58,6 +62,24 @@ public class Account {
         books = mBookList.toArray(books);
         Arrays.sort(books, new BookComparator(toDay));
         return books;
+    }
+
+    public void loadBooksList() {
+        mBookList = new Select().from(Book.class).execute();
+    }
+
+    public void storeBooksList() {
+        ActiveAndroid.beginTransaction();
+        try {
+            new Delete().from(Book.class).execute();
+            for (Book book : mBookList) {
+                book.save();
+            }
+            ActiveAndroid.setTransactionSuccessful();
+        }
+        finally {
+            ActiveAndroid.endTransaction();
+        }
     }
 
     static class BookComparator implements Comparator<Book> {

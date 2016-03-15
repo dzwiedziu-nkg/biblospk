@@ -10,9 +10,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
 
+import pl.nkg.biblospk.data.Account;
+
 public class PreferencesProvider {
-    public final static String PREF_LOGIN = "login";
-    public final static String PREF_PASSWORD = "password";
+    private final static String PREF_LOGIN = "login";
+    private final static String PREF_PASSWORD = "password";
+    private final static String PREF_LAST_CHECKING = "last_checking";
+    private final static String PREF_LAST_CHECKED = "last_checked";
+
+    private final static String PREF_CARDNUMBER = "card_number";
+    private final static String PREF_NAME = "name";
+    private final static String PREF_BORROWERNUMBER = "borrower_number";
+    private final static String PREF_DEBTS = "debts";
+
+    private final static String PREFS_ACCOUNT[] = {PREF_CARDNUMBER, PREF_NAME, PREF_BORROWERNUMBER, PREF_DEBTS};
 
     private SharedPreferences sharedPreferences;
 
@@ -28,12 +39,61 @@ public class PreferencesProvider {
         apply(sharedPreferences.edit().putString(PREF_LOGIN, login));
     }
 
+    public long getLastChecking() {
+        return sharedPreferences.getLong(PREF_LAST_CHECKING, 0);
+    }
+
+    public void setLastChecking(long lastChecking) {
+        apply(sharedPreferences.edit().putLong(PREF_LAST_CHECKING, lastChecking));
+    }
+
+    public long getLastChecked() {
+        return sharedPreferences.getLong(PREF_LAST_CHECKED, 0);
+    }
+
+    public void setLastChecked(long lastChecking) {
+        apply(sharedPreferences.edit().putLong(PREF_LAST_CHECKED, lastChecking));
+    }
+
     public String getPrefPassword() {
         return sharedPreferences.getString(PREF_PASSWORD, "");
     }
 
     public void setPrefPassword(String password) {
         apply(sharedPreferences.edit().putString(PREF_PASSWORD, password));
+    }
+
+    public void storeAccountProperties(Account account) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(PREF_CARDNUMBER, account.getCardNumber());
+        editor.putString(PREF_NAME, account.getName());
+        editor.putInt(PREF_BORROWERNUMBER, account.getBorrowerNumber());
+        editor.putFloat(PREF_DEBTS, account.getDebts());
+        apply(editor);
+    }
+
+    public boolean loadAccountProperties(Account account) {
+        for (String key : PREFS_ACCOUNT) {
+            if (!sharedPreferences.contains(key)) {
+                return false;
+            }
+        }
+
+        account.setCardNumber(sharedPreferences.getString(PREF_CARDNUMBER, ""));
+        account.setName(sharedPreferences.getString(PREF_NAME, ""));
+        account.setBorrowerNumber(sharedPreferences.getInt(PREF_BORROWERNUMBER, 0));
+        account.setDebts(sharedPreferences.getFloat(PREF_DEBTS, 0));
+        return true;
+    }
+
+    public void cleanAccountPropertiesAndCredentials() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        for (String key : PREFS_ACCOUNT) {
+            editor.remove(key);
+        }
+        editor.remove(PREF_LOGIN);
+        editor.remove(PREF_PASSWORD);
+        apply(editor);
     }
 
     private static void apply(SharedPreferences.Editor editor) {

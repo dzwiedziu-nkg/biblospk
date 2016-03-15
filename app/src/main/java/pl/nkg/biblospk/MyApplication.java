@@ -1,6 +1,6 @@
 package pl.nkg.biblospk;
 
-import android.app.Application;
+import com.activeandroid.app.Application;
 import android.net.wifi.WifiConfiguration;
 
 import de.greenrobot.event.EventBus;
@@ -9,6 +9,7 @@ import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.events.AccountRefreshedEvent;
 import pl.nkg.biblospk.events.ErrorEvent;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
+import pl.nkg.biblospk.services.BiblosService;
 import pl.nkg.biblospk.services.ServiceStatus;
 
 public class MyApplication extends Application {
@@ -24,6 +25,12 @@ public class MyApplication extends Application {
         mPreferencesProvider = new PreferencesProvider(this);
         mServiceStatus = new ServiceStatus();
         EventBus.getDefault().register(this);
+
+        Account account = new Account();
+        if (mPreferencesProvider.loadAccountProperties(account)) {
+            account.loadBooksList();
+            mAccount = account;
+        }
     }
 
     public PreferencesProvider getPreferencesProvider() {
@@ -42,10 +49,21 @@ public class MyApplication extends Application {
         mAccount = event.getAccount();
         mServiceStatus.setError(null);
         mServiceStatus.turnOff();
+        if (mAccount != null) {
+            mPreferencesProvider.storeAccountProperties(mAccount);
+            mAccount.storeBooksList();
+        }
+        mPreferencesProvider.setLastChecking(System.currentTimeMillis());
+        mPreferencesProvider.setLastChecked(System.currentTimeMillis());
+
+        BiblosService.startService(this, false, false);
     }
 
     public void onEventMainThread(ErrorEvent event) {
-        mServiceStatus.setError(event.getErrorMessage());
+        if (event.getErrorMessage() != null) {
+            mServiceStatus.setError(event.getErrorMessage());
+            mPreferencesProvider.setLastChecking(System.currentTimeMillis());
+        }
         mServiceStatus.turnOff();
     }
 }

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         mApplication = (MyApplication) getApplication();
         //setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            mNeedToRefreshOnResume = true;
+            mNeedToRefreshOnResume = mApplication.getAccount() == null;
             PreferencesProvider preferencesProvider = ((MyApplication)getApplication()).getPreferencesProvider();
             mBookListFragment =  new BookListFragment();
             getSupportFragmentManager().beginTransaction()
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
 
             case R.id.action_refresh:
                 mBookListFragment.setRefreshing(true);
-                onRefreshBookList();
+                onRefreshBookList(true);
                 return true;
         }
 
@@ -73,13 +73,13 @@ public class MainActivity extends AppCompatActivity implements BookListFragment.
         super.onPostResume();
         if (mNeedToRefreshOnResume) {
             mNeedToRefreshOnResume = false;
-            onRefreshBookList();
+            onRefreshBookList(false);
         }
     }
 
     @Override
-    public void onRefreshBookList() {
-        BiblosService.startService(this);
+    public void onRefreshBookList(boolean force) {
+        BiblosService.startService(this, force, true);
     }
 
     @Override

@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.On
     @Override
     public void onLoginClick(String login, String password) {
         mCloseIfLogged = true;
-        BiblosService.startService(this, login, password);
+        BiblosService.startService(this, true, true, login, password);
     }
 
     @Override

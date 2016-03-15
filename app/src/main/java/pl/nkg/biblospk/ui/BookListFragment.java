@@ -1,25 +1,15 @@
 package pl.nkg.biblospk.ui;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import pl.nkg.biblospk.MyApplication;
-import pl.nkg.biblospk.R;
 import pl.nkg.biblospk.data.Book;
 
 public class BookListFragment extends ListFragment {
@@ -44,7 +34,7 @@ public class BookListFragment extends ListFragment {
             @Override
             public void onRefresh() {
                 if (mListener != null) {
-                    mListener.onRefreshBookList();
+                    mListener.onRefreshBookList(true);
                 }
             }
         });
@@ -117,6 +107,6 @@ public class BookListFragment extends ListFragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onRefreshBookList();
+        void onRefreshBookList(boolean force);
     }
 }
