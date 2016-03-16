@@ -31,6 +31,7 @@
 
     <string name="notify_section_expired">Przetrzymane książki:</string>
     <string name="notify_section_ready">Książki gotowe do odbioru:</string>
+    <string name="book_icon">Ikona</string>
 
     <plurals name="notify_content_expired">
         <item quantity="one">Masz %1$d przetrzymaną książkę!</item>

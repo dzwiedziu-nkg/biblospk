@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import de.greenrobot.event.EventBus;
@@ -124,7 +123,7 @@ public class NotifyService extends Service {
 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setSmallIcon(android.R.drawable.stat_notify_sync) // TODO: make icon
+                            .setSmallIcon(R.drawable.ic_stat_books)
                             .setContentTitle(title)
                             .setContentText(content)
                             .setAutoCancel(false)

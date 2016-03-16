@@ -19,6 +19,7 @@ public class Book extends Model {
     public static final int CATEGORY_WAITING = 2; // do odbioru
 
     public static final SimpleDateFormat DUE_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+    public static final SimpleDateFormat DUE_DATE_FORMAT_SIMPLE = new SimpleDateFormat("dd.MM", Locale.ENGLISH);
 
     @Column(name = "category")
     private int mCategory;

@@ -1,16 +1,15 @@
 package pl.nkg.biblospk.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.util.Comparator;
 import java.util.Date;
 
 import pl.nkg.biblospk.R;
@@ -36,54 +35,59 @@ public class BookListAdapter extends ArrayAdapter<Book> {
             rowView = inflater.inflate(R.layout.listitem_book_list, null);
             // configure view holder
             ViewHolder viewHolder = new ViewHolder();
+            viewHolder.mIconImageView = (ImageView) rowView.findViewById(R.id.iconImageView);
             viewHolder.mTitleTextView = (TextView) rowView.findViewById(R.id.titleTextView);
             viewHolder.mAuthorsTextView = (TextView) rowView.findViewById(R.id.authorsTextView);
             viewHolder.mDueDateTextView = (TextView) rowView.findViewById(R.id.dueDateTextView);
+            viewHolder.mProlongsTextView = (TextView) rowView.findViewById(R.id.prolongsTextView);
             rowView.setTag(viewHolder);
         }
 
-        StringBuilder dueDate = new StringBuilder(Book.DUE_DATE_FORMAT.format(values[position].getDueDate()));
-        dueDate.append(", ");
-
-        Integer prolongs = values[position].getAvailableProlongs();
-        if (prolongs > 0) {
-            dueDate.append(context.getResources().getString(R.string.info_available_prolongs, prolongs));
-        } else {
-            dueDate.append(context.getText(R.string.info_no_available_prolongs));
-        }
-
+        int prolongs = values[position].getAvailableProlongs();
         ViewHolder holder = (ViewHolder) rowView.getTag();
         holder.mTitleTextView.setText(values[position].getTitle());
         holder.mAuthorsTextView.setText(values[position].getAuthors());
-        holder.mDueDateTextView.setText(dueDate.toString());
+        holder.mDueDateTextView.setText(Book.DUE_DATE_FORMAT_SIMPLE.format(values[position].getDueDate()));
+        holder.mProlongsTextView.setText(String.format("%d / %d", prolongs, values[position].getAllProlongs()));
 
         int priority = values[position].checkBookPriority(new Date());
         int color;
         switch (priority) {
             case 0:
                 color = ContextCompat.getColor(context, R.color.colorGood);
+                holder.mIconImageView.setImageResource(R.drawable.ic_good_book);
                 break;
 
             case 1:
                 color = ContextCompat.getColor(context, R.color.colorInfo);
+                holder.mIconImageView.setImageResource(R.drawable.ic_warning_book);
                 break;
 
             case 2:
                 color = ContextCompat.getColor(context, R.color.colorWarning);
+                holder.mIconImageView.setImageResource(R.drawable.ic_expired_book);
                 break;
 
             default:
                 color = ContextCompat.getColor(context, R.color.colorError);
+                holder.mIconImageView.setImageResource(R.drawable.ic_critical_book);
 
         }
+
         holder.mDueDateTextView.setTextColor(color);
+
+        TypedValue textColorSecondary = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.textColorSecondary, textColorSecondary, true);
+        holder.mProlongsTextView.setTextColor(ContextCompat.getColor(context, prolongs == 0 ? R.color.colorError : textColorSecondary.resourceId));
 
         return rowView;
     }
 
     static class ViewHolder {
+        public ImageView mIconImageView;
         public TextView mTitleTextView;
         public TextView mAuthorsTextView;
         public TextView mDueDateTextView;
+        public TextView mProlongsTextView;
     }
 }

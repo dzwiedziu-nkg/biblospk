@@ -1,31 +1,103 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/book_list_padding"
-    android:paddingBottom="@dimen/book_list_padding">
+              android:paddingBottom="@dimen/book_list_padding"
+              android:baselineAligned="false">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/titleTextView" />
+    <ImageView
+        android:id="@+id/iconImageView"
+        android:contentDescription="@string/book_icon"
+        android:layout_width="48dip"
+        android:layout_height="48dip"
+        android:layout_gravity="center_vertical"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_good_book"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/authorsTextView" />
+        android:layout_gravity="center_vertical"
+        android:baselineAligned="false">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/dueDateTextView" />
+            android:baselineAligned="false">
+
+            <TextView android:id="@+id/titleTextView"
+                      android:textColor="?android:attr/textColorPrimary"
+                      android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:singleLine="true"
+                      android:ellipsize="end"
+                      android:layout_weight="1"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+                      android:paddingStart="?attr/listPreferredItemPaddingLeft"
+                      android:paddingRight="?attr/listPreferredItemPaddingRight"
+                      android:paddingEnd="?attr/listPreferredItemPaddingRight"
+                      android:layout_gravity="center_vertical"
+                      android:gravity="start"
+                      android:textAlignment="viewStart"
+                      tools:text="F-Droid"/>
+
+            <TextView android:id="@+id/dueDateTextView"
+                      android:singleLine="true"
+                      android:ellipsize="end"
+                      android:layout_weight="0"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
+                      android:gravity="end"
+                      android:textAlignment="viewEnd"
+                      tools:text="Installed"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+            android:baselineAligned="false">
+
+            <TextView android:id="@+id/authorsTextView"
+                      android:textColor="?android:attr/textColorSecondary"
+                      android:singleLine="true"
+                      android:ellipsize="end"
+                      android:layout_weight="1"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
+                      android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+                      android:paddingStart="?attr/listPreferredItemPaddingLeft"
+                      android:paddingRight="?attr/listPreferredItemPaddingRight"
+                      android:paddingEnd="?attr/listPreferredItemPaddingRight"
+                      android:gravity="start"
+                      android:textAlignment="viewStart"
+                      tools:text="Application manager"/>
+
+            <TextView android:id="@+id/prolongsTextView"
+                      android:textColor="?android:attr/textColorSecondary"
+                      android:singleLine="true"
+                      android:ellipsize="end"
+                      android:layout_weight="0"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_vertical"
+                      android:gravity="end"
+                      android:textAlignment="viewEnd"
+                      tools:text="GPLv3+"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </LinearLayout>

@@ -31,6 +31,7 @@
 
     <string name="notify_section_expired">Expired:</string>
     <string name="notify_section_ready">Ready to lend:</string>
+    <string name="book_icon">Book icon</string>
 
     <plurals name="notify_content_expired">
         <item quantity="one">You have %1$d book expired!</item>
