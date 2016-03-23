@@ -12,12 +12,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.GlobalState;
 import pl.nkg.biblospk.MyApplication;
 import pl.nkg.biblospk.R;
+import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.data.Book;
 import pl.nkg.biblospk.events.AccountDownloadedEvent;
 import pl.nkg.biblospk.ui.MainActivity;
@@ -100,7 +104,7 @@ public class NotifyService extends Service {
             if (expired > 0) {
                 bigText.append(getText(R.string.notify_section_expired));
 
-                Book[] books = mGlobalState.getAccount().getSortedBookArray(toDay);
+                Book[] books = Account.getSortedBookArray(mGlobalState.getAccount().getBooks(true), toDay);
                 for (Book book : books) {
                     if (book.checkBookPriority(toDay) == 0) {
                         continue;
@@ -118,7 +122,28 @@ public class NotifyService extends Service {
                     bigText.append("\n\n");
                 }
                 bigText.append(getText(R.string.notify_section_ready));
-                // TODO: list of books ready to lend
+
+                HashMap<String, List<Book>> byRentals = new HashMap<>();
+
+                for (Book book : mGlobalState.getAccount().getBooks(false)) {
+                    if (book.getCategory() == Book.CATEGORY_WAITING) {
+                        if (!byRentals.containsKey(book.getRental())) {
+                            byRentals.put(book.getRental(), new ArrayList<Book>());
+                        }
+                        List<Book> books = byRentals.get(book.getRental());
+                        books.add(book);
+                    }
+                }
+
+                for (String rental : byRentals.keySet()) {
+                    bigText.append("\n * ").append(rental).append(":");
+                    for (Book book : byRentals.get(rental)) {
+                        bigText.append("\n    - ")
+                                .append(Book.DUE_DATE_FORMAT.format(book.getDueDate()))
+                                .append(" - ")
+                                .append(StringUtils.abbreviate(book.getTitle(), 20));
+                    }
+                }
             }
 
             NotificationCompat.Builder mBuilder =

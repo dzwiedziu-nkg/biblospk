@@ -57,9 +57,19 @@ public class Account {
         mBookList = bookList;
     }
 
-    public Book[] getSortedBookArray(Date toDay) {
-        Book[] books = new Book[mBookList.size()];
-        books = mBookList.toArray(books);
+    public List<Book> getBooks(boolean lend) {
+        List<Book> books = new ArrayList<>();
+        for (Book book : mBookList) {
+            if (lend && book.getCategory() == Book.CATEGORY_LEND || (!lend && book.getCategory() != Book.CATEGORY_LEND)) {
+                books.add(book);
+            }
+        }
+        return books;
+    }
+
+    public static Book[] getSortedBookArray(List<Book> bookList, Date toDay) {
+        Book[] books = new Book[bookList.size()];
+        books = bookList.toArray(books);
         Arrays.sort(books, new BookComparator(toDay));
         return books;
     }
@@ -89,7 +99,7 @@ public class Account {
     public int countOfExpired(Date toDate) {
         int count = 0;
         for (Book book : mBookList) {
-            if (book.checkBookPriority(toDate) > 0) {
+            if (book.getCategory() == Book.CATEGORY_LEND && book.checkBookPriority(toDate) > 0) {
                 count++;
             }
         }
@@ -97,7 +107,13 @@ public class Account {
     }
 
     public int countOfReady() {
-        return 0; // TODO: to implement when ready are implemented
+        int count = 0;
+        for (Book book : mBookList) {
+            if (book.getCategory() == Book.CATEGORY_WAITING) {
+                count++;
+            }
+        }
+        return count;
     }
 
     static class BookComparator implements Comparator<Book> {

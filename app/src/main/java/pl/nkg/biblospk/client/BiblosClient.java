@@ -58,6 +58,25 @@ public class BiblosClient {
 
     private static final String STRING_CANT_PROLONG = "Brak możliwości prolongaty";
 
+    private static final String OPEN_RESERVED = "<!-- RESERVES TABLE ROWS -->";
+    private static final String CLOSE_RESERVED = "</table>";
+
+    private static final String OPEN_BOOK_REQUEST_AUTHOR = "</a>";
+    private static final String CLOSE_BOOK_REQUEST_AUTHOR = "</td>";
+
+    private static final String OPEN_BOOK_REQUEST_DATE = "<span class=\"tdlabel\">Data zamówienia:</span>";
+    private static final String CLOSE_BOOK_REQUEST_DATE = "</span>";
+
+    private static final String OPEN_BOOK_REQUEST_DUE_DATE = "<span class=\"tdlabel\">Data ważności:</span>";
+    private static final String CLOSE_BOOK_REQUEST_DUE_DATE = "</span>";
+    private static final String STRING_BOOK_REQUEST_NEVER_EXPIRED = "Nigdy nie wygasa";
+
+    private static final String OPEN_BOOK_QUEUE = "<span title=\"Rezerwacja - brak wolnych egzemplarzy, numer w kolejce: ";
+    private static final String CLOSE_BOOK_QUEUE = "\">";
+
+    private static final String OPEN_BOOK_RENTAL = "<span class=\"tdlabel\">Miejsce odbioru:</span>";
+    private static final String CLOSE_BOOK_RENTAL = "</td>";
+
     static {
         try {
             URL_LOGIN = new URL("http://koha.biblos.pk.edu.pl/cgi-bin/koha/opac-user.pl");
@@ -118,35 +137,74 @@ public class BiblosClient {
 
 
         String lends = StringUtils.substringBetween(webPage, OPEN_LENDS, CLOSE_LENDS);
-        String[] bookRows = StringUtils.substringsBetween(lends, OPEN_ROW, CLOSE_ROW);
-        for (String row : bookRows) {
-            Book book = new Book();
+        for (String row : StringUtils.substringsBetween(lends, OPEN_ROW, CLOSE_ROW)) {
+            account.getBookList().add(parseBook(row, true));
+        }
 
-            try {
-                String title = StringUtils.substringBetween(row, OPEN_BOOK_TITLE, CLOSE_BOOK_TITLE);
-                String[] titleSplit = title.split("\">");
-                book.setBiblioNumber(Integer.parseInt(titleSplit[0]));
-                book.setTitle(titleSplit[1].replace(" / ", "").replace(" : ", "").trim());
-            } catch (Exception e) {
-                book.setTitle("*&^%$#@!");
-                book.setBiblioNumber(-1);
-                Log.e(TAG, "Invalid book title and biblionumber");
-            }
+        String reserved = StringUtils.substringBetween(webPage, OPEN_RESERVED, CLOSE_RESERVED);
+        for (String row : StringUtils.substringsBetween(reserved, OPEN_ROW, CLOSE_ROW)) {
+            account.getBookList().add(parseBook(row, false));
+        }
 
-            try {
+        return account;
+    }
+
+    private static Book parseBook(String row, boolean lend) {
+        Book book = new Book();
+        book.setCategory(lend ? Book.CATEGORY_LEND : Book.CATEGORY_BOOKED);
+
+        try {
+            String title = StringUtils.substringBetween(row, OPEN_BOOK_TITLE, CLOSE_BOOK_TITLE);
+            String[] titleSplit = title.split("\">");
+            book.setBiblioNumber(Integer.parseInt(titleSplit[0]));
+            book.setTitle(titleSplit[1].replace(" / ", "").replace(" : ", "").trim());
+        } catch (Exception e) {
+            book.setTitle("*&^%$#@!");
+            book.setBiblioNumber(-1);
+            Log.e(TAG, "Invalid book title and biblionumber");
+        }
+
+        try {
+            if (lend) {
                 book.setAuthors(StringUtils.substringBetween(row, OPEN_BOOK_AUTHOR, CLOSE_BOOK_AUTHOR).trim());
-            } catch (Exception e) {
-                book.setAuthors("*&^%$#@!");
-                Log.e(TAG, "Invalid book authors");
+            } else {
+                book.setAuthors(StringUtils.substringBetween(row, OPEN_BOOK_REQUEST_AUTHOR, CLOSE_BOOK_REQUEST_AUTHOR).trim());
             }
+        } catch (Exception e) {
+            book.setAuthors("*&^%$#@!");
+            Log.e(TAG, "Invalid book authors");
+        }
 
+        if (lend) {
             try {
                 book.setDueDate(Book.DUE_DATE_FORMAT.parse(StringUtils.substringBetween(row, OPEN_BOOK_DUE_DATE, CLOSE_BOOK_DUE_DATE).trim()));
             } catch (Exception e) {
                 book.setDueDate(new Date(0));
                 Log.e(TAG, "Invalid book due date");
             }
+        } else {
+            try {
+                String due = StringUtils.substringBetween(row, OPEN_BOOK_REQUEST_DUE_DATE, CLOSE_BOOK_REQUEST_DUE_DATE);
+                if (due.contains(STRING_BOOK_REQUEST_NEVER_EXPIRED)) {
+                    book.setDueDate(null);
+                } else {
+                    book.setDueDate(Book.DUE_DATE_FORMAT.parse(due.trim()));
+                    book.setCategory(Book.CATEGORY_WAITING);
+                }
+            } catch (Exception e) {
+                book.setDueDate(new Date(0));
+                Log.e(TAG, "Invalid book due date");
+            }
 
+            try {
+                book.setRequestDate(Book.DUE_DATE_FORMAT.parse(StringUtils.substringBetween(row, OPEN_BOOK_REQUEST_DATE, CLOSE_BOOK_REQUEST_DATE).trim()));
+            } catch (Exception e) {
+                book.setRequestDate(new Date(0));
+                Log.e(TAG, "Invalid book request date");
+            }
+        }
+
+        if (lend) {
             try {
                 book.setBarCode(Long.parseLong(StringUtils.substringBetween(row, OPEN_BOOK_BARCODE, CLOSE_BOOK_BARCODE).trim()));
             } catch (Exception e) {
@@ -178,10 +236,26 @@ public class BiblosClient {
                 book.setAllProlongs(-1);
                 Log.e(TAG, "Invalid book prolongs count");
             }
+        } else {
+            if (book.getCategory() == Book.CATEGORY_BOOKED) {
+                try {
+                    book.setQueue(Integer.parseInt(StringUtils.substringBetween(row, OPEN_BOOK_QUEUE, CLOSE_BOOK_QUEUE).trim()));
+                } catch (Exception e) {
+                    book.setBarCode(-1);
+                    Log.e(TAG, "Invalid book queue");
+                }
+            } else {
+                book.setQueue(0);
+            }
 
-            account.getBookList().add(book);
+            try {
+                book.setRental(StringUtils.substringBetween(row, OPEN_BOOK_RENTAL, CLOSE_BOOK_RENTAL).trim());
+            } catch (Exception e) {
+                book.setRental("*&^%$#@!");
+                Log.e(TAG, "Invalid book rental office");
+            }
         }
 
-        return account;
+        return book;
     }
 }

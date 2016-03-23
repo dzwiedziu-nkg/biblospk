@@ -1,19 +1,14 @@
 package pl.nkg.biblospk.ui;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.Date;
 
-import de.greenrobot.event.EventBus;
-import pl.nkg.biblospk.GlobalState;
-import pl.nkg.biblospk.MyApplication;
-import pl.nkg.biblospk.PreferencesProvider;
 import pl.nkg.biblospk.R;
 import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
@@ -101,7 +96,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     private void refreshList() {
         if (mGlobalState.isBookListDownloaded()) {
             Account account = mGlobalState.getAccount();
-            mBookListFragment.refreshList(account.getSortedBookArray(new Date()));
+            mBookListFragment.refreshList(Account.getSortedBookArray(account.getBooks(true), new Date()));
             double due = mGlobalState.getAccount().getDebts();
             String title = getResources().getString(R.string.title_activity_main_with_cash, due);
             ActionBar actionBar = getSupportActionBar();

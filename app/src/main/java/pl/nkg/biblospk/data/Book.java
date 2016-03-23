@@ -42,6 +42,9 @@ public class Book extends Model {
     @Column(name = "signature")
     private String mSignature;
 
+    @Column(name = "request_date")
+    private Date mRequestDate;
+
     @Column(name = "due_date")
     private Date mDueDate;
 
@@ -50,6 +53,9 @@ public class Book extends Model {
 
     @Column(name = "available_prolongs")
     private int mAvailableProlongs;
+
+    @Column(name = "rental")
+    private String mRental;
 
     @Column(name = "queue")
     private int mQueue;
@@ -110,6 +116,14 @@ public class Book extends Model {
         mSignature = signature;
     }
 
+    public Date getRequestDate() {
+        return mRequestDate;
+    }
+
+    public void setRequestDate(Date requestDate) {
+        mRequestDate = requestDate;
+    }
+
     public Date getDueDate() {
         return mDueDate;
     }
@@ -134,6 +148,14 @@ public class Book extends Model {
         mAvailableProlongs = availableProlongs;
     }
 
+    public String getRental() {
+        return mRental;
+    }
+
+    public void setRental(String rental) {
+        mRental = rental;
+    }
+
     public int getQueue() {
         return mQueue;
     }
@@ -143,19 +165,27 @@ public class Book extends Model {
     }
 
     public int checkBookPriority(Date date) {
-        long today = date.getTime();
-        long due = mDueDate.getTime();
+        switch (mCategory) {
+            case CATEGORY_LEND:
+                long today = date.getTime();
+                long due = mDueDate.getTime();
 
-        if (today + DAY_EARLY < due) {
-            return 0;
-        }
+                if (today + DAY_EARLY < due) {
+                    return 0;
+                }
 
-        if (today < due) {
-            return mAvailableProlongs > 0 ? 1 : 2;
-        }
+                if (today < due) {
+                    return mAvailableProlongs > 0 ? 1 : 2;
+                }
 
-        if (today < due + DAY_EARLY) {
-            return mAvailableProlongs > 0 ? 2 : 3;
+                if (today < due + DAY_EARLY) {
+                    return mAvailableProlongs > 0 ? 2 : 3;
+                }
+
+                break;
+
+            case CATEGORY_BOOKED:
+                return 0;
         }
 
         return 5;
