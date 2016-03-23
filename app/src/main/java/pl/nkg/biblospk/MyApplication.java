@@ -15,7 +15,7 @@ import pl.nkg.biblospk.services.NotifyService;
 
 public class MyApplication extends Application {
 
-    private static final int PERIOD = 3 * 60 * 60 * 1000;
+    private static final int PERIOD = 30 * 60 * 1000;
 
     private GlobalState mGlobalState;
 
@@ -34,7 +34,7 @@ public class MyApplication extends Application {
         return mGlobalState;
     }
 
-    private void registerAlarm() {
+    public void registerAlarm() {
         AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(this, AlarmReceiver.class), 0);
 
