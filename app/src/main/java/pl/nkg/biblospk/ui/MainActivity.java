@@ -58,14 +58,20 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         mViewPager.setAdapter(mAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+            private boolean mRefreshing;
+
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
                 refreshList(true);
+                getBookListFragment(tab.getPosition()).setRefreshing(mRefreshing);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                mRefreshing = getBookListFragment(tab.getPosition()).isRefreshing();
+                getBookListFragment(tab.getPosition()).setRefreshing(false);
             }
 
             @Override
@@ -130,7 +136,11 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     }
 
     private BookListFragment getCurrentPageFragment() {
-        return (BookListFragment) mAdapter.instantiateItem(mViewPager, mViewPager.getCurrentItem());
+        return getBookListFragment(mViewPager.getCurrentItem());
+    }
+
+    private BookListFragment getBookListFragment(int pos) {
+        return (BookListFragment) mAdapter.instantiateItem(mViewPager, pos);
     }
 
     private List<Book> getBooksByTab() {
@@ -152,7 +162,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
 
     private void refreshList(boolean force) {
         if (mGlobalState.isBookListDownloaded()) {
-            getCurrentPageFragment().refreshList(Account.getSortedBookArray(getBooksByTab(), new Date()), force);
+            getCurrentPageFragment().refreshList(Account.getSortedBookArray(getBooksByTab(), new Date()), true);
             double due = mGlobalState.getAccount().getDebts();
             String title = getResources().getString(R.string.title_activity_main_with_cash, due);
             ActionBar actionBar = getSupportActionBar();
@@ -189,7 +199,11 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
 
         @Override
         public Fragment getItem(int position) {
-            return new BookListFragment();
+            if (position < 3) {
+                return new BookListFragment();
+            } else {
+                return null;
+            }
         }
 
         @Override
