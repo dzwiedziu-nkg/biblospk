@@ -8,6 +8,10 @@
     <string name="hint_login">Numer karty</string>
     <string name="hint_password">Hasło</string>
 
+    <string name="tab_lend">Wypożyczone (%1$d)</string>
+    <string name="tab_waiting">Do odbioru (%1$d)</string>
+    <string name="tab_booked">Zamówione (%1$d)</string>
+
     <string name="error_empty_login">Podaj numer swojej karty bibliotecznej</string>
     <string name="error_empty_password">Podaj hasło do swojego konta w Bibliotece PK</string>
     <string name="error_invalid_credentials">Zły numer karty lub złe hasło</string>

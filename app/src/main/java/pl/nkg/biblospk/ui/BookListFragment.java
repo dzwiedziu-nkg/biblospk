@@ -16,6 +16,8 @@ public class BookListFragment extends ListFragment {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private OnFragmentInteractionListener mListener;
+    private Boolean mRefreshing;
+    private Book[] mBooks;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +53,14 @@ public class BookListFragment extends ListFragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        if (mRefreshing != null) {
+            setRefreshing(mRefreshing);
+        }
+
+        if (mBooks != null) {
+            refreshList(mBooks, true);
+        }
     }
 
     @Override
@@ -59,8 +69,17 @@ public class BookListFragment extends ListFragment {
         mListener = null;
     }
 
-    public void refreshList(Book[] books) {
-        setListAdapter(new BookListAdapter(getActivity(), books));
+    public void refreshList(Book[] books, boolean force) {
+
+        if (mBooks != null && !force) {
+            return;
+        }
+
+        mBooks = books;
+        if (getActivity() != null) {
+            setListAdapter(new BookListAdapter(getActivity(), books));
+            setRefreshing(false);
+        }
     }
 
     public void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
@@ -72,7 +91,10 @@ public class BookListFragment extends ListFragment {
     }
 
     public void setRefreshing(boolean refreshing) {
-        mSwipeRefreshLayout.setRefreshing(refreshing);
+        mRefreshing = refreshing;
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(refreshing);
+        }
     }
 
     public void setColorScheme(int colorRes1, int colorRes2, int colorRes3, int colorRes4) {

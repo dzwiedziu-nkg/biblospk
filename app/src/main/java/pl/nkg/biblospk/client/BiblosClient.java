@@ -146,6 +146,8 @@ public class BiblosClient {
             account.getBookList().add(parseBook(row, false));
         }
 
+        account.updateStats();
+
         return account;
     }
 

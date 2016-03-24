@@ -104,7 +104,7 @@ public class NotifyService extends Service {
             if (expired > 0) {
                 bigText.append(getText(R.string.notify_section_expired));
 
-                Book[] books = Account.getSortedBookArray(mGlobalState.getAccount().getBooks(true), toDay);
+                Book[] books = Account.getSortedBookArray(mGlobalState.getAccount().getBooks(true, false, false), toDay);
                 for (Book book : books) {
                     if (book.checkBookPriority(toDay) == 0) {
                         continue;
@@ -125,14 +125,12 @@ public class NotifyService extends Service {
 
                 HashMap<String, List<Book>> byRentals = new HashMap<>();
 
-                for (Book book : mGlobalState.getAccount().getBooks(false)) {
-                    if (book.getCategory() == Book.CATEGORY_WAITING) {
-                        if (!byRentals.containsKey(book.getRental())) {
-                            byRentals.put(book.getRental(), new ArrayList<Book>());
-                        }
-                        List<Book> books = byRentals.get(book.getRental());
-                        books.add(book);
+                for (Book book : mGlobalState.getAccount().getBooks(false, true, false)) {
+                    if (!byRentals.containsKey(book.getRental())) {
+                        byRentals.put(book.getRental(), new ArrayList<Book>());
                     }
+                    List<Book> books = byRentals.get(book.getRental());
+                    books.add(book);
                 }
 
                 for (String rental : byRentals.keySet()) {

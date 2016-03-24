@@ -4,6 +4,10 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import android.util.SparseArray;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -16,6 +20,7 @@ public class Account {
     private int mBorrowerNumber;
     private float mDebts;
     private List<Book> mBookList = new ArrayList<>();
+    private int[] mStats = new int[3];
 
     public String getCardNumber() {
         return mCardNumber;
@@ -57,10 +62,23 @@ public class Account {
         mBookList = bookList;
     }
 
-    public List<Book> getBooks(boolean lend) {
+    public int getStats(int category) {
+        return mStats[category];
+    }
+
+    public void updateStats() {
+        Arrays.fill(mStats, 0);
+        for (Book book : mBookList) {
+            mStats[book.getCategory()]++;
+        }
+    }
+
+    public List<Book> getBooks(boolean lend, boolean waiting, boolean booked) {
         List<Book> books = new ArrayList<>();
         for (Book book : mBookList) {
-            if (lend && book.getCategory() == Book.CATEGORY_LEND || (!lend && book.getCategory() != Book.CATEGORY_LEND)) {
+            if ((lend && book.getCategory() == Book.CATEGORY_LEND)
+                    || (waiting && book.getCategory() == Book.CATEGORY_WAITING)
+                    || (booked && book.getCategory() == Book.CATEGORY_BOOKED)) {
                 books.add(book);
             }
         }
@@ -76,6 +94,7 @@ public class Account {
 
     public void loadBooksList() {
         mBookList = new Select().from(Book.class).execute();
+        updateStats();
     }
 
     public void storeBooksList() {
@@ -107,13 +126,7 @@ public class Account {
     }
 
     public int countOfReady() {
-        int count = 0;
-        for (Book book : mBookList) {
-            if (book.getCategory() == Book.CATEGORY_WAITING) {
-                count++;
-            }
-        }
-        return count;
+        return getStats(Book.CATEGORY_WAITING);
     }
 
     static class BookComparator implements Comparator<Book> {
@@ -128,7 +141,7 @@ public class Account {
         public int compare(Book lhs, Book rhs) {
             int ret = compareInt(lhs.checkBookPriority(mToDay), rhs.checkBookPriority(mToDay));
 
-            if (ret == 0) {
+            if (ret == 0 && lhs.getDueDate() != null) {
                 ret = lhs.getDueDate().compareTo(rhs.getDueDate());
             }
 

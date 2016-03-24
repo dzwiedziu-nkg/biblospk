@@ -1,5 +1,7 @@
 package pl.nkg.biblospk.ui;
 
+import org.apache.commons.lang3.StringUtils;
+
 import android.app.Activity;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Date;
+import java.util.Locale;
 
 import pl.nkg.biblospk.R;
 import pl.nkg.biblospk.data.Book;
@@ -47,8 +50,20 @@ public class BookListAdapter extends ArrayAdapter<Book> {
         ViewHolder holder = (ViewHolder) rowView.getTag();
         holder.mTitleTextView.setText(values[position].getTitle());
         holder.mAuthorsTextView.setText(values[position].getAuthors());
-        holder.mDueDateTextView.setText(Book.DUE_DATE_FORMAT_SIMPLE.format(values[position].getDueDate()));
-        holder.mProlongsTextView.setText(String.format("%d / %d", prolongs, values[position].getAllProlongs()));
+
+        if (values[position].getCategory() == Book.CATEGORY_LEND) {
+            holder.mProlongsTextView.setText(String.format(Locale.getDefault(), "%d / %d", prolongs, values[position].getAllProlongs()));
+        } else if (values[position].getCategory() == Book.CATEGORY_BOOKED) {
+            holder.mProlongsTextView.setText(String.format(Locale.getDefault(), "#%d", values[position].getQueue()));
+        } else {
+            holder.mProlongsTextView.setText(StringUtils.split(values[position].getRental())[0]);
+        }
+
+        if (values[position].getCategory() == Book.CATEGORY_BOOKED) {
+            holder.mDueDateTextView.setText(Book.DUE_DATE_FORMAT_SIMPLE.format(values[position].getRequestDate()));
+        } else {
+            holder.mDueDateTextView.setText(Book.DUE_DATE_FORMAT_SIMPLE.format(values[position].getDueDate()));
+        }
 
         int priority = values[position].checkBookPriority(new Date());
         int color;

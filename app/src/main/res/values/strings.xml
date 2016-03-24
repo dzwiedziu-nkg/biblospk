@@ -8,6 +8,10 @@
     <string name="hint_login">Card number</string>
     <string name="hint_password">Password</string>
 
+    <string name="tab_lend">Lends (%1$d)</string>
+    <string name="tab_waiting">Waiting (%1$d)</string>
+    <string name="tab_booked">Booked (%1$d)</string>
+
     <string name="error_empty_login">Please enter your library card number</string>
     <string name="error_empty_password">Please enter password to your library account</string>
     <string name="error_invalid_credentials">Invalid library card number or password</string>
