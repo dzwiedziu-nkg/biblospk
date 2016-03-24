@@ -111,9 +111,9 @@ public class NotifyService extends Service {
                     }
 
                     bigText.append("\n - ")
-                        .append(Book.DUE_DATE_FORMAT.format(book.getDueDate()))
+                        .append(Book.DUE_DATE_FORMAT_SIMPLE.format(book.getDueDate()))
                         .append(" - ")
-                            .append(StringUtils.abbreviate(book.getTitle() + ": " + book.getAuthors(), 20));
+                            .append(StringUtils.abbreviate(book.getTitle() + ": " + book.getAuthors(), 25));
                 }
             }
 
@@ -137,9 +137,9 @@ public class NotifyService extends Service {
                     bigText.append("\n * ").append(rental).append(":");
                     for (Book book : byRentals.get(rental)) {
                         bigText.append("\n    - ")
-                                .append(Book.DUE_DATE_FORMAT.format(book.getDueDate()))
+                                .append(Book.DUE_DATE_FORMAT_SIMPLE.format(book.getDueDate()))
                                 .append(" - ")
-                                .append(StringUtils.abbreviate(book.getTitle() + ": " + book.getAuthors(), 20));
+                                .append(StringUtils.abbreviate(book.getTitle() + ": " + book.getAuthors(), 25));
                     }
                 }
             }
