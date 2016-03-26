@@ -1,3 +1,15 @@
+/*
+TODO: no refresh UI when downloaded data is not changed
+TODO: prolong all expired books feature (from notify and activity)
+TODO: select books to prolong in activity
+TODO: hide notify today feature (come back notify on the next day)
+TODO: working from external memory
+TODO: settings activity: sticky notify, update duration, etc. (low priority)
+TODO: icon on action bar in details activity
+TODO: snack bar instead toast
+TODO: backup agent
+TODO: about activity (open when first run)
+ */
 package pl.nkg.biblospk;
 
 import com.activeandroid.app.Application;
