@@ -66,15 +66,17 @@
     <string name="label_request_date">Request date</string>
     <string name="label_rental">Rental office</string>
     <string name="label_queue">In queue</string>
-    <string name="label_prolongs">Available prolongs</string>
+    <string name="label_prolongs">Prolongs</string>
     <string name="label_status">Status</string>
 
-    <string name="value_prolongs">%1$d of %2$d</string>
+    <string name="value_prolongs">available %1$d of %2$d</string>
+    <string name="value_prolongs_0">prolong not available</string>
+    <string name="value_queue">%1$d</string>
 
     <string-array name="array_status">
         <item>Loan</item>
-        <item>Ready to get</item>
         <item>Reserved</item>
+        <item>Ready to get</item>
     </string-array>
 
     <string name="button_prolong">Prolong</string>

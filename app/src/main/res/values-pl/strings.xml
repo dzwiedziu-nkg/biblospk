@@ -69,16 +69,18 @@
     <string name="label_expire_date">Data wygaśnięcia</string>
     <string name="label_request_date">Zamówiono</string>
     <string name="label_rental">Miejsce odbioru</string>
-    <string name="label_queue">W kolejce oczekujących</string>
-    <string name="label_prolongs">Możliwe prolongaty</string>
+    <string name="label_queue">Rezerwacja</string>
+    <string name="label_prolongs">Prolongata</string>
     <string name="label_status">Status</string>
 
-    <string name="value_prolongs">%1$d z %2$d</string>
+    <string name="value_prolongs">dostępne %1$d z %2$d</string>
+    <string name="value_prolongs_0">brak możliwości prolongaty</string>
+    <string name="value_queue">w kolejce na %1$d miejscu</string>
 
     <string-array name="array_status">
-        <item>Loan</item>
-        <item>Ready to get</item>
-        <item>Reserved</item>
+        <item>Wypożyczona</item>
+        <item>Zarezerwowana</item>
+        <item>Gotowa do odbioru</item>
     </string-array>
 
     <string name="button_prolong">Prolonguj</string>

@@ -3,7 +3,7 @@ package pl.nkg.biblospk.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.widget.Toast;
 
 import pl.nkg.biblospk.data.Book;
 
@@ -38,12 +38,12 @@ public class DetailsActivity extends AbstractNoEventActivity implements DetailsF
 
         if (mBook == null) {
             finish();
-        } else {
+        } /*else {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setTitle(mBook.getTitle());
             }
-        }
+        }*/
     }
 
     @Override
@@ -58,11 +58,11 @@ public class DetailsActivity extends AbstractNoEventActivity implements DetailsF
 
     @Override
     public void onProlong() {
-
+        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onCancelReservation() {
-
+        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
     }
 }

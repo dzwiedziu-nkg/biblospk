@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:scrollbars="none">
 
     <LinearLayout
@@ -11,26 +13,54 @@
         android:padding="4dip"
         tools:context=".ui.DetailsFragment">
 
+        <TextView
+            android:id="@+id/titleTextView"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+            android:paddingStart="?attr/listPreferredItemPaddingLeft"
+            android:paddingRight="?attr/listPreferredItemPaddingRight"
+            android:paddingEnd="?attr/listPreferredItemPaddingRight"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            tools:text="F-Droid" />
+
+        <TextView
+            android:id="@+id/authorsTextView"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+            android:paddingStart="?attr/listPreferredItemPaddingLeft"
+            android:paddingRight="?attr/listPreferredItemPaddingRight"
+            android:paddingEnd="?attr/listPreferredItemPaddingRight"
+            android:gravity="center"
+            tools:text="Application manager" />
+
         <LinearLayout
             android:id="@+id/details_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:orientation="vertical" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_prolong"
-            android:id="@+id/prolongButton"
-            android:enabled="false"
+            android:id="@+id/btn_prolong"
             android:layout_gravity="center_horizontal" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_cancel_reservation"
-            android:enabled="false"
-            android:id="@+id/cancelReservationButton"
+            android:id="@+id/btn_cancel_reservation"
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
