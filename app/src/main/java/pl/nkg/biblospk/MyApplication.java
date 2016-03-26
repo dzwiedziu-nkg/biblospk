@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.client.WebClient;
+import pl.nkg.biblospk.events.CanceledEvent;
 import pl.nkg.biblospk.events.RenewedEvent;
 import pl.nkg.biblospk.receivers.AlarmReceiver;
 import pl.nkg.biblospk.services.BiblosService;
@@ -73,5 +74,9 @@ public class MyApplication extends Application {
         }
 
         Toast.makeText(this, textId, Toast.LENGTH_LONG).show();
+    }
+
+    public void onEventMainThread(CanceledEvent canceledEvent) {
+        Toast.makeText(this, canceledEvent.isSuccess() ? R.string.toast_cancel : R.string.toast_cancel_not, Toast.LENGTH_LONG).show();
     }
 }

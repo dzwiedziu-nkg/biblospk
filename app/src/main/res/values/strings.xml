@@ -88,4 +88,8 @@
     <string name="toast_prolong_no">None of selected books was prolong</string>
     <string name="toast_prolong_not">Book wasn\'t prolong</string>
     <string name="toast_prolong_some">Some books was prolong and some books not</string>
+
+    <string name="toast_cancel_do">Cancel reservation request was sent</string>
+    <string name="toast_cancel">Reservation canceled</string>
+    <string name="toast_cancel_not">Reservation not canceled</string>
 </resources>

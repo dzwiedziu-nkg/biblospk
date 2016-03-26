@@ -69,6 +69,8 @@ public class DetailsActivity extends AbstractNoEventActivity implements DetailsF
 
     @Override
     public void onCancelReservation() {
-        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.toast_cancel_do, Toast.LENGTH_SHORT).show();
+        BiblosService.startServiceCancelReservation(this, mBook.getItem());
+        finish();
     }
 }

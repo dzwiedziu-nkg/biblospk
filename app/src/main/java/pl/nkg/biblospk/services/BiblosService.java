@@ -23,6 +23,7 @@ import pl.nkg.biblospk.client.InvalidCredentialsException;
 import pl.nkg.biblospk.client.ServerErrorException;
 import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.events.AccountDownloadedEvent;
+import pl.nkg.biblospk.events.CanceledEvent;
 import pl.nkg.biblospk.events.ErrorEvent;
 import pl.nkg.biblospk.events.RenewedEvent;
 
@@ -35,6 +36,7 @@ public class BiblosService extends IntentService {
     private final static String TAG_FORCE = "force";
     private final static String TAG_QUIET = "quiet";
     private final static String TAG_RENEW = "renew";
+    private final static String TAG_RESERVE_ID = "reserve";
 
     private final static int ACTION_REFRESH = 0;
     private final static int ACTION_RENEW = 1;
@@ -94,6 +96,28 @@ public class BiblosService extends IntentService {
         context.startService(intent);
     }
 
+    public static void startServiceCancelReservation(Context context, int reserveId) {
+
+        GlobalState globalState = ((MyApplication) context.getApplicationContext()).getGlobalState();
+
+        Log.d(TAG, "Run service for cancel reservation");
+
+        globalState.getServiceStatus().turnOn();
+
+        Intent intent = new Intent(context, BiblosService.class);
+        intent.putExtra(TAG_ACTION, ACTION_CANCEL_RESERVATION);
+        intent.putExtra(TAG_RESERVE_ID, reserveId);
+        context.startService(intent);
+    }
+
+    private GlobalState mGlobalState;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mGlobalState = ((MyApplication) getApplication()).getGlobalState();
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         int action = intent.getIntExtra(TAG_ACTION, ACTION_REFRESH);
@@ -127,26 +151,42 @@ public class BiblosService extends IntentService {
     }
 
     private void doRenew(Intent intent) throws ServerErrorException, InvalidCredentialsException, ParseException, IOException {
-        GlobalState globalState = ((MyApplication) getApplication()).getGlobalState();
-
-        String login = globalState.getPreferencesProvider().getPrefLogin();
-        String password = globalState.getPreferencesProvider().getPrefPassword();
-        if (!globalState.isLogged()) {
-            BiblosClient.login(login, password);
-        }
+        doLoginIfNeed();
 
         List<Integer> renews = Arrays.asList(ArrayUtils.toObject(intent.getIntArrayExtra(TAG_RENEW)));
-        List<Integer> renewed = BiblosClient.prolongBooks(globalState.getAccount().getBorrowerNumber(), renews);
+        List<Integer> renewed = BiblosClient.prolongBooks(mGlobalState.getAccount().getBorrowerNumber(), renews);
 
         if (renewed == null) {
             emitError(getText(R.string.error_server));
         } else {
             emitRenewed(renews, renewed);
-            doLoginAndRefresh(login, password);
+            doLoginAndRefresh();
         }
     }
 
-    private void doCancelReservation(Intent intent) {
+    private void doLoginIfNeed() throws ServerErrorException, IOException, ParseException, InvalidCredentialsException {
+        String login = mGlobalState.getPreferencesProvider().getPrefLogin();
+        String password = mGlobalState.getPreferencesProvider().getPrefPassword();
+        if (!mGlobalState.isLogged()) {
+            BiblosClient.login(login, password);
+        }
+    }
+
+    private void doCancelReservation(Intent intent) throws InvalidCredentialsException, ServerErrorException, ParseException, IOException {
+        int reserveId = intent.getIntExtra(TAG_RESERVE_ID, -1);
+
+        doLoginIfNeed();
+
+        boolean success = BiblosClient.cancelReservationBook(mGlobalState.getAccount().getBorrowerNumber(), reserveId);
+        emitCanceled(success, reserveId);
+        doLoginAndRefresh();
+    }
+
+    private void doLoginAndRefresh() throws IOException, ParseException, InvalidCredentialsException, ServerErrorException {
+        String login = mGlobalState.getPreferencesProvider().getPrefLogin();
+        String password = mGlobalState.getPreferencesProvider().getPrefPassword();
+
+        doLoginAndRefresh(login, password);
     }
 
     private void doLoginAndRefresh(Intent intent) throws IOException, ParseException, InvalidCredentialsException, ServerErrorException {
@@ -168,6 +208,11 @@ public class BiblosService extends IntentService {
     private void emitRenewed(List<Integer> renews, List<Integer> renewed) {
         Log.d(TAG, "Book renews finish");
         EventBus.getDefault().post(new RenewedEvent(renews, renewed));
+    }
+
+    private void emitCanceled(boolean success, int reservationId) {
+        Log.d(TAG, "Canceling reservation finish");
+        EventBus.getDefault().post(new CanceledEvent(success, reservationId));
     }
 
     private void emitError(CharSequence errorMessage) {

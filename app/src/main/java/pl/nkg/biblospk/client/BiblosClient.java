@@ -23,6 +23,8 @@ public class BiblosClient {
 
     private static final URL URL_LOGIN;
     private static final URL URL_RENEW;
+    private static final URL URL_MOD;
+
     private static final String STRING_INVALID_CREDENTIALS = "<p>Podałeś nieprawidłowy login lub hasło. Spróbuj ponownie. Pamiętaj, że system rozróżnia wielkość liter.</p>";
 
     private static final String OPEN_NAME = "<span class=\"loggedinusername\">";
@@ -82,10 +84,14 @@ public class BiblosClient {
     private static final String OPEN_BOOK_RENTAL = "<span class=\"tdlabel\">Miejsce odbioru:</span>";
     private static final String CLOSE_BOOK_RENTAL = "</td>";
 
+    private static final String OPEN_BOOK_RESERVE_ID = "<input type=\"hidden\" name=\"reserve_id\" value=\"";
+    private static final String CLOSE_BOOK_RESERVE_ID = "\" />";
+
     static {
         try {
             URL_LOGIN = new URL("http://koha.biblos.pk.edu.pl/cgi-bin/koha/opac-user.pl");
             URL_RENEW = new URL("http://koha.biblos.pk.edu.pl/cgi-bin/koha/opac-renew.pl");
+            URL_MOD = new URL("http://koha.biblos.pk.edu.pl/cgi-bin/koha/opac-modrequest.pl");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
@@ -157,6 +163,24 @@ public class BiblosClient {
                 }
 
                 return list;
+            }
+        });
+    }
+
+    public static boolean cancelReservationBook(int borrowerNumber, int reservationId) throws IOException, ParseException, InvalidCredentialsException, ServerErrorException {
+        if (!WebClient.checkCookieHandlerInitialized()) {
+            throw new RuntimeException("Please init CookieHandler via WebClient.initCookieHandler()");
+        }
+
+        UrlQuery urlQuery = new UrlQuery()
+                .add("borrowernumber", Integer.toString(borrowerNumber))
+                .add("reserve_id", Integer.toString(reservationId))
+                .add("submit", "");
+
+        return WebClient.fetchPage(URL_MOD, urlQuery.toString(), new WebClient.OnWebDataReceived<Boolean>() {
+            @Override
+            public Boolean performWebData(HttpURLConnection connection, BufferedReader webData) throws IOException {
+                return connection.getResponseCode() == 200;
             }
         });
     }
@@ -293,8 +317,15 @@ public class BiblosClient {
                 try {
                     book.setQueue(Integer.parseInt(StringUtils.substringBetween(row, OPEN_BOOK_QUEUE, CLOSE_BOOK_QUEUE).trim()));
                 } catch (Exception e) {
-                    book.setBarCode(-1);
+                    book.setQueue(-1);
                     Log.e(TAG, "Invalid book queue");
+                }
+
+                try {
+                    book.setItem(Integer.parseInt(StringUtils.substringBetween(row, OPEN_BOOK_RESERVE_ID, CLOSE_BOOK_RESERVE_ID).trim()));
+                } catch (Exception e) {
+                    book.setItem(-1);
+                    Log.e(TAG, "Invalid book reserve_id");
                 }
             } else {
                 book.setQueue(0);

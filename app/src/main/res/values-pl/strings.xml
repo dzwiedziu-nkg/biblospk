@@ -92,4 +92,8 @@
     <string name="toast_prolong_no">Żadna z zaznaczonych książek nie została prolongowana</string>
     <string name="toast_prolong_not">Książka nie została prolongowana</string>
     <string name="toast_prolong_some">Nie wszystkie książki zostały prolongowane</string>
+
+    <string name="toast_cancel_do">Wysłano zlecenie rezygnacji z rezerwacji książki</string>
+    <string name="toast_cancel">Zrezygnowano z rezerwacji książki</string>
+    <string name="toast_cancel_not">Nie udało się zrezygnować z rezerwacji książki</string>
 </resources>
