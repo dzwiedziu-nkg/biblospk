@@ -21,12 +21,12 @@ import pl.nkg.biblospk.data.Book;
 public class BookListAdapter extends ArrayAdapter<Book> {
 
     private final Activity context;
-    private final Book[] values;
+    //private final Book[] values;
 
     public BookListAdapter(Activity context, Book[] objects) {
         super(context, R.layout.listitem_book_list, objects);
         this.context = context;
-        this.values = objects;
+        //this.values = objects;
     }
 
     @Override
@@ -46,26 +46,28 @@ public class BookListAdapter extends ArrayAdapter<Book> {
             rowView.setTag(viewHolder);
         }
 
-        int prolongs = values[position].getAvailableProlongs();
+        Book book = getItem(position);
+
+        int prolongs = book.getAvailableProlongs();
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        holder.mTitleTextView.setText(values[position].getTitle());
-        holder.mAuthorsTextView.setText(values[position].getAuthors());
+        holder.mTitleTextView.setText(book.getTitle());
+        holder.mAuthorsTextView.setText(book.getAuthors());
 
-        if (values[position].getCategory() == Book.CATEGORY_LEND) {
-            holder.mProlongsTextView.setText(String.format(Locale.getDefault(), "%d / %d", prolongs, values[position].getAllProlongs()));
-        } else if (values[position].getCategory() == Book.CATEGORY_BOOKED) {
-            holder.mProlongsTextView.setText(String.format(Locale.getDefault(), "#%d", values[position].getQueue()));
+        if (book.getCategory() == Book.CATEGORY_LEND) {
+            holder.mProlongsTextView.setText(String.format(Locale.getDefault(), "%d / %d", prolongs, book.getAllProlongs()));
+        } else if (book.getCategory() == Book.CATEGORY_BOOKED) {
+            holder.mProlongsTextView.setText(String.format(Locale.getDefault(), "#%d", book.getQueue()));
         } else {
-            holder.mProlongsTextView.setText(StringUtils.split(values[position].getRental())[0]);
+            holder.mProlongsTextView.setText(StringUtils.split(book.getRental())[0]);
         }
 
-        if (values[position].getCategory() == Book.CATEGORY_BOOKED) {
-            holder.mDueDateTextView.setText(Book.DUE_DATE_FORMAT_SIMPLE.format(values[position].getRequestDate()));
+        if (book.getCategory() == Book.CATEGORY_BOOKED) {
+            holder.mDueDateTextView.setText(Book.DUE_DATE_FORMAT_SIMPLE.format(book.getRequestDate()));
         } else {
-            holder.mDueDateTextView.setText(Book.DUE_DATE_FORMAT_SIMPLE.format(values[position].getDueDate()));
+            holder.mDueDateTextView.setText(Book.DUE_DATE_FORMAT_SIMPLE.format(book.getDueDate()));
         }
 
-        int priority = values[position].checkBookPriority(new Date());
+        int priority = book.checkBookPriority(new Date());
         int color;
         switch (priority) {
             case 0:
