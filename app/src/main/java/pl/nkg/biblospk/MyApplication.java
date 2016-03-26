@@ -46,6 +46,10 @@ public class MyApplication extends Application {
         AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(this, AlarmReceiver.class), 0);
 
+        AlarmReceiver receiver = new AlarmReceiver();
+        registerReceiver(receiver, new IntentFilter(Intent.ACTION_SCREEN_ON));
+        registerReceiver(receiver, new IntentFilter(Intent.ACTION_USER_PRESENT));
+
         mgr.setRepeating(AlarmManager.ELAPSED_REALTIME,
                 SystemClock.elapsedRealtime() + 60000,
                 PERIOD,
