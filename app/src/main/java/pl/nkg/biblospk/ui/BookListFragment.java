@@ -35,9 +35,7 @@ public class BookListFragment extends ListFragment {
         setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (mListener != null) {
-                    mListener.onRefreshBookList(true);
-                }
+                emitRefreshBookList();
             }
         });
 
@@ -103,6 +101,12 @@ public class BookListFragment extends ListFragment {
 
     public SwipeRefreshLayout getSwipeRefreshLayout() {
         return mSwipeRefreshLayout;
+    }
+
+    private void emitRefreshBookList() {
+        if (mListener != null) {
+            mListener.onRefreshBookList(true);
+        }
     }
 
     private class ListFragmentSwipeRefreshLayout extends SwipeRefreshLayout {
