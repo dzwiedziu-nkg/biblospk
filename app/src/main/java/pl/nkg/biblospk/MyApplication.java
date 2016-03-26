@@ -6,6 +6,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.SystemClock;
 
 import pl.nkg.biblospk.client.WebClient;
@@ -18,6 +19,7 @@ public class MyApplication extends Application {
     private static final int PERIOD = 30 * 60 * 1000;
 
     private GlobalState mGlobalState;
+    private boolean mAlarmRegistered = false;
 
     @Override
     public void onCreate() {
@@ -35,6 +37,12 @@ public class MyApplication extends Application {
     }
 
     public void registerAlarm() {
+        if (mAlarmRegistered) {
+            return;
+        }
+
+        mAlarmRegistered = true;
+
         AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(this, AlarmReceiver.class), 0);
 
