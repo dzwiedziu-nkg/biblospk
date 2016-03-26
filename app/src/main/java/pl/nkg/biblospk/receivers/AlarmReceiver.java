@@ -10,6 +10,6 @@ import pl.nkg.biblospk.services.BiblosService;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        BiblosService.startService(context, Utils.checkWiFi(context), true);
+        BiblosService.startServiceRefresh(context, Utils.checkWiFi(context), true);
     }
 }

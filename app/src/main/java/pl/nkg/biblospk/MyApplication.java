@@ -8,8 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.SystemClock;
+import android.widget.Toast;
 
+import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.client.WebClient;
+import pl.nkg.biblospk.events.RenewedEvent;
 import pl.nkg.biblospk.receivers.AlarmReceiver;
 import pl.nkg.biblospk.services.BiblosService;
 import pl.nkg.biblospk.services.NotifyService;
@@ -27,9 +30,11 @@ public class MyApplication extends Application {
         WebClient.initCookieHandler();
         mGlobalState = new GlobalState(new PreferencesProvider(this));
 
-        BiblosService.startService(this, false, false);
+        BiblosService.startServiceRefresh(this, false, false);
         NotifyService.startService(this);
         registerAlarm();
+
+        EventBus.getDefault().register(this);
     }
 
     public GlobalState getGlobalState() {
@@ -54,5 +59,19 @@ public class MyApplication extends Application {
                 SystemClock.elapsedRealtime() + 60000,
                 PERIOD,
                 pi);
+    }
+
+    public void onEventMainThread(RenewedEvent renewedEvent) {
+        int textId = 0;
+
+        if (renewedEvent.isAllRenewed()) {
+            textId = renewedEvent.getRenewedList().size() == 1 ? R.string.toast_prolong : R.string.toast_prolong_all;
+        } else if (renewedEvent.isNoneRenewed()) {
+            textId = renewedEvent.getRenewsList().size() == 1 ? R.string.toast_prolong_not : R.string.toast_prolong_no;
+        } else {
+            textId = R.string.toast_prolong_some;
+        }
+
+        Toast.makeText(this, textId, Toast.LENGTH_LONG).show();
     }
 }

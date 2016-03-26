@@ -81,4 +81,11 @@
 
     <string name="button_prolong">Prolong</string>
     <string name="button_cancel_reservation">Cancel reservation</string>
+
+    <string name="toast_prolong_do">Prolong request was sent</string>
+    <string name="toast_prolong">Book was prolong successful</string>
+    <string name="toast_prolong_all">All selected book was prolong</string>
+    <string name="toast_prolong_no">None of selected books was prolong</string>
+    <string name="toast_prolong_not">Book wasn\'t prolong</string>
+    <string name="toast_prolong_some">Some books was prolong and some books not</string>
 </resources>

@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.util.Arrays;
+
+import pl.nkg.biblospk.R;
 import pl.nkg.biblospk.data.Book;
+import pl.nkg.biblospk.services.BiblosService;
 
 public class DetailsActivity extends AbstractNoEventActivity implements DetailsFragment.OnFragmentInteractionListener {
 
@@ -58,7 +62,9 @@ public class DetailsActivity extends AbstractNoEventActivity implements DetailsF
 
     @Override
     public void onProlong() {
-        Toast.makeText(this, "Not implemented yet", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.toast_prolong_do, Toast.LENGTH_SHORT).show();
+        BiblosService.startServiceRenew(this, Arrays.asList(mBook.getItem()));
+        finish();
     }
 
     @Override

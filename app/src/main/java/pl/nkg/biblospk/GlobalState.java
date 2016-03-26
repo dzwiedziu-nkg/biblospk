@@ -14,6 +14,7 @@ public class GlobalState {
     private Account mAccount;
     private ServiceStatus mServiceStatus;
     private PreferencesProvider mPreferencesProvider;
+    private boolean mLogged = false;
 
     public GlobalState(PreferencesProvider preferencesProvider) {
         mServiceStatus = new ServiceStatus();
@@ -48,6 +49,7 @@ public class GlobalState {
         if (mAccount != null) {
             mPreferencesProvider.storeAccountProperties(mAccount);
             mAccount.storeBooksList();
+            mLogged = true;
         }
         mPreferencesProvider.setLastChecking(System.currentTimeMillis());
         mPreferencesProvider.setLastChecked(System.currentTimeMillis());
@@ -99,5 +101,9 @@ public class GlobalState {
             mAccount.wipeBookList();
         }
         mAccount = null;
+    }
+
+    public boolean isLogged() {
+        return mLogged;
     }
 }

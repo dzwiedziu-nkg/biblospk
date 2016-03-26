@@ -2,9 +2,6 @@ package pl.nkg.biblospk.ui;
 
 import android.os.Bundle;
 
-import de.greenrobot.event.EventBus;
-import pl.nkg.biblospk.GlobalState;
-import pl.nkg.biblospk.MyApplication;
 import pl.nkg.biblospk.PreferencesProvider;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
 import pl.nkg.biblospk.services.BiblosService;
@@ -31,7 +28,7 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
 
     @Override
     public void onLoginClick(String login, String password) {
-        BiblosService.startService(this, true, true, login, password);
+        BiblosService.startServiceRefresh(this, true, true, login, password);
     }
 
     @Override

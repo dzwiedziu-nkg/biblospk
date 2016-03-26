@@ -110,14 +110,15 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     @Override
     protected void onStart() {
         super.onStart();
+
         if (Utils.checkWiFi(this)) {
-            BiblosService.startService(this, true, true);
+            BiblosService.startServiceRefresh(this, true, true);
         }
     }
 
     @Override
     public void onRefreshBookList(boolean force) {
-        BiblosService.startService(this, force, true);
+        BiblosService.startServiceRefresh(this, force, true);
     }
 
     @Override
@@ -143,7 +144,9 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        refreshList(false);
+
+        getCurrentPageFragment().setRefreshing(mGlobalState.getServiceStatus().isRunning());
+
         if (!mGlobalState.isValidCredentials() && !mIsReloaded) {
             showLoginActivity();
         }

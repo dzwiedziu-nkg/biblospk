@@ -4,11 +4,15 @@ import org.apache.commons.lang3.StringUtils;
 
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.data.Book;
@@ -18,6 +22,7 @@ public class BiblosClient {
     private static final String TAG = BiblosClient.class.getSimpleName();
 
     private static final URL URL_LOGIN;
+    private static final URL URL_RENEW;
     private static final String STRING_INVALID_CREDENTIALS = "<p>Podałeś nieprawidłowy login lub hasło. Spróbuj ponownie. Pamiętaj, że system rozróżnia wielkość liter.</p>";
 
     private static final String OPEN_NAME = "<span class=\"loggedinusername\">";
@@ -80,12 +85,13 @@ public class BiblosClient {
     static {
         try {
             URL_LOGIN = new URL("http://koha.biblos.pk.edu.pl/cgi-bin/koha/opac-user.pl");
+            URL_RENEW = new URL("http://koha.biblos.pk.edu.pl/cgi-bin/koha/opac-renew.pl");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static Account loginAndFetchAccount(String login, String password) throws IOException, ParseException, InvalidCredentialsException, ServerErrorException {
+    public static String login(String login, String password) throws ServerErrorException, IOException, ParseException, InvalidCredentialsException {
         if (!WebClient.checkCookieHandlerInitialized()) {
             throw new RuntimeException("Please init CookieHandler via WebClient.initCookieHandler()");
         }
@@ -106,9 +112,53 @@ public class BiblosClient {
             throw new InvalidCredentialsException();
         }
 
-        Account account = parseAccount(content);
+        return content;
+    }
+
+    public static Account loginAndFetchAccount(String login, String password) throws IOException, ParseException, InvalidCredentialsException, ServerErrorException {
+        Account account = parseAccount(login(login, password));
         account.setCardNumber(login);
         return account;
+    }
+
+    public static List<Integer> prolongBook(int borrowerNumber, int book) throws IOException, ParseException, InvalidCredentialsException, ServerErrorException {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(book);
+        return prolongBooks(borrowerNumber, list);
+    }
+
+    public static List<Integer> prolongBooks(int borrowerNumber, List<Integer> books) throws IOException, ParseException, InvalidCredentialsException, ServerErrorException {
+        if (!WebClient.checkCookieHandlerInitialized()) {
+            throw new RuntimeException("Please init CookieHandler via WebClient.initCookieHandler()");
+        }
+
+        UrlQuery urlQuery = new UrlQuery()
+                .add("borrowernumber", Integer.toString(borrowerNumber))
+                .add("from", "opac_user");
+
+        for (int book : books) {
+            urlQuery.add("item", Integer.toString(book));
+        }
+
+        return WebClient.fetchPage(URL_RENEW, urlQuery.toString(), new WebClient.OnWebDataReceived<List<Integer>>() {
+            @Override
+            public List<Integer> performWebData(HttpURLConnection connection, BufferedReader webData) throws IOException {
+                if (connection.getResponseCode() != 200) {
+                    return null;
+                }
+
+                String location = connection.getURL().toString();
+                String renewed = StringUtils.substringAfter(location, "renewed=");
+                String[] renews = renewed.split(":");
+
+                List<Integer> list = new ArrayList<>();
+                for (String r : renews) {
+                    list.add(Integer.parseInt(r));
+                }
+
+                return list;
+            }
+        });
     }
 
     public static Account parseAccount(String webPage) {

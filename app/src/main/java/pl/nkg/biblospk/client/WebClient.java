@@ -2,8 +2,6 @@ package pl.nkg.biblospk.client;
 
 import org.apache.commons.io.IOUtils;
 
-import android.content.ContentValues;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -57,7 +55,7 @@ public class WebClient {
             InputStream inputStream = connection.getInputStream();
 
             BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
-            T t = onWebDataReceived.performWebData(connection.getResponseCode(), connection.getResponseMessage(), rd);
+            T t = onWebDataReceived.performWebData(connection, rd);
             rd.close();
             return t;
         } finally {
@@ -66,7 +64,7 @@ public class WebClient {
     }
 
     public interface OnWebDataReceived<T> {
-        T performWebData(int responseCode, String responseMessage, BufferedReader webData) throws IOException;
+        T performWebData(HttpURLConnection connection, BufferedReader webData) throws IOException;
     }
 
     public static class FetchFullPage implements OnWebDataReceived<FullPageResponse> {
@@ -80,8 +78,8 @@ public class WebClient {
         }
 
         @Override
-        public FullPageResponse performWebData(int responseCode, String responseMessage, BufferedReader webData) throws IOException {
-            return new FullPageResponse(responseCode, responseMessage, IOUtils.toString(webData));
+        public FullPageResponse performWebData(HttpURLConnection connection, BufferedReader webData) throws IOException {
+            return new FullPageResponse(connection.getResponseCode(), connection.getResponseMessage(), IOUtils.toString(webData));
         }
     }
 

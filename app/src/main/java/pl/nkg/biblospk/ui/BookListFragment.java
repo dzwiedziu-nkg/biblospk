@@ -76,7 +76,7 @@ public class BookListFragment extends ListFragment {
         mBooks = books;
         if (getActivity() != null) {
             setListAdapter(new BookListAdapter(getActivity(), books));
-            setRefreshing(false);
+            //setRefreshing(false);
         }
     }
 

@@ -85,4 +85,11 @@
 
     <string name="button_prolong">Prolonguj</string>
     <string name="button_cancel_reservation">Anuluj rezerwację</string>
+
+    <string name="toast_prolong_do">Wysłano zlecenie prolongaty książki</string>
+    <string name="toast_prolong">Książka została prolongowana</string>
+    <string name="toast_prolong_all">Wszystkie zaznaczone książki zostały prolongowane</string>
+    <string name="toast_prolong_no">Żadna z zaznaczonych książek nie została prolongowana</string>
+    <string name="toast_prolong_not">Książka nie została prolongowana</string>
+    <string name="toast_prolong_some">Nie wszystkie książki zostały prolongowane</string>
 </resources>
