@@ -3,6 +3,7 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_main">BiblosPK</string>
     <string name="title_activity_main_with_cash">Długi: %1$.02fzł</string>
+    <string name="title_activity_details">Szczegóły</string>
 
     <string name="title_cut_library">Biblioteka PK</string>
     <string name="hint_login">Numer karty</string>
@@ -60,4 +61,26 @@
         <item quantity="few">%1$d gotowe do odbioru!</item>
         <item quantity="many">%1$d gotowych do odbioru!</item>
     </plurals>
+
+    <string name="label_title">Tytuł</string>
+    <string name="label_author">Autor</string>
+    <string name="label_signature">Sygnatura</string>
+    <string name="label_due_date">Data zwrotu</string>
+    <string name="label_expire_date">Data wygaśnięcia</string>
+    <string name="label_request_date">Zamówiono</string>
+    <string name="label_rental">Miejsce odbioru</string>
+    <string name="label_queue">W kolejce oczekujących</string>
+    <string name="label_prolongs">Możliwe prolongaty</string>
+    <string name="label_status">Status</string>
+
+    <string name="value_prolongs">%1$d z %2$d</string>
+
+    <string-array name="array_status">
+        <item>Loan</item>
+        <item>Ready to get</item>
+        <item>Reserved</item>
+    </string-array>
+
+    <string name="button_prolong">Prolonguj</string>
+    <string name="button_cancel_reservation">Anuluj rezerwację</string>
 </resources>

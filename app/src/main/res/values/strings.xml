@@ -3,6 +3,7 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_main">BiblosPK</string>
     <string name="title_activity_main_with_cash">Debts: %1$.02f PLN</string>
+    <string name="title_activity_details">Details</string>
 
     <string name="title_cut_library">CUT Library</string>
     <string name="hint_login">Card number</string>
@@ -56,4 +57,26 @@
         <item quantity="one">%1$d book ready to lend!</item>
         <item quantity="other">%1$d books ready to lend!</item>
     </plurals>
+
+    <string name="label_title">Title</string>
+    <string name="label_author">Author</string>
+    <string name="label_signature">Signature</string>
+    <string name="label_due_date">Due date</string>
+    <string name="label_expire_date">Expire date</string>
+    <string name="label_request_date">Request date</string>
+    <string name="label_rental">Rental office</string>
+    <string name="label_queue">In queue</string>
+    <string name="label_prolongs">Available prolongs</string>
+    <string name="label_status">Status</string>
+
+    <string name="value_prolongs">%1$d of %2$d</string>
+
+    <string-array name="array_status">
+        <item>Loan</item>
+        <item>Ready to get</item>
+        <item>Reserved</item>
+    </string-array>
+
+    <string name="button_prolong">Prolong</string>
+    <string name="button_cancel_reservation">Cancel reservation</string>
 </resources>

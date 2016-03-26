@@ -4,10 +4,6 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
-import org.apache.commons.lang3.ArrayUtils;
-
-import android.util.SparseArray;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -127,6 +123,15 @@ public class Account {
 
     public int countOfReady() {
         return getStats(Book.CATEGORY_WAITING);
+    }
+
+    public Book getById(long bookId) {
+        for (Book book : mBookList) {
+            if (book.getId().equals(bookId)) {
+                return book;
+            }
+        }
+        return null;
     }
 
     static class BookComparator implements Comparator<Book> {

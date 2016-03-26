@@ -103,6 +103,19 @@ public class BookListFragment extends ListFragment {
         return mSwipeRefreshLayout;
     }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Book book = (Book) getListAdapter().getItem(position);
+        emitListItemClick(book);
+    }
+
+    private void emitListItemClick(Book book) {
+        if (mListener != null) {
+            mListener.onListItemClick(book);
+        }
+    }
+
     private void emitRefreshBookList() {
         if (mListener != null) {
             mListener.onRefreshBookList(true);
@@ -134,5 +147,7 @@ public class BookListFragment extends ListFragment {
 
     public interface OnFragmentInteractionListener {
         void onRefreshBookList(boolean force);
+
+        void onListItemClick(Book book);
     }
 }

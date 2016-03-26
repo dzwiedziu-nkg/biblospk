@@ -120,6 +120,11 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         BiblosService.startService(this, force, true);
     }
 
+    @Override
+    public void onListItemClick(Book book) {
+        DetailsActivity.startActivity(this, book);
+    }
+
     private void showLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivityForResult(intent, RESULT_LOGIN);
