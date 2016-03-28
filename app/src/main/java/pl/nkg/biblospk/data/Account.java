@@ -161,4 +161,21 @@ public class Account {
             return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
         }
     }
+
+    public boolean equalBookState(Account account) {
+        if (this == account) return true;
+        if (account == null) return false;
+
+        if (!Arrays.equals(mStats, account.mStats)) return false;
+        if (Float.compare(account.mDebts, mDebts) != 0) return false;
+        if (mBookList.size() != account.mBookList.size()) return false;
+
+        for (int i = 0; i < mBookList.size(); i++) {
+            if (!mBookList.get(i).equalValues(account.mBookList.get(i))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

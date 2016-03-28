@@ -15,6 +15,7 @@ public class GlobalState {
     private ServiceStatus mServiceStatus;
     private PreferencesProvider mPreferencesProvider;
     private boolean mLogged = false;
+    private long lastChangedTime = System.currentTimeMillis();
 
     public GlobalState(PreferencesProvider preferencesProvider) {
         mServiceStatus = new ServiceStatus();
@@ -42,7 +43,15 @@ public class GlobalState {
         return mPreferencesProvider;
     }
 
+    public long getLastChangedTime() {
+        return lastChangedTime;
+    }
+
     public void onEventMainThread(AccountDownloadedEvent event) {
+        if (event.getAccount() != null && !event.getAccount().equalBookState(mAccount)) {
+            lastChangedTime = System.currentTimeMillis();
+        }
+
         mAccount = event.getAccount();
         mServiceStatus.setError(null);
         mServiceStatus.turnOff();

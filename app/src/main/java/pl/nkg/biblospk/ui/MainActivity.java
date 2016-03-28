@@ -64,7 +64,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
-                refreshList(true);
+                refreshList();
                 getBookListFragment(tab.getPosition()).setRefreshing(mGlobalState.getServiceStatus().isRunning());
             }
 
@@ -75,7 +75,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                refreshList(false);
+                refreshList();
                 getBookListFragment(tab.getPosition()).setRefreshing(mGlobalState.getServiceStatus().isRunning());
             }
         });
@@ -145,7 +145,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         super.onPostResume();
 
         if (mFirstResume) {
-            refreshList(false);
+            refreshList();
             mFirstResume = false;
         }
 
@@ -181,9 +181,9 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         return null;
     }
 
-    private void refreshList(boolean force) {
+    private void refreshList() {
         if (mGlobalState.isBookListDownloaded()) {
-            getCurrentPageFragment().refreshList(Account.getSortedBookArray(getBooksByTab(), new Date()), true);
+            getCurrentPageFragment().refreshList(Account.getSortedBookArray(getBooksByTab(), new Date()), mGlobalState.getLastChangedTime());
             double due = mGlobalState.getAccount().getDebts();
             String title = getResources().getString(R.string.title_activity_main_with_cash, due);
             ActionBar actionBar = getSupportActionBar();
@@ -209,7 +209,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
             if (event.getServiceStatus().getError() != null) {
                 Toast.makeText(this, event.getServiceStatus().getError(), Toast.LENGTH_LONG).show();
             } else {
-                refreshList(true);
+                refreshList();
             }
         }
     }

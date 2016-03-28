@@ -121,6 +121,7 @@ public class BiblosService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         int action = intent.getIntExtra(TAG_ACTION, ACTION_REFRESH);
+        mGlobalState.getServiceStatus().turnOn();
 
         try {
             switch (action) {

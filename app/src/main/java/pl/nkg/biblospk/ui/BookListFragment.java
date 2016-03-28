@@ -2,6 +2,7 @@ package pl.nkg.biblospk.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,6 +19,7 @@ public class BookListFragment extends ListFragment {
     private OnFragmentInteractionListener mListener;
     private Boolean mRefreshing;
     private Book[] mBooks;
+    private long mLastTimeChanged = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +42,7 @@ public class BookListFragment extends ListFragment {
         });
 
         if (mBooks != null) {
-            refreshList(mBooks, true);
+            refreshList(mBooks, System.currentTimeMillis());
         }
 
         if (mRefreshing != null) {
@@ -67,15 +69,30 @@ public class BookListFragment extends ListFragment {
         mListener = null;
     }
 
-    public void refreshList(Book[] books, boolean force) {
+    public void refreshList(Book[] books, long lastTimeChanged) {
 
-        if (mBooks != null && !force) {
+        if (getListAdapter() != null && mLastTimeChanged >= lastTimeChanged) {
             return;
         }
 
         mBooks = books;
         if (getActivity() != null) {
             setListAdapter(new BookListAdapter(getActivity(), books));
+            mLastTimeChanged = lastTimeChanged;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong("LAST_TIME_CHANGED", mLastTimeChanged);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            mLastTimeChanged = savedInstanceState.getLong("LAST_TIME_CHANGED");
         }
     }
 

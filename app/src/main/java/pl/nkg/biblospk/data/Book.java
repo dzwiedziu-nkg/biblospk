@@ -190,4 +190,27 @@ public class Book extends Model {
 
         return 5;
     }
+
+    public boolean equalValues(Book book) {
+        if (this == book) return true;
+        if (book == null) return false;
+
+        if (mCategory != book.mCategory) return false;
+        if (mBiblioNumber != book.mBiblioNumber) return false;
+        if (mItem != book.mItem) return false;
+        if (mBarCode != book.mBarCode) return false;
+        if (mAllProlongs != book.mAllProlongs) return false;
+        if (mAvailableProlongs != book.mAvailableProlongs) return false;
+        if (mQueue != book.mQueue) return false;
+        if (mAuthors != null ? !mAuthors.equals(book.mAuthors) : book.mAuthors != null)
+            return false;
+        if (mTitle != null ? !mTitle.equals(book.mTitle) : book.mTitle != null) return false;
+        if (mSignature != null ? !mSignature.equals(book.mSignature) : book.mSignature != null)
+            return false;
+        if (mRequestDate != null ? !mRequestDate.equals(book.mRequestDate) : book.mRequestDate != null)
+            return false;
+        if (mDueDate != null ? !mDueDate.equals(book.mDueDate) : book.mDueDate != null)
+            return false;
+        return mRental != null ? mRental.equals(book.mRental) : book.mRental == null;
+    }
 }

@@ -20,13 +20,13 @@ public class ServiceStatus {
         return mTimeChanged;
     }
 
-    public void turnOn() {
+    public synchronized void turnOn() {
         mRunning = true;
         updateTimeChanged();
         emitStatusUpdatedEvent();
     }
 
-    public void turnOff() {
+    public synchronized void turnOff() {
         mRunning = false;
         updateTimeChanged();
         emitStatusUpdatedEvent();
@@ -37,7 +37,7 @@ public class ServiceStatus {
         updateTimeChanged();
     }
 
-    private void updateTimeChanged() {
+    private synchronized void updateTimeChanged() {
         mTimeChanged = System.currentTimeMillis();
     }
 
