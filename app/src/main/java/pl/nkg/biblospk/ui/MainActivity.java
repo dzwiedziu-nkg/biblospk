@@ -61,24 +61,22 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
-            private boolean mRefreshing;
-
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
                 refreshList(true);
-                getBookListFragment(tab.getPosition()).setRefreshing(mRefreshing);
+                getBookListFragment(tab.getPosition()).setRefreshing(mGlobalState.getServiceStatus().isRunning());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                mRefreshing = getBookListFragment(tab.getPosition()).isRefreshing();
                 getBookListFragment(tab.getPosition()).setRefreshing(false);
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 refreshList(false);
+                getBookListFragment(tab.getPosition()).setRefreshing(mGlobalState.getServiceStatus().isRunning());
             }
         });
     }
