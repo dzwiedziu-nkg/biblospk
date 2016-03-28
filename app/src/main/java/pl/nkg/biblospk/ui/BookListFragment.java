@@ -39,6 +39,14 @@ public class BookListFragment extends ListFragment {
             }
         });
 
+        if (mBooks != null) {
+            refreshList(mBooks, true);
+        }
+
+        if (mRefreshing != null) {
+            setRefreshing(mRefreshing);
+        }
+
         return mSwipeRefreshLayout;
     }
 
@@ -50,14 +58,6 @@ public class BookListFragment extends ListFragment {
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }
-
-        if (mRefreshing != null) {
-            setRefreshing(mRefreshing);
-        }
-
-        if (mBooks != null) {
-            refreshList(mBooks, true);
         }
     }
 
@@ -76,7 +76,6 @@ public class BookListFragment extends ListFragment {
         mBooks = books;
         if (getActivity() != null) {
             setListAdapter(new BookListAdapter(getActivity(), books));
-            //setRefreshing(false);
         }
     }
 
@@ -88,10 +87,18 @@ public class BookListFragment extends ListFragment {
         return mSwipeRefreshLayout.isRefreshing();
     }
 
-    public void setRefreshing(boolean refreshing) {
+    public void setRefreshing(final boolean refreshing) {
         mRefreshing = refreshing;
         if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(refreshing);
+
+            //workaround of the bug: https://code.google.com/p/android/issues/detail?id=77712#c10
+            mSwipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(refreshing);
+                }
+            });
+
         }
     }
 

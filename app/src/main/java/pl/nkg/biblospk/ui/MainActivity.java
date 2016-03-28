@@ -149,9 +149,9 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         if (mFirstResume) {
             refreshList(false);
             mFirstResume = false;
-        } else {
-            getCurrentPageFragment().setRefreshing(mGlobalState.getServiceStatus().isRunning());
         }
+
+        getCurrentPageFragment().setRefreshing(mGlobalState.getServiceStatus().isRunning());
 
         if (!mGlobalState.isValidCredentials() && !mIsReloaded) {
             showLoginActivity();
