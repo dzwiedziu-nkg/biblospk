@@ -9,6 +9,10 @@
     <string name="hint_login">Card number</string>
     <string name="hint_password">Password</string>
 
+    <string name="tab_lend_0">Lends</string>
+    <string name="tab_waiting_0">Waiting</string>
+    <string name="tab_booked_0">Booked</string>
+
     <string name="tab_lend">Lends (%1$d)</string>
     <string name="tab_waiting">Waiting (%1$d)</string>
     <string name="tab_booked">Booked (%1$d)</string>

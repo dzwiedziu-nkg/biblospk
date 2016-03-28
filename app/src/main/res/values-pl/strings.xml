@@ -9,6 +9,10 @@
     <string name="hint_login">Numer karty</string>
     <string name="hint_password">Hasło</string>
 
+    <string name="tab_lend_0">Wypożyczone</string>
+    <string name="tab_waiting_0">Do odbioru</string>
+    <string name="tab_booked_0">Zamówione</string>
+
     <string name="tab_lend">Wypożyczone (%1$d)</string>
     <string name="tab_waiting">Do odbioru (%1$d)</string>
     <string name="tab_booked">Zamówione (%1$d)</string>

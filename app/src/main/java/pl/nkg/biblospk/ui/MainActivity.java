@@ -35,13 +35,14 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     private TabLayout.Tab mLendTab;
     private TabLayout.Tab mWaitingTab;
     private TabLayout.Tab mBookedTab;
-
+    private boolean mFirstResume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        mFirstResume = true;
 
         mLendTab = mTabLayout.newTab();
         mWaitingTab = mTabLayout.newTab();
@@ -145,7 +146,12 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     protected void onPostResume() {
         super.onPostResume();
 
-        getCurrentPageFragment().setRefreshing(mGlobalState.getServiceStatus().isRunning());
+        if (mFirstResume) {
+            refreshList(false);
+            mFirstResume = false;
+        } else {
+            getCurrentPageFragment().setRefreshing(mGlobalState.getServiceStatus().isRunning());
+        }
 
         if (!mGlobalState.isValidCredentials() && !mIsReloaded) {
             showLoginActivity();
@@ -190,6 +196,10 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
             mLendTab.setText(getResources().getString(R.string.tab_lend, mGlobalState.getAccount().getStats(0)));
             mWaitingTab.setText(getResources().getString(R.string.tab_waiting, mGlobalState.getAccount().getStats(1)));
             mBookedTab.setText(getResources().getString(R.string.tab_booked, mGlobalState.getAccount().getStats(2)));
+        } else {
+            mLendTab.setText(getText(R.string.tab_lend_0));
+            mWaitingTab.setText(getText(R.string.tab_waiting_0));
+            mBookedTab.setText(getText(R.string.tab_booked_0));
         }
         onRefreshBookList(false);
     }
