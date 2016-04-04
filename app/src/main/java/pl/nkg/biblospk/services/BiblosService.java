@@ -65,7 +65,7 @@ public class BiblosService extends IntentService {
             return;
         }
 
-        if (!force && (StringUtils.isEmpty(login) || StringUtils.isEmpty(password))) {
+        if (StringUtils.isEmpty(login) || StringUtils.isEmpty(password)) {
             return;
         }
 
