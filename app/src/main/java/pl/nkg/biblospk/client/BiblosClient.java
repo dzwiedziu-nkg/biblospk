@@ -64,6 +64,7 @@ public class BiblosClient {
     private static final String CLOSE_BOOK_RENEWALS = " prolongat)</span>";
 
     private static final String STRING_CANT_PROLONG = "Brak możliwości prolongaty";
+    private static final String STRING_RESERVED = "Zarezerwowane";
 
     private static final String OPEN_RESERVED = "<!-- RESERVES TABLE ROWS -->";
     private static final String CLOSE_RESERVED = "</table>";
@@ -296,7 +297,7 @@ public class BiblosClient {
             }
 
             try {
-                if (row.contains(STRING_CANT_PROLONG)) {
+                if (row.contains(STRING_CANT_PROLONG) || row.contains(STRING_RESERVED)) {
                     book.setAllProlongs(5);
                     book.setAvailableProlongs(0);
                     book.setItem(-1);
