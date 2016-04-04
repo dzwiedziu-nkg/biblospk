@@ -11,6 +11,8 @@ import pl.nkg.biblospk.events.ErrorEvent;
 import pl.nkg.biblospk.services.ServiceStatus;
 
 public class GlobalState {
+    public static final long NEED_REFRESH_WIFI = 30 * 60 * 1000;
+
     private Account mAccount;
     private ServiceStatus mServiceStatus;
     private PreferencesProvider mPreferencesProvider;
@@ -76,10 +78,11 @@ public class GlobalState {
 
     /**
      * Book list must be download because is too old.
+     * @param hiPriority true - on WiFi connection
      * @return true - must be, false - not
      */
-    public boolean isBookListTooOld() {
-        return DateUtils.isSameDay(new Date(), new Date(mPreferencesProvider.getLastChecked()));
+    public boolean isBookListTooOld(boolean hiPriority) {
+        return !DateUtils.isSameDay(new Date(), new Date(mPreferencesProvider.getLastChecked())) || (hiPriority && mPreferencesProvider.getLastChecked() + NEED_REFRESH_WIFI < System.currentTimeMillis());
     }
 
     /**
@@ -94,8 +97,8 @@ public class GlobalState {
      * Book list must be download because never downloaded or is too old.
      * @return true - must be, false - not
      */
-    public boolean isNeedToUpdate() {
-        return !isBookListDownloaded() || isBookListTooOld();
+    public boolean isNeedToUpdate(boolean hiPriority) {
+        return !isBookListDownloaded() || isBookListTooOld(hiPriority);
     }
 
     /**

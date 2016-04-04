@@ -18,7 +18,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.nkg.biblospk.R;
-import pl.nkg.biblospk.Utils;
 import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.data.Book;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
@@ -112,9 +111,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     protected void onStart() {
         super.onStart();
 
-        if (Utils.checkWiFi(this)) {
-            BiblosService.startServiceRefresh(this, true, true);
-        }
+        BiblosService.startServiceRefresh(this, false, true);
     }
 
     @Override

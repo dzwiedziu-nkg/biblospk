@@ -18,6 +18,7 @@ import pl.nkg.biblospk.GlobalState;
 import pl.nkg.biblospk.MyApplication;
 import pl.nkg.biblospk.PreferencesProvider;
 import pl.nkg.biblospk.R;
+import pl.nkg.biblospk.Utils;
 import pl.nkg.biblospk.client.BiblosClient;
 import pl.nkg.biblospk.client.InvalidCredentialsException;
 import pl.nkg.biblospk.client.ServerErrorException;
@@ -62,7 +63,7 @@ public class BiblosService extends IntentService {
             return;
         }
 
-        if (!force && globalState.isNeedToUpdate()) {
+        if (!force && !globalState.isNeedToUpdate(Utils.checkWiFi(context))) {
             return;
         }
 
