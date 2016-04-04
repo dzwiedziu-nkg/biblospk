@@ -6,10 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Date;
-
 import pl.nkg.biblospk.data.Account;
 
 public class PreferencesProvider {
@@ -86,12 +82,18 @@ public class PreferencesProvider {
         return true;
     }
 
-    public void cleanAccountPropertiesAndCredentials() {
+    public void cleanAccountPropertiesAndCredentials(boolean loginToo) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
+
         for (String key : PREFS_ACCOUNT) {
             editor.remove(key);
         }
-        editor.remove(PREF_LOGIN);
+
+
+        if (loginToo) {
+            editor.remove(PREF_LOGIN);
+        }
+
         editor.remove(PREF_PASSWORD);
         apply(editor);
     }

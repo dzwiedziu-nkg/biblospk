@@ -104,8 +104,8 @@ public class GlobalState {
         return mPreferencesProvider.containsLoginAndPassword();
     }
 
-    public void logout() {
-        mPreferencesProvider.cleanAccountPropertiesAndCredentials();
+    public void logout(boolean full) {
+        mPreferencesProvider.cleanAccountPropertiesAndCredentials(full);
         if (mAccount != null) {
             mAccount.wipeBookList();
         }

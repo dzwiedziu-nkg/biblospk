@@ -26,6 +26,7 @@ import pl.nkg.biblospk.events.AccountDownloadedEvent;
 import pl.nkg.biblospk.events.CanceledEvent;
 import pl.nkg.biblospk.events.ErrorEvent;
 import pl.nkg.biblospk.events.RenewedEvent;
+import pl.nkg.biblospk.events.WipeDataEvent;
 
 public class BiblosService extends IntentService {
 
@@ -142,6 +143,7 @@ public class BiblosService extends IntentService {
         } catch (ParseException e) {
             emitError(getText(R.string.error_parse));
         } catch (InvalidCredentialsException e) {
+            emitWipeData();
             emitError(getText(R.string.error_invalid_credentials));
         } catch (ServerErrorException e) {
             emitError(getText(R.string.error_server));
@@ -219,5 +221,10 @@ public class BiblosService extends IntentService {
     private void emitError(CharSequence errorMessage) {
         Log.d(TAG, "Book list download error: " + errorMessage);
         EventBus.getDefault().post(new ErrorEvent(errorMessage));
+    }
+
+    private void emitWipeData() {
+        Log.d(TAG, "Wipe data");
+        EventBus.getDefault().post(new WipeDataEvent());
     }
 }

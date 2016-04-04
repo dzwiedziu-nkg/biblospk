@@ -22,6 +22,7 @@ import pl.nkg.biblospk.Utils;
 import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.data.Book;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
+import pl.nkg.biblospk.events.WipeDataEvent;
 import pl.nkg.biblospk.services.BiblosService;
 
 public class MainActivity extends AbstractActivity implements BookListFragment.OnFragmentInteractionListener {
@@ -36,6 +37,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     private TabLayout.Tab mWaitingTab;
     private TabLayout.Tab mBookedTab;
     private boolean mFirstResume;
+    private boolean mIsResumed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
 
         switch (id) {
             case R.id.action_logout:
-                mGlobalState.logout();
+                mGlobalState.logout(true);
                 showLoginActivity();
                 return true;
 
@@ -154,6 +156,14 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         if (!mGlobalState.isValidCredentials() && !mIsReloaded) {
             showLoginActivity();
         }
+
+        mIsResumed = true;
+    }
+
+    @Override
+    protected void onPause() {
+        mIsResumed = false;
+        super.onPause();
     }
 
     private BookListFragment getCurrentPageFragment() {
@@ -211,6 +221,14 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
             } else {
                 refreshList();
             }
+        }
+    }
+
+    public void onEventMainThread(WipeDataEvent wipeDataEvent) {
+        if (mIsResumed) {
+            showLoginActivity();
+        } else {
+            mIsReloaded = false;
         }
     }
 
