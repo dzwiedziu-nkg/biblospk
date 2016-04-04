@@ -35,6 +35,11 @@ public class PreferencesProvider {
         apply(sharedPreferences.edit().putString(PREF_LOGIN, login));
     }
 
+    /**
+     * Time when refresh by it successful or error.
+     *
+     * @return mils form UNIX-epoch
+     */
     public long getLastChecking() {
         return sharedPreferences.getLong(PREF_LAST_CHECKING, 0);
     }
@@ -43,6 +48,10 @@ public class PreferencesProvider {
         apply(sharedPreferences.edit().putLong(PREF_LAST_CHECKING, lastChecking));
     }
 
+    /**
+     * Time when refresh by it successful.
+     * @return mils form UNIX-epoch
+     */
     public long getLastChecked() {
         return sharedPreferences.getLong(PREF_LAST_CHECKED, 0);
     }
