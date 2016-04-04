@@ -191,9 +191,9 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
                 actionBar.setTitle(title);
             }
 
-            mLendTab.setText(getResources().getString(R.string.tab_lend, mGlobalState.getAccount().getStats(0)));
-            mWaitingTab.setText(getResources().getString(R.string.tab_waiting, mGlobalState.getAccount().getStats(1)));
-            mBookedTab.setText(getResources().getString(R.string.tab_booked, mGlobalState.getAccount().getStats(2)));
+            mLendTab.setText(getResources().getString(R.string.tab_lend, mGlobalState.getAccount().getStats(Book.CATEGORY_LEND)));
+            mWaitingTab.setText(getResources().getString(R.string.tab_waiting, mGlobalState.getAccount().getStats(Book.CATEGORY_WAITING)));
+            mBookedTab.setText(getResources().getString(R.string.tab_booked, mGlobalState.getAccount().getStats(Book.CATEGORY_BOOKED)));
         } else {
             mLendTab.setText(getText(R.string.tab_lend_0));
             mWaitingTab.setText(getText(R.string.tab_waiting_0));
