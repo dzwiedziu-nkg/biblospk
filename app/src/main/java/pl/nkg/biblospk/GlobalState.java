@@ -50,18 +50,20 @@ public class GlobalState {
     public void onEventMainThread(AccountDownloadedEvent event) {
         if (event.getAccount() != null && !event.getAccount().equalBookState(mAccount)) {
             lastChangedTime = System.currentTimeMillis();
+
+            mAccount = event.getAccount();
+            if (mAccount != null) {
+                mPreferencesProvider.storeAccountProperties(mAccount);
+                mAccount.storeBooksList();
+                mLogged = true;
+            }
         }
 
-        mAccount = event.getAccount();
-        mServiceStatus.setError(null);
-        mServiceStatus.turnOff();
-        if (mAccount != null) {
-            mPreferencesProvider.storeAccountProperties(mAccount);
-            mAccount.storeBooksList();
-            mLogged = true;
-        }
         mPreferencesProvider.setLastChecking(System.currentTimeMillis());
         mPreferencesProvider.setLastChecked(System.currentTimeMillis());
+
+        mServiceStatus.setError(null);
+        mServiceStatus.turnOff();
     }
 
     public void onEventMainThread(ErrorEvent event) {
