@@ -96,4 +96,31 @@
     <string name="toast_cancel_do">Cancel reservation request was sent</string>
     <string name="toast_cancel">Reservation canceled</string>
     <string name="toast_cancel_not">Reservation not canceled</string>
+
+
+    <string name="pref_cat_general">General</string>
+
+    <string name="pref_title_autoprolong">Auto prolong</string>
+    <string name="pref_description_autoprolong">Prolong expired books automatically (TODO: not
+        implemented yet)
+    </string>
+
+
+    <string name="pref_cat_debug">Debug</string>
+
+    <string name="pref_title_debug">Debug mode</string>
+    <string name="pref_description_debug">Enable following debug options</string>
+
+    <string name="pref_title_mock">Read only</string>
+    <string name="pref_description_mock">No send to server prolong or reservation cancellation
+        requests
+    </string>
+
+    <string name="pref_title_usetoday">Use today date</string>
+    <string name="pref_description_usetoday">Switch on/off custom today date</string>
+
+    <string name="pref_title_today">Today date</string>
+    <string name="pref_description_today">Use this date instead current date (yyyy-MM-dd format)
+    </string>
+
 </resources>

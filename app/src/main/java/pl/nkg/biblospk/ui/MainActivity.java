@@ -102,6 +102,10 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
                 getCurrentPageFragment().setRefreshing(true);
                 onRefreshBookList(true);
                 return true;
+
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

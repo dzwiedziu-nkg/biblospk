@@ -100,4 +100,30 @@
     <string name="toast_cancel_do">Wysłano zlecenie rezygnacji z rezerwacji książki</string>
     <string name="toast_cancel">Zrezygnowano z rezerwacji książki</string>
     <string name="toast_cancel_not">Nie udało się zrezygnować z rezerwacji książki</string>
+
+    <string name="pref_cat_general">Ogólne</string>
+
+    <string name="pref_title_autoprolong">Automatyczna prolongata</string>
+    <string name="pref_description_autoprolong">Prolonguj automatycznie przetrzymane książki (TODO:
+        jeszcze nie działa)
+    </string>
+
+
+    <string name="pref_cat_debug">Debug</string>
+
+    <string name="pref_title_debug">Debug mode</string>
+    <string name="pref_description_debug">Uaktywnia poniższe ustawienia</string>
+
+    <string name="pref_title_mock">Read only</string>
+    <string name="pref_description_mock">Rządania prolongaty lub anulowania rezerwacji nie będą
+        wysyłane do serwera
+    </string>
+
+    <string name="pref_title_usetoday">Użyj innej daty odniesienia</string>
+    <string name="pref_description_usetoday">Informacja o przetrzymaniu będzie się odnosić do daty
+        podanej poniżej zamiast do daty dzisiejszej
+    </string>
+
+    <string name="pref_title_today">Data odniesienia</string>
+    <string name="pref_description_today">Podaj datę odniesienia (w formacie: yyyy-MM-dd)</string>
 </resources>

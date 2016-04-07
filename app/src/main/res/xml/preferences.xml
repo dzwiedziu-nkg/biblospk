@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_cat_general">
+        <CheckBoxPreference
+                android:key="autoprolong"
+                android:title="@string/pref_title_autoprolong"
+                android:summary="@string/pref_description_autoprolong"
+                android:defaultValue="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_cat_debug">
+        <CheckBoxPreference
+                android:key="debug"
+                android:title="@string/pref_title_debug"
+                android:summary="@string/pref_description_debug"
+                android:defaultValue="false"/>
+
+        <CheckBoxPreference
+                android:key="mock"
+                android:title="@string/pref_title_mock"
+                android:summary="@string/pref_description_mock"
+                android:defaultValue="false"/>
+
+        <CheckBoxPreference
+                android:key="customtoday"
+                android:title="@string/pref_title_usetoday"
+                android:summary="@string/pref_description_usetoday"
+                android:defaultValue="false"/>
+
+        <EditTextPreference
+                android:key="today"
+                android:title="@string/pref_title_today"
+                android:summary="@string/pref_description_today"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
