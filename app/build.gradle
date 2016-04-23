@@ -1,20 +1,54 @@
+/*
+You can put following sign key configuration in your local.properties:
+i.e.
+
+key.store=/home/john/john.keystore
+key.alias=john
+key.store.password=password
+key.alias.password=password
+
+otherwise it will be used default debug sign key
+ */
+
 apply plugin: 'com.android.application'
 
 android {
+    def Properties props = new Properties()
+    props.load(new FileInputStream(file('../local.properties')))
+
+    signingConfigs {
+        config {
+            if (props["key.store"] != null) {
+                keyAlias props["key.alias"]
+                keyPassword props["key.alias.password"]
+                storeFile file(props["key.store"])
+                storePassword props["key.store.password"]
+            }
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     defaultConfig {
         applicationId "pl.nkg.biblospk"
         minSdkVersion 10
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.0 alpha 1"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (props["key.store"] != null) {
+                signingConfig signingConfigs.config
+            }
+        }
+        debug {
+            if (props["key.store"] != null) {
+                signingConfig signingConfigs.config
+            }
         }
     }
 }
@@ -25,14 +59,14 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:preference-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
     compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
 }

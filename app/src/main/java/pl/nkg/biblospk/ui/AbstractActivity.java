@@ -1,6 +1,6 @@
 package pl.nkg.biblospk.ui;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
 
 public abstract class AbstractActivity extends AbstractNoEventActivity {
 

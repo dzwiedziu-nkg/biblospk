@@ -1,10 +1,12 @@
 package pl.nkg.biblospk;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Date;
 
-import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.events.AccountDownloadedEvent;
 import pl.nkg.biblospk.events.ErrorEvent;
@@ -49,6 +51,7 @@ public class GlobalState {
         return lastChangedTime;
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(AccountDownloadedEvent event) {
         if (event.getAccount() != null && !event.getAccount().equalBookState(mAccount)) {
             lastChangedTime = System.currentTimeMillis();
@@ -68,6 +71,7 @@ public class GlobalState {
         mServiceStatus.turnOff();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ErrorEvent event) {
         if (event.getErrorMessage() != null) {
             mServiceStatus.setError(event.getErrorMessage());

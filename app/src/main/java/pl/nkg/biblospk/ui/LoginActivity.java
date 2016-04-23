@@ -1,5 +1,8 @@
 package pl.nkg.biblospk.ui;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import android.os.Bundle;
 
 import pl.nkg.biblospk.PreferencesProvider;
@@ -46,6 +49,7 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(StatusUpdatedEvent event) {
         boolean running = event.getServiceStatus().isRunning();
         if (!running) {

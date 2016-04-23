@@ -1,5 +1,8 @@
 package pl.nkg.biblospk.ui;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -213,6 +216,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         onRefreshBookList(false);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(StatusUpdatedEvent event) {
         boolean running = event.getServiceStatus().isRunning();
         getCurrentPageFragment().setRefreshing(running);
@@ -225,6 +229,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(WipeDataEvent wipeDataEvent) {
         if (mIsResumed) {
             showLoginActivity();

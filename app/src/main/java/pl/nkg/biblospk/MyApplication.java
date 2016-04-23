@@ -18,6 +18,10 @@ package pl.nkg.biblospk;
 
 import com.activeandroid.app.Application;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -26,7 +30,6 @@ import android.content.IntentFilter;
 import android.os.SystemClock;
 import android.widget.Toast;
 
-import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.client.WebClient;
 import pl.nkg.biblospk.events.CanceledEvent;
 import pl.nkg.biblospk.events.RenewedEvent;
@@ -79,6 +82,7 @@ public class MyApplication extends Application {
                 pi);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(RenewedEvent renewedEvent) {
         int textId = 0;
 
@@ -93,10 +97,12 @@ public class MyApplication extends Application {
         Toast.makeText(this, textId, Toast.LENGTH_LONG).show();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(CanceledEvent canceledEvent) {
         Toast.makeText(this, canceledEvent.isSuccess() ? R.string.toast_cancel : R.string.toast_cancel_not, Toast.LENGTH_LONG).show();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(WipeDataEvent wipeDataEvent) {
         mGlobalState.logout(false);
     }

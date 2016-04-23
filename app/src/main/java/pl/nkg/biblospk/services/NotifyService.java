@@ -1,6 +1,9 @@
 package pl.nkg.biblospk.services;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,7 +20,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.GlobalState;
 import pl.nkg.biblospk.MyApplication;
 import pl.nkg.biblospk.R;
@@ -65,6 +67,7 @@ public class NotifyService extends Service {
         super.onDestroy();
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onEventBackgroundThread(AccountDownloadedEvent event) {
         updateNotify();
     }

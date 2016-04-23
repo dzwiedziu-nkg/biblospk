@@ -1,6 +1,7 @@
 package pl.nkg.biblospk.services;
 
-import de.greenrobot.event.EventBus;
+import org.greenrobot.eventbus.EventBus;
+
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
 
 public class ServiceStatus {

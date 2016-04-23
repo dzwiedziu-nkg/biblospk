@@ -2,6 +2,7 @@ package pl.nkg.biblospk.services;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -13,7 +14,6 @@ import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import pl.nkg.biblospk.GlobalState;
 import pl.nkg.biblospk.MyApplication;
 import pl.nkg.biblospk.PreferencesProvider;
