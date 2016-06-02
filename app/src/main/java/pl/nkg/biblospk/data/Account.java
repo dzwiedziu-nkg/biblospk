@@ -4,6 +4,8 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -144,7 +146,7 @@ public class Account {
 
         @Override
         public int compare(Book lhs, Book rhs) {
-            int ret = compareInt(lhs.checkBookPriority(mToDay), rhs.checkBookPriority(mToDay));
+            int ret = compareInt(rhs.checkBookPriority(mToDay), lhs.checkBookPriority(mToDay));
 
             if (ret == 0 && lhs.getDueDate() != null) {
                 ret = lhs.getDueDate().compareTo(rhs.getDueDate());
@@ -153,6 +155,8 @@ public class Account {
             if (ret == 0) {
                 ret = lhs.getTitle().compareToIgnoreCase(rhs.getTitle());
             }
+
+            Log.d("cmp", lhs.getTitle() + " vs " + rhs.getTitle() + ": " + ret);
 
             return ret;
         }
