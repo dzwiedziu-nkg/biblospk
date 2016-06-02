@@ -197,7 +197,11 @@ public class BiblosClient {
         }
 
         try {
-            account.setDebts(Float.parseFloat(StringUtils.substringBetween(webPage, OPEN_DUE, CLOSE_DUE).trim()));
+            if (webPage.contains(OPEN_DUE)) {
+                account.setDebts(Float.parseFloat(StringUtils.substringBetween(webPage, OPEN_DUE, CLOSE_DUE).trim()));
+            } else {
+                account.setDebts(0);
+            }
         } catch (Exception e) {
             account.setDebts(-1);
             Log.e(TAG, "Unrecognized due");
