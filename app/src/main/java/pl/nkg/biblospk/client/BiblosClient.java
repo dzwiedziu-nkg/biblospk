@@ -221,8 +221,10 @@ public class BiblosClient {
         }
 
         String reserved = StringUtils.substringBetween(webPage, OPEN_RESERVED, CLOSE_RESERVED);
-        for (String row : StringUtils.substringsBetween(reserved, OPEN_ROW, CLOSE_ROW)) {
-            account.getBookList().add(parseBook(row, false));
+        if (reserved != null) {
+            for (String row : StringUtils.substringsBetween(reserved, OPEN_ROW, CLOSE_ROW)) {
+                account.getBookList().add(parseBook(row, false));
+            }
         }
 
         account.updateStats();
