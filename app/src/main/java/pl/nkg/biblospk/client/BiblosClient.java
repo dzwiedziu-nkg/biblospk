@@ -79,6 +79,7 @@ public class BiblosClient {
     private static final String CLOSE_BOOK_REQUEST_DUE_DATE = "</span>";
     private static final String STRING_BOOK_REQUEST_NEVER_EXPIRED = "Nigdy nie wygasa";
 
+    private static final String BOOK_WAIT_FOR_READY = "<span title=\"Zamówienie (dostępny wolny egzemplarz), oczekuje na realizację\">Zamówione (oczekuje na&nbsp;realizację)</span>";
     private static final String OPEN_BOOK_QUEUE = "<span title=\"Rezerwacja - brak wolnych egzemplarzy, numer w kolejce: ";
     private static final String CLOSE_BOOK_QUEUE = "\">";
 
@@ -322,7 +323,11 @@ public class BiblosClient {
         } else {
             if (book.getCategory() == Book.CATEGORY_BOOKED) {
                 try {
-                    book.setQueue(Integer.parseInt(StringUtils.substringBetween(row, OPEN_BOOK_QUEUE, CLOSE_BOOK_QUEUE).trim()));
+                    if (row.contains(BOOK_WAIT_FOR_READY)) {
+                        book.setQueue(0);
+                    } else {
+                        book.setQueue(Integer.parseInt(StringUtils.substringBetween(row, OPEN_BOOK_QUEUE, CLOSE_BOOK_QUEUE).trim()));
+                    }
                 } catch (Exception e) {
                     book.setQueue(-1);
                     Log.e(TAG, "Invalid book queue");
