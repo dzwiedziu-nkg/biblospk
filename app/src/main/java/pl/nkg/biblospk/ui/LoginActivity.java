@@ -3,6 +3,7 @@ package pl.nkg.biblospk.ui;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import pl.nkg.biblospk.PreferencesProvider;
@@ -32,6 +33,11 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
     @Override
     public void onLoginClick(String login, String password) {
         BiblosService.startServiceRefresh(this, true, true, login, password);
+    }
+
+    @Override
+    public void onRulesClick() {
+        startActivity(new Intent(this, RulesActivity.class));
     }
 
     @Override

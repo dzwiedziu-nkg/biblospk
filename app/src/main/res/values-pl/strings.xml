@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">BiblosPK</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_rules">Regulamin</string>
     <string name="title_activity_main">BiblosPK</string>
     <string name="title_activity_main_with_cash">Długi: %1$.02fzł</string>
     <string name="title_activity_details">Szczegóły</string>
@@ -8,6 +9,8 @@
     <string name="title_cut_library">Biblioteka PK</string>
     <string name="hint_login">Numer karty</string>
     <string name="hint_password">Hasło</string>
+    <string name="checkbox_rules">Akceptuję:</string>
+    <string name="text_rules">regulamin</string>
 
     <string name="tab_lend_0">Wypożyczone</string>
     <string name="tab_waiting_0">Do odbioru</string>

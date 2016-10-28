@@ -1,0 +1,27 @@
+<resources>
+    <string name="rules">
+        <![CDATA[
+        <h1>Regulamin aplikacji</h1>
+        <p>
+            1. Ta aplikacja jest <strong>we wczesnej wersji testowej</strong>. Problemy z jej
+            działaniem proszę zgłaszać bezpośrednio do autora na adres e-mail:
+            <a href="mailto:nkg753@gmail.com">nkg753@gmail.com</a>.
+        </p>
+        <p>
+            2. Aplikacja będzie przechowywała login i hasło do Twojego konta BPK w pamięci wewnętrznej
+            tego urządzenia. Ta pamięć jest dobrze chroniona przez sam system Android. Musisz mieć
+            jednak świadomość, że te zabezpieczenia mogą zostać złamane np. gdy to urządzenie
+            zostanie skradzione lub zawirusowane. Ostrzeżenie to w równym stopniu dotyczy wszystkich
+            Twoich danych jakie przechowujesz w pamięci urządzenia.
+        </p>
+        <p>
+            3. Aplikacja łączy się z Twoim kontem BPK w celu:<br/>
+            a) pobrania listy wypożyczonych i zamówionych książek,<br/>
+            b) prolongowania książek, które wybierzesz w programie.
+        </p>
+        <p>
+            4. Autor nie ponosi odpowiedzialności za skutki błędnego działania aplikacji.
+        </p>
+        ]]>
+    </string>
+</resources>

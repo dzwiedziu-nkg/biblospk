@@ -57,6 +57,14 @@
                     android:value=".ui.MainActivity"/>
         </activity>
 
+        <activity
+            android:name=".ui.RulesActivity"
+            android:label="@string/title_activity_rules">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.LoginActivity" />
+        </activity>
+
         <service android:name=".services.BiblosService" />
 
         <service android:name=".services.NotifyService" />

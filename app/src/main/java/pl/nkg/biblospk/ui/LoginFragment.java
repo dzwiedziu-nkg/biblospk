@@ -11,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import pl.nkg.biblospk.R;
@@ -32,6 +34,11 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.msg_error) TextView mErrorTextView;
     @Bind(R.id.btn_login) AppCompatButton mLoginButton;
     @Bind(R.id.progressBar) ProgressBar mProgressBar;
+    @Bind(R.id.checkBox)
+    CheckBox mCheckBox;
+    @Bind(R.id.textView)
+    TextView mTextView;
+
 
     public static LoginFragment newInstance(String login, String password) {
         LoginFragment fragment = new LoginFragment();
@@ -63,6 +70,18 @@ public class LoginFragment extends Fragment {
         if (mListener != null && validate()) {
             mListener.onLoginClick(getLogin(), getPassword());
         }
+    }
+
+    @OnClick(R.id.textView)
+    public void onRulesClick() {
+        if (mListener != null) {
+            mListener.onRulesClick();
+        }
+    }
+
+    @OnCheckedChanged(R.id.checkBox)
+    public void onRulesCheckedChanged() {
+        mLoginButton.setEnabled(mCheckBox.isChecked());
     }
 
     @OnEditorAction(R.id.input_password)
@@ -125,7 +144,8 @@ public class LoginFragment extends Fragment {
         mProgressBar.setVisibility(running ? View.VISIBLE : View.GONE);
         mLoginEditText.setEnabled(!running);
         mPasswordEditText.setEnabled(!running);
-
+        mCheckBox.setEnabled(!running);
+        mTextView.setEnabled(!running);
     }
 
     public String getLogin() {
@@ -138,5 +158,7 @@ public class LoginFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onLoginClick(String login, String password);
+
+        void onRulesClick();
     }
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">BiblosPK</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_rules">Rules</string>
     <string name="title_activity_main">BiblosPK</string>
     <string name="title_activity_main_with_cash">Debts: %1$.02f PLN</string>
     <string name="title_activity_details">Details</string>
@@ -8,6 +9,8 @@
     <string name="title_cut_library">CUT Library</string>
     <string name="hint_login">Card number</string>
     <string name="hint_password">Password</string>
+    <string name="checkbox_rules">Accepted:</string>
+    <string name="text_rules">rules</string>
 
     <string name="tab_lend_0">Lends</string>
     <string name="tab_waiting_0">Waiting</string>
