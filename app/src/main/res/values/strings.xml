@@ -36,6 +36,7 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_logout">Logout</string>
     <string name="action_settings">Settings</string>
+    <string name="action_info">About</string>
 
     <string name="notify_title_expired">Books expired</string>
     <string name="notify_title_ready">Books ready to lend</string>

@@ -36,6 +36,7 @@
     <string name="action_refresh">Odśwież</string>
     <string name="action_logout">Wyloguj</string>
     <string name="action_settings">Ustawienia</string>
+    <string name="action_info">Informacje</string>
 
     <string name="notify_title_expired">Masz przetrzymane ksiażki</string>
     <string name="notify_title_ready">Książki gotowe do odbioru</string>

@@ -109,6 +109,10 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+
+            case R.id.action_info:
+                startActivity(new Intent(this, RulesActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
