@@ -1,27 +1,33 @@
 <resources>
     <string name="rules">
         <![CDATA[
-        <h1>Regulamin aplikacji</h1>
+        <h1>Terms of use application:</h1>
         <p>
-            1. Ta aplikacja jest <strong>we wczesnej wersji testowej</strong>. Problemy z jej
-            działaniem proszę zgłaszać bezpośrednio do autora na adres e-mail:
-            <a href="mailto:nkg753@gmail.com">nkg753@gmail.com</a>.
+          1. This application is <strong>in the beta test version</strong>. Problems with it\'s
+          action you\'re pleased to report directly to the author on his e-mail address:
+          <a href="mailto:nkg753@gmail.com">nkg753@gmail.com</a>.
         </p>
         <p>
-            2. Aplikacja będzie przechowywała login i hasło do Twojego konta BPK w pamięci wewnętrznej
-            tego urządzenia. Ta pamięć jest dobrze chroniona przez sam system Android. Musisz mieć
-            jednak świadomość, że te zabezpieczenia mogą zostać złamane np. gdy to urządzenie
-            zostanie skradzione lub zawirusowane. Ostrzeżenie to w równym stopniu dotyczy wszystkich
-            Twoich danych jakie przechowujesz w pamięci urządzenia.
+          2. Application will keep login and password to your BPK account on internal storage of
+          this device. This storage is well protected by Android system itself. You have to be aware
+          that this buffers can be broken eg. when this device is stolen or infected. This warning
+          equally affect all of your data that you keep in device storage.
         </p>
         <p>
-            3. Aplikacja łączy się z Twoim kontem BPK w celu:<br/>
-            a) pobrania listy wypożyczonych i zamówionych książek,<br/>
-            b) prolongowania książek, które wybierzesz w programie.
+          Application connect with your account on BPK in order to:<br/>
+          a) to collect list of borrowed and ordered books<br/>
+          b) prolongation books which you choose in program
         </p>
         <p>
-            4. Autor nie ponosi odpowiedzialności za skutki błędnego działania aplikacji.
+          4. THERE IS NO WARRANTY FOR THE PROGRAM. Author does not take responsibility of the
+          negative effects of using this application.
         </p>
+        ]]>
+    </string>
+    <string name="copyright" translatable="false">Copyright &#169; by Michał Niedźwiecki 2016</string>
+    <string name="url" translatable="false">
+        <![CDATA[
+          <a href="https://github.com/dzwiedziu-nkg/biblospk">https://github.com/dzwiedziu-nkg/biblospk</a>
         ]]>
     </string>
 </resources>
