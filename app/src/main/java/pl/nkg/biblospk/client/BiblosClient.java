@@ -218,15 +218,21 @@ public class BiblosClient {
 
         String lends = StringUtils.substringBetween(webPage, OPEN_LENDS, CLOSE_LENDS);
         if (lends != null) {
-            for (String row : StringUtils.substringsBetween(lends, OPEN_ROW, CLOSE_ROW)) {
-                account.getBookList().add(parseBook(row, true));
+            String[] lendsSplit = StringUtils.substringsBetween(lends, OPEN_ROW, CLOSE_ROW);
+            if (lendsSplit != null && lendsSplit.length > 0) {
+                for (String row : lendsSplit) {
+                    account.getBookList().add(parseBook(row, true));
+                }
             }
         }
 
         String reserved = StringUtils.substringBetween(webPage, OPEN_RESERVED, CLOSE_RESERVED);
         if (reserved != null) {
-            for (String row : StringUtils.substringsBetween(reserved, OPEN_ROW, CLOSE_ROW)) {
-                account.getBookList().add(parseBook(row, false));
+            String[] rows = StringUtils.substringsBetween(reserved, OPEN_ROW, CLOSE_ROW);
+            if (rows != null && rows.length > 0) {
+                for (String row : rows) {
+                    account.getBookList().add(parseBook(row, false));
+                }
             }
         }
 
