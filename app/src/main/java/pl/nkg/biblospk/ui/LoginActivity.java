@@ -6,6 +6,10 @@ import org.greenrobot.eventbus.ThreadMode;
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import pl.nkg.biblospk.PreferencesProvider;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
 import pl.nkg.biblospk.services.BiblosService;
@@ -43,7 +47,7 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
     @Override
     protected void onResume() {
         super.onResume();
-        mLoginFragment.setError(mGlobalState.getServiceStatus().getError());
+        mLoginFragment.setError(mGlobalState.getServiceStatus().getError(), mGlobalState.getServiceStatus().getException());
         mLoginFragment.setRunning(mGlobalState.getServiceStatus().isRunning());
     }
 
@@ -64,7 +68,31 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
                 mGlobalState.getPreferencesProvider().setPrefPassword(mLoginFragment.getPassword());
                 finish();
             } else {
-                mLoginFragment.setError(event.getServiceStatus().getError());
+                Throwable exception = mGlobalState.getServiceStatus().getException();
+                CharSequence errorMessage = event.getServiceStatus().getError();
+                mLoginFragment.setError(errorMessage, exception);
+
+                if (exception != null && event.getServiceStatus().isNeedContact()) {
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    exception.printStackTrace(pw);
+
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("message/rfc822");
+                    i.putExtra(Intent.EXTRA_EMAIL, new String[]{"nkg753@gmail.com"});
+                    i.putExtra(Intent.EXTRA_SUBJECT, "[BiblosPK] error");
+                    i.putExtra(Intent.EXTRA_TEXT, errorMessage + "\r\n" + exception.getMessage() + "\r\n" + exception.getLocalizedMessage() + "\r\n\r\n" + sw.getBuffer().toString());
+                    try {
+                        startActivity(Intent.createChooser(i, errorMessage));
+                    } catch (android.content.ActivityNotFoundException ex) {
+
+                    }
+                    try {
+                        sw.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
         mLoginFragment.setRunning(running);

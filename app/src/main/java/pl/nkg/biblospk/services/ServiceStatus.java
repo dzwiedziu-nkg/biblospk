@@ -7,6 +7,8 @@ import pl.nkg.biblospk.events.StatusUpdatedEvent;
 public class ServiceStatus {
     private boolean mRunning = false;
     private CharSequence mError = null;
+    private Throwable mException = null;
+    private boolean mNeedContact;
     private long mTimeChanged = System.currentTimeMillis();
 
     public boolean isRunning() {
@@ -15,6 +17,14 @@ public class ServiceStatus {
 
     public CharSequence getError() {
         return mError;
+    }
+
+    public Throwable getException() {
+        return mException;
+    }
+
+    public boolean isNeedContact() {
+        return mNeedContact;
     }
 
     public long getTimeChanged() {
@@ -33,8 +43,10 @@ public class ServiceStatus {
         emitStatusUpdatedEvent();
     }
 
-    public void setError(CharSequence error) {
+    public void setError(CharSequence error, Throwable exception, boolean needContact) {
         mError = error;
+        mException = exception;
+        mNeedContact = needContact;
         updateTimeChanged();
     }
 

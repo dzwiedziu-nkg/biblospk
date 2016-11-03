@@ -68,14 +68,14 @@ public class GlobalState {
         mPreferencesProvider.setLastChecking(System.currentTimeMillis());
         mPreferencesProvider.setLastChecked(System.currentTimeMillis());
 
-        mServiceStatus.setError(null);
+        mServiceStatus.setError(null, null, false);
         mServiceStatus.turnOff();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ErrorEvent event) {
         if (event.getErrorMessage() != null) {
-            mServiceStatus.setError(event.getErrorMessage());
+            mServiceStatus.setError(event.getErrorMessage(), event.getException(), event.isNeedContact());
             mPreferencesProvider.setLastChecking(System.currentTimeMillis());
         }
         mServiceStatus.turnOff();

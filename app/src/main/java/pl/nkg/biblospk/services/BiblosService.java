@@ -140,17 +140,17 @@ public class BiblosService extends IntentService {
                     break;
             }
         } catch (IOException e) {
-            emitError(getText(R.string.error_connection), e);
+            emitError(getText(R.string.error_connection), e, false);
         } catch (ParseException e) {
-            emitError(getText(R.string.error_parse), e);
+            emitError(getText(R.string.error_parse), e, true);
         } catch (InvalidCredentialsException e) {
             emitWipeData();
-            emitError(getText(R.string.error_invalid_credentials), e);
+            emitError(getText(R.string.error_invalid_credentials), e, false);
         } catch (ServerErrorException e) {
-            emitError(getText(R.string.error_server), e);
+            emitError(getText(R.string.error_server), e, true);
         } catch (Exception e) {
             Log.e(TAG, "Undefined error", e);
-            emitError(getText(R.string.error_undefined), e);
+            emitError(getText(R.string.error_undefined), e, true);
         }
     }
 
@@ -161,7 +161,7 @@ public class BiblosService extends IntentService {
         List<Integer> renewed = BiblosClient.prolongBooks(mGlobalState.getAccount().getBorrowerNumber(), renews);
 
         if (renewed == null) {
-            emitError(getText(R.string.error_server), null);
+            emitError(getText(R.string.error_server), null, false);
         } else {
             emitRenewed(renews, renewed);
             doLoginAndRefresh();
@@ -219,9 +219,9 @@ public class BiblosService extends IntentService {
         EventBus.getDefault().post(new CanceledEvent(success, reservationId));
     }
 
-    private void emitError(CharSequence errorMessage, Throwable exception) {
+    private void emitError(CharSequence errorMessage, Throwable exception, boolean needContact) {
         Log.d(TAG, "Book list download error: " + errorMessage);
-        EventBus.getDefault().post(new ErrorEvent(errorMessage, exception));
+        EventBus.getDefault().post(new ErrorEvent(errorMessage, exception, needContact));
     }
 
     private void emitWipeData() {

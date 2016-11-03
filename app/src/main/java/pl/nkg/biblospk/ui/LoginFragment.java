@@ -66,7 +66,7 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.btn_login)
     public void onLoginClick() {
-        setError(null);
+        setError(null, null);
         if (mListener != null && validate()) {
             mListener.onLoginClick(getLogin(), getPassword());
         }
@@ -135,7 +135,7 @@ public class LoginFragment extends Fragment {
         return valid;
     }
 
-    public void setError(CharSequence errorMessage) {
+    public void setError(CharSequence errorMessage, Throwable exception) {
         mErrorTextView.setText(errorMessage);
     }
 
