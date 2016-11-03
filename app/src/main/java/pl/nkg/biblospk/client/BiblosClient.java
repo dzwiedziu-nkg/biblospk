@@ -217,9 +217,10 @@ public class BiblosClient {
 
 
         String lends = StringUtils.substringBetween(webPage, OPEN_LENDS, CLOSE_LENDS);
-        if (lends != null)
-        for (String row : StringUtils.substringsBetween(lends, OPEN_ROW, CLOSE_ROW)) {
-            account.getBookList().add(parseBook(row, true));
+        if (lends != null) {
+            for (String row : StringUtils.substringsBetween(lends, OPEN_ROW, CLOSE_ROW)) {
+                account.getBookList().add(parseBook(row, true));
+            }
         }
 
         String reserved = StringUtils.substringBetween(webPage, OPEN_RESERVED, CLOSE_RESERVED);
