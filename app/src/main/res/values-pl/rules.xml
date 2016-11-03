@@ -23,6 +23,13 @@
         <p>
             4. Autor nie ponosi odpowiedzialności za skutki błędnego działania aplikacji.
         </p>
+        <h1>Change log</h1>
+        <h2>1.0 beta 2 (2016-11-03)</h2>
+        <p>
+          <strong>Nowe:</strong> wysyłanie raportu o błędzie do autora<br>
+          <strong>Naprawione:</strong> czyszczenie się formularza logowania po powrocie z okna
+          z regulaminem aplikacji
+        </p>
         ]]>
     </string>
 </resources>

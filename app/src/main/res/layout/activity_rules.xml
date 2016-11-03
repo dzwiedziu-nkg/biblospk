@@ -15,5 +15,5 @@
         android:id="@+id/textView"
         android:minLines="1"
         android:scrollbars="vertical"
-        android:autoLink="all" />
+        android:autoLink="web|email" />
 </LinearLayout>

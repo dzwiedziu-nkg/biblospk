@@ -23,6 +23,12 @@
           4. THERE IS NO WARRANTY FOR THE PROGRAM. Author does not take responsibility of the
           negative effects of using this application.
         </p>
+        <h1>Change log</h1>
+        <h2>1.0 beta 2 (2016-11-03)</h2>
+        <p>
+          <strong>New:</strong> send bug report<br>
+          <strong>Fix:</strong> lost login form data after come back from rules activity
+        </p>
         ]]>
     </string>
     <string name="copyright" translatable="false">Copyright &#169; by Michał Niedźwiecki 2016</string>
