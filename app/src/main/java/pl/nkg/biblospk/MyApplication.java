@@ -18,6 +18,8 @@ package pl.nkg.biblospk;
 
 import com.activeandroid.app.Application;
 
+import org.acra.ACRA;
+import org.acra.annotation.ReportsCrashes;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -38,12 +40,22 @@ import pl.nkg.biblospk.receivers.AlarmReceiver;
 import pl.nkg.biblospk.services.BiblosService;
 import pl.nkg.biblospk.services.NotifyService;
 
+@ReportsCrashes(
+        formUri = "http://mars.iti.pk.edu.pl/~nkg/biblospk/reportbug.php"
+)
 public class MyApplication extends Application {
 
     private static final int PERIOD = 30 * 60 * 1000;
 
     private GlobalState mGlobalState;
     private boolean mAlarmRegistered = false;
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        ACRA.init(this);
+    }
 
     @Override
     public void onCreate() {

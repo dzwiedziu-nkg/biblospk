@@ -5,7 +5,8 @@
         <p>
           1. This application is <strong>in the beta test version</strong>. Problems with it\'s
           action you\'re pleased to report directly to the author on his e-mail address:
-          <a href="mailto:nkg753@gmail.com">nkg753@gmail.com</a>.
+          <a href="mailto:nkg753@gmail.com">nkg753@gmail.com</a>. Application try to send bug report
+          automatically, but it does not always work well.
         </p>
         <p>
           2. Application will keep login and password to your BPK account on internal storage of

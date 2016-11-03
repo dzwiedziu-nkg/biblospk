@@ -1,5 +1,6 @@
 package pl.nkg.biblospk;
 
+import org.acra.ACRA;
 import org.apache.commons.lang3.time.DateUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -78,6 +79,12 @@ public class GlobalState {
             mPreferencesProvider.setLastChecking(System.currentTimeMillis());
         }
         mServiceStatus.turnOff();
+
+        if (ACRA.isInitialised()) {
+            if (event.getException() != null) {
+                ACRA.getErrorReporter().handleException(event.getException());
+            }
+        }
     }
 
     /**

@@ -140,17 +140,17 @@ public class BiblosService extends IntentService {
                     break;
             }
         } catch (IOException e) {
-            emitError(getText(R.string.error_connection));
+            emitError(getText(R.string.error_connection), e);
         } catch (ParseException e) {
-            emitError(getText(R.string.error_parse));
+            emitError(getText(R.string.error_parse), e);
         } catch (InvalidCredentialsException e) {
             emitWipeData();
-            emitError(getText(R.string.error_invalid_credentials));
+            emitError(getText(R.string.error_invalid_credentials), e);
         } catch (ServerErrorException e) {
-            emitError(getText(R.string.error_server));
+            emitError(getText(R.string.error_server), e);
         } catch (Exception e) {
             Log.e(TAG, "Undefined error", e);
-            emitError(getText(R.string.error_undefined));
+            emitError(getText(R.string.error_undefined), e);
         }
     }
 
@@ -161,7 +161,7 @@ public class BiblosService extends IntentService {
         List<Integer> renewed = BiblosClient.prolongBooks(mGlobalState.getAccount().getBorrowerNumber(), renews);
 
         if (renewed == null) {
-            emitError(getText(R.string.error_server));
+            emitError(getText(R.string.error_server), null);
         } else {
             emitRenewed(renews, renewed);
             doLoginAndRefresh();
@@ -219,9 +219,9 @@ public class BiblosService extends IntentService {
         EventBus.getDefault().post(new CanceledEvent(success, reservationId));
     }
 
-    private void emitError(CharSequence errorMessage) {
+    private void emitError(CharSequence errorMessage, Throwable exception) {
         Log.d(TAG, "Book list download error: " + errorMessage);
-        EventBus.getDefault().post(new ErrorEvent(errorMessage));
+        EventBus.getDefault().post(new ErrorEvent(errorMessage, exception));
     }
 
     private void emitWipeData() {

@@ -5,7 +5,8 @@
         <p>
             1. Ta aplikacja jest <strong>we wczesnej wersji testowej</strong>. Problemy z jej
             działaniem proszę zgłaszać bezpośrednio do autora na adres e-mail:
-            <a href="mailto:nkg753@gmail.com">nkg753@gmail.com</a>.
+            <a href="mailto:nkg753@gmail.com">nkg753@gmail.com</a>. Aplikacja stara się przesyłać
+            raport o błędzie automatycznie, ale nie zawsze się to udaje.
         </p>
         <p>
             2. Aplikacja będzie przechowywała login i hasło do Twojego konta BPK w pamięci wewnętrznej
