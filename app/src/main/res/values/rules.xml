@@ -27,7 +27,8 @@
         <h2>1.0 beta 2 (2016-11-03)</h2>
         <p>
           <strong>New:</strong> send bug report<br>
-          <strong>Fix:</strong> lost login form data after come back from rules activity
+          <strong>Fix:</strong> lost login form data after come back from rules activity<br>
+          <strong>Fix:</strong> crash on no borrowed books
         </p>
         ]]>
     </string>

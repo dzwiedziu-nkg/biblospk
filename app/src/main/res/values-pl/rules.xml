@@ -28,7 +28,8 @@
         <p>
           <strong>Nowe:</strong> wysyłanie raportu o błędzie do autora<br>
           <strong>Naprawione:</strong> czyszczenie się formularza logowania po powrocie z okna
-          z regulaminem aplikacji
+          z regulaminem aplikacji<br>
+          <strong>Naprawione:</strong> błąd gdy nie ma się żadnych wypożyczonych książek
         </p>
         ]]>
     </string>
