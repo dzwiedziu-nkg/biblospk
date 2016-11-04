@@ -55,6 +55,7 @@ public class MyApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         ACRA.init(this);
+        ACRA.getErrorReporter().setEnabled(false);
     }
 
     @Override
@@ -62,6 +63,7 @@ public class MyApplication extends Application {
         super.onCreate();
         WebClient.initCookieHandler();
         mGlobalState = new GlobalState(new PreferencesProvider(this));
+        ACRA.getErrorReporter().setEnabled(mGlobalState.getPreferencesProvider().isACRA());
 
         BiblosService.startServiceRefresh(this, false, false);
         NotifyService.startService(this);

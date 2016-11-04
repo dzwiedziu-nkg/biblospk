@@ -19,6 +19,14 @@ public class PreferencesProvider {
     private final static String PREF_BORROWERNUMBER = "borrower_number";
     private final static String PREF_DEBTS = "debts";
 
+    public final static String PREF_ACRA = "acra";
+    public final static String PREF_PARSE = "parse";
+
+    public final static String PREF_DEBUG = "debug";
+    public final static String PREF_MOCK = "mock";
+    public final static String PREF_CUSTOM_TODAY = "customtoday";
+    public final static String PREF_TODAY = "today";
+
     private final static String PREFS_ACCOUNT[] = {PREF_CARDNUMBER, PREF_NAME, PREF_BORROWERNUMBER, PREF_DEBTS};
 
     private SharedPreferences sharedPreferences;
@@ -66,6 +74,22 @@ public class PreferencesProvider {
 
     public void setPrefPassword(String password) {
         apply(sharedPreferences.edit().putString(PREF_PASSWORD, password));
+    }
+
+    public boolean isACRA() {
+        return sharedPreferences.getBoolean(PREF_ACRA, false);
+    }
+
+    public void setACRA(boolean acra) {
+        apply(sharedPreferences.edit().putBoolean(PREF_ACRA, acra));
+    }
+
+    public boolean isParseBugReport() {
+        return sharedPreferences.getBoolean(PREF_PARSE, false);
+    }
+
+    public void setParseBugReport(boolean report) {
+        apply(sharedPreferences.edit().putBoolean(PREF_PARSE, report));
     }
 
     public void storeAccountProperties(Account account) {
