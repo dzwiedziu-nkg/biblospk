@@ -3,7 +3,7 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_rules">Regulamin</string>
     <string name="title_activity_main">BiblosPK</string>
-    <string name="title_activity_main_with_cash">Długi: %1$.02fzł</string>
+    <string name="title_activity_main_with_cash">Należność: %1$.02fzł</string>
     <string name="title_activity_details">Szczegóły</string>
 
     <string name="title_cut_library">Biblioteka PK</string>
