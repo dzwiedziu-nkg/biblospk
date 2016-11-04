@@ -24,6 +24,11 @@
             4. Autor nie ponosi odpowiedzialności za skutki błędnego działania aplikacji.
         </p>
         <h1>Change log</h1>
+        <h2>1.0 beta 3 (2016-11-04)</h2>
+        <p>
+          <strong>Naprawione:</strong> odświeżanie listy książek po zalogowaniu się<br>
+          <strong>Nowe:</strong> dodatkowe możliwości konfiguracyjne
+        </p>
         <h2>1.0 beta 2 (2016-11-03)</h2>
         <p>
           <strong>Nowe:</strong> wysyłanie raportu o błędzie do autora<br>

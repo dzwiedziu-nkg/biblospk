@@ -24,6 +24,11 @@
           negative effects of using this application.
         </p>
         <h1>Change log</h1>
+        <h2>1.0 beta 3 (2016-11-04)</h2>
+        <p>
+          <strong>Fix:</strong> stuck after login<br>
+          <strong>New:</strong> preference improvements
+        </p>
         <h2>1.0 beta 2 (2016-11-03)</h2>
         <p>
           <strong>New:</strong> send bug report<br>
