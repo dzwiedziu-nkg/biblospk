@@ -112,8 +112,17 @@
         jeszcze nie działa)
     </string>
 
+    <string name="pref_cat_bug">Raportowanie błędów</string>
+    <string name="pref_title_acra">ACRA bug report</string>
+    <string name="pref_description_acra">Gdy ta aplikacja się zawiesi, to raport o błędzie zostanie
+        automatycznie wysłany do autora</string>
 
-    <string name="pref_cat_debug">Debug</string>
+    <string name="pref_title_parse">Interpretacja treści</string>
+    <string name="pref_description_parse">Jeżeli aplikacja nie będzie mogła rozpoznać listy Twoich
+        książek, to zostanie ona przesłana do autora, żeby mógł on znaleźć przyczynę błędu</string>
+
+
+    <string name="pref_cat_debug">Debug (TODO: jeszcze nie działają)</string>
 
     <string name="pref_title_debug">Debug mode</string>
     <string name="pref_description_debug">Uaktywnia poniższe ustawienia</string>

@@ -109,6 +109,12 @@
         implemented yet)
     </string>
 
+    <string name="pref_cat_bug">Bug report</string>
+    <string name="pref_title_acra">ACRA bug report</string>
+    <string name="pref_description_acra">Send crash reports to author (including model of your device)</string>
+
+    <string name="pref_title_parse">Web parse bug report</string>
+    <string name="pref_description_parse">Send list of your books to author when you have display errors</string>
 
     <string name="pref_cat_debug">Debug</string>
 

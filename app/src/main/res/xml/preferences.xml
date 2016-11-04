@@ -9,6 +9,19 @@
                 android:defaultValue="false"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_cat_bug">
+        <CheckBoxPreference
+            android:key="acra"
+            android:title="@string/pref_title_acra"
+            android:summary="@string/pref_description_acra"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="parse"
+            android:title="@string/pref_title_parse"
+            android:summary="@string/pref_description_parse"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/pref_cat_debug">
         <CheckBoxPreference
                 android:key="debug"
