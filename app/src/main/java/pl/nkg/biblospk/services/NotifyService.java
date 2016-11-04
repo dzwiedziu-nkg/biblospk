@@ -25,7 +25,7 @@ import pl.nkg.biblospk.MyApplication;
 import pl.nkg.biblospk.R;
 import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.data.Book;
-import pl.nkg.biblospk.events.AccountDownloadedEvent;
+import pl.nkg.biblospk.events.UpdateNotifyEvent;
 import pl.nkg.biblospk.ui.MainActivity;
 
 public class NotifyService extends Service {
@@ -68,7 +68,7 @@ public class NotifyService extends Service {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void onEventBackgroundThread(AccountDownloadedEvent event) {
+    public void onEventBackgroundThread(UpdateNotifyEvent event) {
         updateNotify();
     }
 

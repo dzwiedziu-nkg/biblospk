@@ -1,5 +1,6 @@
 package pl.nkg.biblospk.ui;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -15,6 +16,7 @@ import java.io.StringWriter;
 import pl.nkg.biblospk.PreferencesProvider;
 import pl.nkg.biblospk.R;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
+import pl.nkg.biblospk.events.UpdateNotifyEvent;
 import pl.nkg.biblospk.services.BiblosService;
 
 
@@ -88,6 +90,7 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
             if (event.getServiceStatus().getError() == null) {
                 mGlobalState.getPreferencesProvider().setPrefLogin(mLoginFragment.getLogin());
                 mGlobalState.getPreferencesProvider().setPrefPassword(mLoginFragment.getPassword());
+                EventBus.getDefault().post(new UpdateNotifyEvent());
                 finish();
             } else {
                 Throwable exception = mGlobalState.getServiceStatus().getException();

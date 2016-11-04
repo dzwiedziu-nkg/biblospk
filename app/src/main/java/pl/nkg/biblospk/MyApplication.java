@@ -65,8 +65,8 @@ public class MyApplication extends Application {
         mGlobalState = new GlobalState(new PreferencesProvider(this));
         Statics.sGlobalState = mGlobalState;
 
-        BiblosService.startServiceRefresh(this, false, false);
         NotifyService.startService(this);
+        BiblosService.startServiceRefresh(this, false, false);
         registerAlarm();
 
         EventBus.getDefault().register(this);

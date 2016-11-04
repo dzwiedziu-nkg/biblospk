@@ -11,6 +11,7 @@ import java.util.Date;
 import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.events.AccountDownloadedEvent;
 import pl.nkg.biblospk.events.ErrorEvent;
+import pl.nkg.biblospk.events.UpdateNotifyEvent;
 import pl.nkg.biblospk.services.ServiceStatus;
 
 public class GlobalState {
@@ -70,6 +71,7 @@ public class GlobalState {
 
         mServiceStatus.setError(null, null, false);
         mServiceStatus.turnOff();
+        EventBus.getDefault().post(new UpdateNotifyEvent());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -126,6 +128,7 @@ public class GlobalState {
             mAccount.wipeBookList();
         }
         mAccount = null;
+        EventBus.getDefault().post(new AccountDownloadedEvent());
     }
 
     public boolean isLogged() {
