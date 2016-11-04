@@ -109,6 +109,9 @@
         implemented yet)
     </string>
 
+    <string name="pref_title_forcerefresh">Force refresh</string>
+    <string name="pref_description_forcerefresh">Refresh always on app shows (more data usage)</string>
+
     <string name="pref_cat_bug">Bug report</string>
     <string name="pref_title_acra">ACRA bug report</string>
     <string name="pref_description_acra">Send crash reports to author (including model of your device)</string>

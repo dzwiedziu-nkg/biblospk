@@ -7,6 +7,13 @@
                 android:title="@string/pref_title_autoprolong"
                 android:summary="@string/pref_description_autoprolong"
                 android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="force_refresh"
+            android:title="@string/pref_title_forcerefresh"
+            android:summary="@string/pref_description_forcerefresh"
+            android:defaultValue="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_cat_bug">

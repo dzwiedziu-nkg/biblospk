@@ -3,7 +3,7 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_rules">Regulamin</string>
     <string name="title_activity_main">BiblosPK</string>
-    <string name="title_activity_main_with_cash">Należność: %1$.02fzł</string>
+    <string name="title_activity_main_with_cash">Należności: %1$.02fzł</string>
     <string name="title_activity_details">Szczegóły</string>
 
     <string name="title_cut_library">Biblioteka PK</string>
@@ -111,6 +111,10 @@
     <string name="pref_description_autoprolong">Prolonguj automatycznie przetrzymane książki (TODO:
         jeszcze nie działa)
     </string>
+
+    <string name="pref_title_forcerefresh">Zawsze odświeżaj</string>
+    <string name="pref_description_forcerefresh">Odświeżaj automatycznie po otwarciu aplikacji (każde odświeżenie to kilkanaście KB danych)</string>
+
 
     <string name="pref_cat_bug">Raportowanie błędów</string>
     <string name="pref_title_acra">ACRA bug report</string>

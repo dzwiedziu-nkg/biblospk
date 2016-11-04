@@ -26,6 +26,8 @@ public class PreferencesProvider {
     public final static String PREF_CUSTOM_TODAY = "customtoday";
     public final static String PREF_TODAY = "today";
 
+    public final static String PREF_FORCE_REFRESH = "force_refresh";
+
     private final static String PREFS_ACCOUNT[] = {PREF_CARDNUMBER, PREF_NAME, PREF_BORROWERNUMBER, PREF_DEBTS};
 
     private SharedPreferences sharedPreferences;
@@ -81,6 +83,10 @@ public class PreferencesProvider {
 
     public void setParseBugReport(boolean report) {
         apply(sharedPreferences.edit().putBoolean(PREF_PARSE, report));
+    }
+
+    public boolean isForceRefresh() {
+        return sharedPreferences.getBoolean(PREF_FORCE_REFRESH, true);
     }
 
     public void storeAccountProperties(Account account) {
