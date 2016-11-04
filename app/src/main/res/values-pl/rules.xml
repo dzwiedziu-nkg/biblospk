@@ -27,6 +27,7 @@
         <h2>1.0 beta 3 (2016-11-04)</h2>
         <p>
           <strong>Naprawione:</strong> odświeżanie listy książek po zalogowaniu się<br>
+          <strong>Naprawione:</strong> błąd po wylogowaniu się i ponownym zalogowaniu się z błędnym hasłem<br>
           <strong>Nowe:</strong> dodatkowe możliwości konfiguracyjne
         </p>
         <h2>1.0 beta 2 (2016-11-03)</h2>

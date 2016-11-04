@@ -128,6 +128,7 @@ public class GlobalState {
             mAccount.wipeBookList();
         }
         mAccount = null;
+        mLogged = false;
         EventBus.getDefault().post(new AccountDownloadedEvent());
     }
 

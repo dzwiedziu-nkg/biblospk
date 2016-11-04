@@ -15,6 +15,7 @@ import java.io.StringWriter;
 
 import pl.nkg.biblospk.PreferencesProvider;
 import pl.nkg.biblospk.R;
+import pl.nkg.biblospk.Statics;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
 import pl.nkg.biblospk.events.UpdateNotifyEvent;
 import pl.nkg.biblospk.services.BiblosService;
@@ -88,10 +89,14 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
         boolean running = event.getServiceStatus().isRunning();
         if (!running) {
             if (event.getServiceStatus().getError() == null) {
-                mGlobalState.getPreferencesProvider().setPrefLogin(mLoginFragment.getLogin());
-                mGlobalState.getPreferencesProvider().setPrefPassword(mLoginFragment.getPassword());
-                EventBus.getDefault().post(new UpdateNotifyEvent());
-                finish();
+                if (Statics.sGlobalState.isLogged()) {
+                    mGlobalState.getPreferencesProvider().setPrefLogin(mLoginFragment.getLogin());
+                    mGlobalState.getPreferencesProvider().setPrefPassword(mLoginFragment.getPassword());
+                    EventBus.getDefault().post(new UpdateNotifyEvent());
+                    finish();
+                } else {
+                    mLoginFragment.setError(getText(R.string.error_invalid_credentials), null);
+                }
             } else {
                 Throwable exception = mGlobalState.getServiceStatus().getException();
                 CharSequence errorMessage = event.getServiceStatus().getError();
