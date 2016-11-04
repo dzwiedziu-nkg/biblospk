@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import pl.nkg.biblospk.Statics;
 import pl.nkg.biblospk.data.Account;
 import pl.nkg.biblospk.data.Book;
 
@@ -195,6 +196,7 @@ public class BiblosClient {
         } catch (Exception e) {
             account.setName("!@#$%^&*");
             Log.e(TAG, "Unrecognized name");
+            Statics.sendParseErrorReport("Unrecognized name", webPage, "");
         }
 
         try {
@@ -206,6 +208,7 @@ public class BiblosClient {
         } catch (Exception e) {
             account.setDebts(-1);
             Log.e(TAG, "Unrecognized due");
+            Statics.sendParseErrorReport("Unrecognized due", webPage, "");
         }
 
         try {
@@ -213,6 +216,7 @@ public class BiblosClient {
         } catch (Exception e) {
             account.setBorrowerNumber(-1);
             Log.e(TAG, "Invalid borrower number");
+            Statics.sendParseErrorReport("Invalid borrower number", webPage, "");
         }
 
 
@@ -221,7 +225,7 @@ public class BiblosClient {
             String[] lendsSplit = StringUtils.substringsBetween(lends, OPEN_ROW, CLOSE_ROW);
             if (lendsSplit != null && lendsSplit.length > 0) {
                 for (String row : lendsSplit) {
-                    account.getBookList().add(parseBook(row, true));
+                    account.getBookList().add(parseBook(row, true, webPage));
                 }
             }
         }
@@ -231,7 +235,7 @@ public class BiblosClient {
             String[] rows = StringUtils.substringsBetween(reserved, OPEN_ROW, CLOSE_ROW);
             if (rows != null && rows.length > 0) {
                 for (String row : rows) {
-                    account.getBookList().add(parseBook(row, false));
+                    account.getBookList().add(parseBook(row, false, webPage));
                 }
             }
         }
@@ -241,7 +245,7 @@ public class BiblosClient {
         return account;
     }
 
-    private static Book parseBook(String row, boolean lend) {
+    private static Book parseBook(String row, boolean lend, String parent) {
         Book book = new Book();
         book.setCategory(lend ? Book.CATEGORY_LEND : Book.CATEGORY_BOOKED);
 
@@ -254,6 +258,8 @@ public class BiblosClient {
             book.setTitle("*&^%$#@!");
             book.setBiblioNumber(-1);
             Log.e(TAG, "Invalid book title and biblionumber");
+            Statics.sendParseErrorReport("Invalid book title and biblionumber", row, parent);
+
         }
 
         try {
@@ -265,6 +271,7 @@ public class BiblosClient {
         } catch (Exception e) {
             book.setAuthors("*&^%$#@!");
             Log.e(TAG, "Invalid book authors");
+            Statics.sendParseErrorReport("Invalid book authors", row, parent);
         }
 
         if (lend) {
@@ -273,6 +280,7 @@ public class BiblosClient {
             } catch (Exception e) {
                 book.setDueDate(new Date(0));
                 Log.e(TAG, "Invalid book due date");
+                Statics.sendParseErrorReport("Invalid book due date", row, parent);
             }
         } else {
             try {
@@ -286,6 +294,7 @@ public class BiblosClient {
             } catch (Exception e) {
                 book.setDueDate(new Date(0));
                 Log.e(TAG, "Invalid book due date");
+                Statics.sendParseErrorReport("Invalid book due date", row, parent);
             }
 
             try {
@@ -293,6 +302,7 @@ public class BiblosClient {
             } catch (Exception e) {
                 book.setRequestDate(new Date(0));
                 Log.e(TAG, "Invalid book request date");
+                Statics.sendParseErrorReport("Invalid book request date", row, parent);
             }
         }
 
@@ -302,6 +312,7 @@ public class BiblosClient {
             } catch (Exception e) {
                 book.setBarCode(-1);
                 Log.e(TAG, "Invalid book barcode");
+                Statics.sendParseErrorReport("Invalid book barcode", row, parent);
             }
 
             try {
@@ -309,6 +320,7 @@ public class BiblosClient {
             } catch (Exception e) {
                 book.setSignature("*&^%$#@!");
                 Log.e(TAG, "Invalid book signature");
+                Statics.sendParseErrorReport("Invalid book signature", row, parent);
             }
 
             try {
@@ -327,6 +339,7 @@ public class BiblosClient {
                 book.setAvailableProlongs(-1);
                 book.setAllProlongs(-1);
                 Log.e(TAG, "Invalid book prolongs count");
+                Statics.sendParseErrorReport("Invalid book prolongs count", row, parent);
             }
         } else {
             if (book.getCategory() == Book.CATEGORY_BOOKED) {
@@ -339,6 +352,7 @@ public class BiblosClient {
                 } catch (Exception e) {
                     book.setQueue(-1);
                     Log.e(TAG, "Invalid book queue");
+                    Statics.sendParseErrorReport("Invalid book queue", row, parent);
                 }
 
                 try {
@@ -346,6 +360,7 @@ public class BiblosClient {
                 } catch (Exception e) {
                     book.setItem(-1);
                     Log.e(TAG, "Invalid book reserve_id");
+                    Statics.sendParseErrorReport("Invalid book reserve_id", row, parent);
                 }
             } else {
                 book.setQueue(0);
@@ -356,6 +371,7 @@ public class BiblosClient {
             } catch (Exception e) {
                 book.setRental("*&^%$#@!");
                 Log.e(TAG, "Invalid book rental office");
+                Statics.sendParseErrorReport("Invalid book rental office", row, parent);
             }
         }
 

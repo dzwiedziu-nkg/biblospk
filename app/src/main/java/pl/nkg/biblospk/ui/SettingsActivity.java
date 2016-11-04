@@ -1,14 +1,10 @@
 package pl.nkg.biblospk.ui;
 
-import org.acra.ACRA;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
-
-import pl.nkg.biblospk.PreferencesProvider;
 
 
 public class SettingsActivity extends AbstractNoEventActivity implements SettingsFragment.OnFragmentInteractionListener {
@@ -44,8 +40,6 @@ public class SettingsActivity extends AbstractNoEventActivity implements Setting
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (PreferencesProvider.PREF_ACRA.equals(key)) {
-            ACRA.getErrorReporter().setEnabled(mGlobalState.getPreferencesProvider().isACRA());
-        }
+        // TODO:
     }
 }

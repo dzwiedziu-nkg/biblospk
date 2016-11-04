@@ -87,7 +87,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
             summary = sharedPreferences.getString(key, "");
         }
 
-        preference.setSummary(StringUtils.defaultIfBlank(summary, getText(SUMMARIES.get(key))));
+        if (SUMMARIES.containsKey(key)) {
+            preference.setSummary(StringUtils.defaultIfBlank(summary, getText(SUMMARIES.get(key))));
+        }
     }
 
     public interface OnFragmentInteractionListener {

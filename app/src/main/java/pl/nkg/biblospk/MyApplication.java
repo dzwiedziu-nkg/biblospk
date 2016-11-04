@@ -41,7 +41,8 @@ import pl.nkg.biblospk.services.BiblosService;
 import pl.nkg.biblospk.services.NotifyService;
 
 @ReportsCrashes(
-        formUri = "http://mars.iti.pk.edu.pl/~nkg/biblospk/reportbug.php"
+        formUri = "http://mars.iti.pk.edu.pl/~nkg/biblospk/reportbug.php",
+        excludeMatchingSharedPreferencesKeys = {PreferencesProvider.PREF_PASSWORD}
 )
 public class MyApplication extends Application {
 
@@ -55,7 +56,6 @@ public class MyApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         ACRA.init(this);
-        ACRA.getErrorReporter().setEnabled(false);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class MyApplication extends Application {
         super.onCreate();
         WebClient.initCookieHandler();
         mGlobalState = new GlobalState(new PreferencesProvider(this));
-        ACRA.getErrorReporter().setEnabled(mGlobalState.getPreferencesProvider().isACRA());
+        Statics.sGlobalState = mGlobalState;
 
         BiblosService.startServiceRefresh(this, false, false);
         NotifyService.startService(this);

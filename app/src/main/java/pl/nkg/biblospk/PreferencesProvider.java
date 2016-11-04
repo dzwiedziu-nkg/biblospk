@@ -9,17 +9,16 @@ import android.preference.PreferenceManager;
 import pl.nkg.biblospk.data.Account;
 
 public class PreferencesProvider {
-    private final static String PREF_LOGIN = "login";
-    private final static String PREF_PASSWORD = "password";
-    private final static String PREF_LAST_CHECKING = "last_checking";
-    private final static String PREF_LAST_CHECKED = "last_checked";
+    public final static String PREF_LOGIN = "login";
+    public final static String PREF_PASSWORD = "password";
+    public final static String PREF_LAST_CHECKING = "last_checking";
+    public final static String PREF_LAST_CHECKED = "last_checked";
 
-    private final static String PREF_CARDNUMBER = "card_number";
-    private final static String PREF_NAME = "name";
-    private final static String PREF_BORROWERNUMBER = "borrower_number";
-    private final static String PREF_DEBTS = "debts";
+    public final static String PREF_CARDNUMBER = "card_number";
+    public final static String PREF_NAME = "name";
+    public final static String PREF_BORROWERNUMBER = "borrower_number";
+    public final static String PREF_DEBTS = "debts";
 
-    public final static String PREF_ACRA = "acra";
     public final static String PREF_PARSE = "parse";
 
     public final static String PREF_DEBUG = "debug";
@@ -74,14 +73,6 @@ public class PreferencesProvider {
 
     public void setPrefPassword(String password) {
         apply(sharedPreferences.edit().putString(PREF_PASSWORD, password));
-    }
-
-    public boolean isACRA() {
-        return sharedPreferences.getBoolean(PREF_ACRA, false);
-    }
-
-    public void setACRA(boolean acra) {
-        apply(sharedPreferences.edit().putBoolean(PREF_ACRA, acra));
     }
 
     public boolean isParseBugReport() {
