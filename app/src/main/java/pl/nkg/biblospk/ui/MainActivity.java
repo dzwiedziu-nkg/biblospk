@@ -39,7 +39,6 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     private TabLayout.Tab mLendTab;
     private TabLayout.Tab mWaitingTab;
     private TabLayout.Tab mBookedTab;
-    private boolean mFirstResume;
     private boolean mIsResumed = false;
 
     @Override
@@ -47,7 +46,6 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mFirstResume = true;
 
         mLendTab = mTabLayout.newTab();
         mWaitingTab = mTabLayout.newTab();
@@ -155,10 +153,7 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     protected void onPostResume() {
         super.onPostResume();
 
-        if (mFirstResume) {
-            refreshList();
-            mFirstResume = false;
-        }
+        refreshList();
 
         getCurrentPageFragment().setRefreshing(mGlobalState.getServiceStatus().isRunning());
 
