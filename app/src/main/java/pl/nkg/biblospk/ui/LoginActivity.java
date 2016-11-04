@@ -5,12 +5,15 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import pl.nkg.biblospk.PreferencesProvider;
+import pl.nkg.biblospk.R;
 import pl.nkg.biblospk.events.StatusUpdatedEvent;
 import pl.nkg.biblospk.services.BiblosService;
 
@@ -32,6 +35,25 @@ public class LoginActivity extends AbstractActivity implements LoginFragment.OnF
         } else {
             mLoginFragment = (LoginFragment) getSupportFragmentManager().findFragmentById(android.R.id.content);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
