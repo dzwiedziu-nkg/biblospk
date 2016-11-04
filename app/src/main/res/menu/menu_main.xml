@@ -11,12 +11,6 @@
         android:icon="@drawable/ic_action_reload" />
 
     <item
-        android:id="@+id/action_logout"
-        android:title="@string/action_logout"
-        android:orderInCategory="200"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="300"

@@ -95,11 +95,6 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_logout:
-                mGlobalState.logout(true);
-                showLoginActivity();
-                return true;
-
             case R.id.action_refresh:
                 getCurrentPageFragment().setRefreshing(true);
                 onRefreshBookList(true);

@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import pl.nkg.biblospk.PreferencesProvider;
 import pl.nkg.biblospk.R;
+import pl.nkg.biblospk.Statics;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -32,6 +33,22 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);
         updateSummary(PreferenceManager.getDefaultSharedPreferences(getActivity()), PreferencesProvider.PREF_TODAY);
+
+        Preference button = findPreference("button");
+        button.setVisible(Statics.sGlobalState.isValidCredentials());
+        button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (mListener != null) {
+                    mListener.onLogout();
+                }
+                return true;
+            }
+        });
+
+        if (Statics.sGlobalState.isValidCredentials()) {
+            button.setTitle(getString(R.string.pref_title_account, Statics.sGlobalState.getPreferencesProvider().getPrefLogin().toUpperCase()));
+        }
     }
 
     @Override
@@ -94,5 +111,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     public interface OnFragmentInteractionListener {
         void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key);
+
+        void onLogout();
     }
 }

@@ -28,7 +28,8 @@
         <p>
           <strong>Fix:</strong> stuck after login<br>
           <strong>Fix:</strong> crash after logout and login with invalid credentials<br>
-          <strong>New:</strong> preference improvements
+          <strong>New:</strong> preference improvements<br>
+          <strong>Change:</strong> move logout button to Settings
         </p>
         <h2>1.0 beta 2 (2016-11-03)</h2>
         <p>

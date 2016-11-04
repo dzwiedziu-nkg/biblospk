@@ -42,4 +42,10 @@ public class SettingsActivity extends AbstractNoEventActivity implements Setting
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         // TODO:
     }
+
+    @Override
+    public void onLogout() {
+        mGlobalState.logout(true);
+        finish();
+    }
 }

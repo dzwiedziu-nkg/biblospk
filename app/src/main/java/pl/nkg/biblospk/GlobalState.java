@@ -55,6 +55,8 @@ public class GlobalState {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(AccountDownloadedEvent event) {
+        mLogged = event.getAccount() != null;
+
         if (event.getAccount() != null && !event.getAccount().equalBookState(mAccount)) {
             lastChangedTime = System.currentTimeMillis();
 
@@ -62,7 +64,6 @@ public class GlobalState {
             if (mAccount != null) {
                 mPreferencesProvider.storeAccountProperties(mAccount);
                 mAccount.storeBooksList();
-                mLogged = true;
             }
         }
 

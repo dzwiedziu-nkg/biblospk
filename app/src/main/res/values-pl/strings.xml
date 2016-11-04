@@ -107,6 +107,10 @@
 
     <string name="pref_cat_general">Ogólne</string>
 
+    <string name="pref_title_logout">Wyloguj</string>
+    <string name="pref_description_logout">Kliknij aby usunąć wprowdzony login i hasło do konta BPK (czyli wyloguj się)</string>
+    <string name="pref_title_account">Konto: %1$s</string>
+
     <string name="pref_title_autoprolong">Automatyczna prolongata</string>
     <string name="pref_description_autoprolong">Prolonguj automatycznie przetrzymane książki (TODO:
         jeszcze nie działa)
