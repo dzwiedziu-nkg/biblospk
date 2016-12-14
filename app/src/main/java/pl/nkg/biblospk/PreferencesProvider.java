@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 
+import java.util.Date;
+
 import pl.nkg.biblospk.data.Account;
 
 public class PreferencesProvider {
@@ -18,6 +20,7 @@ public class PreferencesProvider {
     public final static String PREF_NAME = "name";
     public final static String PREF_BORROWERNUMBER = "borrower_number";
     public final static String PREF_DEBTS = "debts";
+    public final static String PREF_EXPIRATION = "expiration";
 
     public final static String PREF_PARSE = "parse";
 
@@ -29,6 +32,8 @@ public class PreferencesProvider {
     public final static String PREF_FORCE_REFRESH = "force_refresh";
 
     private final static String PREFS_ACCOUNT[] = {PREF_CARDNUMBER, PREF_NAME, PREF_BORROWERNUMBER, PREF_DEBTS};
+
+    private static final long YEAR = 1000L * 60L * 60L * 24L * 365L;
 
     private SharedPreferences sharedPreferences;
 
@@ -95,6 +100,7 @@ public class PreferencesProvider {
         editor.putString(PREF_NAME, account.getName());
         editor.putInt(PREF_BORROWERNUMBER, account.getBorrowerNumber());
         editor.putFloat(PREF_DEBTS, account.getDebts());
+        editor.putLong(PREF_EXPIRATION, account.getExpiredDate().getTime());
         apply(editor);
     }
 
@@ -109,6 +115,7 @@ public class PreferencesProvider {
         account.setName(sharedPreferences.getString(PREF_NAME, ""));
         account.setBorrowerNumber(sharedPreferences.getInt(PREF_BORROWERNUMBER, 0));
         account.setDebts(sharedPreferences.getFloat(PREF_DEBTS, 0));
+        account.setExpiredDate(new Date(sharedPreferences.getLong(PREF_EXPIRATION, System.currentTimeMillis() + YEAR)));
         return true;
     }
 

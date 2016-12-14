@@ -19,6 +19,7 @@ public class Account {
     private float mDebts;
     private List<Book> mBookList = new ArrayList<>();
     private int[] mStats = new int[3];
+    private Date mExpiredDate;
 
     public String getCardNumber() {
         return mCardNumber;
@@ -58,6 +59,14 @@ public class Account {
 
     public void setBookList(List<Book> bookList) {
         mBookList = bookList;
+    }
+
+    public Date getExpiredDate() {
+        return mExpiredDate;
+    }
+
+    public void setExpiredDate(Date expiredDate) {
+        mExpiredDate = expiredDate;
     }
 
     public int getStats(int category) {
@@ -172,6 +181,7 @@ public class Account {
 
         if (!Arrays.equals(mStats, account.mStats)) return false;
         if (Float.compare(account.mDebts, mDebts) != 0) return false;
+        if (!mExpiredDate.equals(account.mExpiredDate)) return false;
         if (mBookList.size() != account.mBookList.size()) return false;
 
         for (int i = 0; i < mBookList.size(); i++) {

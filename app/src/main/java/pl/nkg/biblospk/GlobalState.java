@@ -136,4 +136,8 @@ public class GlobalState {
     public boolean isLogged() {
         return mLogged;
     }
+
+    public Date getCurrentDay() {
+        return new Date();
+    }
 }

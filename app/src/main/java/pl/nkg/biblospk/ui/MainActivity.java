@@ -193,11 +193,16 @@ public class MainActivity extends AbstractActivity implements BookListFragment.O
     private void refreshList() {
         if (mGlobalState.isBookListDownloaded()) {
             getCurrentPageFragment().refreshList(Account.getSortedBookArray(getBooksByTab(), new Date()), mGlobalState.getLastChangedTime());
-            double due = mGlobalState.getAccount().getDebts();
-            String title = getResources().getString(R.string.title_activity_main_with_cash, due);
+
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
-                actionBar.setTitle(title);
+                if (mGlobalState.getCurrentDay().getTime() < mGlobalState.getAccount().getExpiredDate().getTime()) {
+                    double due = mGlobalState.getAccount().getDebts();
+                    String title = getResources().getString(R.string.title_activity_main_with_cash, due);
+                    actionBar.setTitle(title);
+                } else {
+                    actionBar.setTitle(R.string.title_activity_expired);
+                }
             }
 
             mLendTab.setText(getResources().getString(R.string.tab_lend, mGlobalState.getAccount().getStats(Book.CATEGORY_LEND)));

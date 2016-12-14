@@ -90,6 +90,9 @@ public class BiblosClient {
     private static final String OPEN_BOOK_RESERVE_ID = "<input type=\"hidden\" name=\"reserve_id\" value=\"";
     private static final String CLOSE_BOOK_RESERVE_ID = "\" />";
 
+    private static final String OPEN_EXPIRED_ACCOUNT = "<strong>Uwaga: </strong><span>Konto wygasło dnia ";
+    private static final String CLOSE_EXPIRED_ACCOUNT = ". Skontaktuj się z bibliotekarzem, jeśli chcesz odnowić konto.</span>";
+
     static {
         try {
             URL_LOGIN = new URL("http://koha.biblos.pk.edu.pl/cgi-bin/koha/opac-user.pl");
@@ -217,6 +220,15 @@ public class BiblosClient {
             account.setBorrowerNumber(-1);
             Log.e(TAG, "Invalid borrower number");
             Statics.sendParseErrorReport("Invalid borrower number", webPage, "");
+        }
+
+        String expiredAccount = StringUtils.substringBetween(webPage, OPEN_EXPIRED_ACCOUNT, CLOSE_EXPIRED_ACCOUNT);
+        if (expiredAccount != null) {
+            try {
+                account.setExpiredDate(Book.DUE_DATE_FORMAT.parse(expiredAccount));
+            } catch (ParseException e) {
+                account.setExpiredDate(new Date(1));
+            }
         }
 
 
